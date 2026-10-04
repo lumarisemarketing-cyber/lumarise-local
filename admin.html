@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>LumaRise Local | Admin Dashboard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f3fa;
+      color: #222;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, #5b21b6, #7c3aed);
+      color: white;
+      padding: 30px;
+      border-radius: 18px;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    header h1 {
+      margin-bottom: 8px;
+    }
+
+    header p {
+      opacity: 0.9;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 22px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .stat-card h3 {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .stat-card strong {
+      font-size: 30px;
+      color: #5b21b6;
+    }
+
+    .businesses {
+      display: grid;
+      gap: 15px;
+    }
+
+    .business-card {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .business-card h2 {
+      color: #5b21b6;
+      margin-bottom: 8px;
+    }
+
+    .business-card p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .badges {
+      margin: 12px 0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-right: 5px;
+      background: #eee;
+    }
+
+    .verified {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .featured {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .empty {
+      background: white;
+      padding: 30px;
+      text-align: center;
+      border-radius: 15px;
+      color: #666;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <header>
+    <h1>🌟 LumaRise Local Admin</h1>
+    <p>Manage businesses listed on LumaRise Local.</p>
+  </header>
+
+  <div id="error"></div>
+
+  <section class="stats">
+
+    <div class="stat-card">
+      <h3>Total Businesses</h3>
+      <strong id="totalBusinesses">0</strong>
+    </div>
+
+    <div class="stat-card">
+      <h3>Verified Businesses</h3>
+      <strong id="verifiedBusinesses">0</strong>
+    </div>
+
+    <div class="stat-card">
+      <h3>Featured Businesses</h3>
+      <strong id="featuredBusinesses">0</strong>
+    </div>
+
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:15px;">Business Listings</h2>
+
+    <div id="loading" class="loading">
+      Loading businesses...
+    </div>
+
+    <div id="businesses" class="businesses"></div>
+
+  </section>
+
+</div>
+
+<script>
+
+const SUPABASE_URL = "https://lpbamlwezrkyrjnwgpcp.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
+
+const db = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+async function loadBusinesses() {
+
+  const loading = document.getElementById("loading");
+  const businessesContainer = document.getElementById("businesses");
+  const errorBox = document.getElementById("error");
+
+  try {
+
+    const { data, error } = await db
+      .from("businesses")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      throw error;
+    }
+
+    loading.style.display = "none";
+
+    if (!data || data.length === 0) {
+
+      businessesContainer.innerHTML = `
+        <div class="empty">
+          No businesses found.
+        </div>
+      `;
+
+      return;
+    }
+
+    const total = data.length;
+
+    const verified = data.filter(
+      business => business.is_verified === true
+    ).length;
+
+    const featured = data.filter(
+      business => business.is_featured === true
+    ).length;
+
+    document.getElementById("totalBusinesses").textContent = total;
+
+    document.getElementById("verifiedBusinesses").textContent = verified;
+
+    document.getElementById("featuredBusinesses").textContent = featured;
+
+
+    businessesContainer.innerHTML = data.map(business => {
+
+      return `
+        <div class="business-card">
+
+          <h2>${escapeHtml(business.business_name || "Unnamed Business")}</h2>
+
+          <p><strong>Category:</strong> ${escapeHtml(business.category || "Not specified")}</p>
+
+          <p><strong>Location:</strong>
+            ${escapeHtml(business.city || "")}
+            ${business.province ? ", " + escapeHtml(business.province) : ""}
+          </p>
+
+          <p><strong>Description:</strong>
+            ${escapeHtml(business.description || "No description")}
+          </p>
+
+          <div class="badges">
+
+            ${
+              business.is_verified
+              ? '<span class="badge verified">✓ Verified</span>'
+              : '<span class="badge">Not Verified</span>'
+            }
+
+            ${
+              business.is_featured
+              ? '<span class="badge featured">⭐ Featured</span>'
+              : '<span class="badge">Not Featured</span>'
+            }
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+  } catch (error) {
+
+    console.error(error);
+
+    loading.style.display = "none";
+
+    errorBox.innerHTML = `
+      <div class="error">
+        Unable to load businesses.
+        Please check the database connection.
+      </div>
+    `;
+
+  }
+
+}
+
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+loadBusinesses();
+
+</script>
+
+</body>
+  </html>
