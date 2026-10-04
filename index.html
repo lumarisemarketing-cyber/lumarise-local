@@ -3,137 +3,525 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Explore Businesses | LumaRise Local</title>
+
+<title>LumaRise Local | Find Local. Support Local. Grow Local.</title>
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#07111f;color:#fff}
-a{text-decoration:none;color:inherit}
-.container{width:92%;max-width:1180px;margin:auto}
 
-nav{background:#081525;border-bottom:1px solid #24364a}
-.nav{min-height:75px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:bold;font-size:20px}
-.logo{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#d4af37,#13c4b8);color:#07111f;display:flex;align-items:center;justify-content:center;font-weight:900}
-.brand span{color:#d4af37}
-.links{display:flex;gap:22px;align-items:center;font-size:14px}
-.links a{color:#dbe5ef}
-.links a:hover,.links .active{color:#d4af37}
-.list-btn{background:#d4af37!important;color:#07111f!important;padding:10px 15px;border-radius:8px;font-weight:bold}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#07111f;
+  color:#fff;
+}
 
-.hero{text-align:center;padding:65px 0 45px;background:radial-gradient(circle at 20% 20%,rgba(19,196,184,.12),transparent 30%),radial-gradient(circle at 80% 20%,rgba(212,175,55,.1),transparent 30%)}
-.eyebrow{color:#13c4b8;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase}
-h1{font-size:clamp(35px,6vw,55px);margin:12px 0}
-h1 span{color:#d4af37}
-.hero p{color:#aebdcd;max-width:650px;margin:auto}
+a{
+  text-decoration:none;
+  color:inherit;
+}
 
-.filters{background:#0c1b2d;border:1px solid #203249;border-radius:15px;padding:20px;margin-bottom:30px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px}
-label{display:block;color:#8fa3b8;font-size:12px;margin-bottom:5px}
-input,select{width:100%;background:#07111f;color:#fff;border:1px solid #293d53;border-radius:8px;padding:11px;outline:none}
-button{background:#d4af37;color:#07111f;border:0;border-radius:8px;padding:11px 17px;font-weight:bold;cursor:pointer}
-.search{align-self:end}
+.container{
+  width:92%;
+  max-width:1180px;
+  margin:auto;
+}
 
-.active{display:none;background:rgba(19,196,184,.08);border:1px solid rgba(19,196,184,.25);padding:12px 15px;border-radius:9px;margin-bottom:20px;justify-content:space-between;align-items:center}
-.active strong{color:#13c4b8}
-.clear{background:none;color:#d4af37;padding:0}
+/* NAVIGATION */
 
-.header{display:flex;justify-content:space-between;margin-bottom:18px}
-.header h2{margin:0}
-.count{color:#8fa3b8;font-size:13px}
+nav{
+  background:#081525;
+  border-bottom:1px solid #24364a;
+}
 
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding-bottom:75px}
-.card{background:#0c1b2d;border:1px solid #1b2b3e;border-radius:15px;overflow:hidden;transition:.2s}
-.card:hover{transform:translateY(-4px);border-color:#d4af37}
-.image{height:180px;background:#102338}
-.image img{width:100%;height:100%;object-fit:cover}
-.content{padding:18px}
-.category{color:#13c4b8;font-size:11px;font-weight:bold;text-transform:uppercase}
-.content h3{margin:6px 0;font-size:19px}
-.location,.desc{color:#9eafc1;font-size:13px;margin:6px 0}
-.view{color:#d4af37;font-size:13px;font-weight:bold;margin-top:14px}
+.nav{
+  min-height:75px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
 
-.message{text-align:center;color:#9eafc1;padding:50px 10px 80px}
-.message h3{color:#fff}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:bold;
+  font-size:20px;
+}
 
-footer{background:#050d18;border-top:1px solid #162538;padding:30px 0}
-.footer{display:flex;justify-content:space-between;gap:20px}
-.footer-brand{color:#d4af37;font-weight:bold}
-.footer small{color:#7f91a5}
-.footer-links{display:flex;gap:18px;color:#9eafc1;font-size:13px}
+.logo{
+  width:42px;
+  height:42px;
+  border-radius:11px;
+  background:linear-gradient(135deg,#d4af37,#13c4b8);
+  color:#07111f;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+}
+
+.brand span{
+  color:#d4af37;
+}
+
+.links{
+  display:flex;
+  gap:22px;
+  align-items:center;
+  font-size:14px;
+}
+
+.links a{
+  color:#dbe5ef;
+}
+
+.links a:hover,
+.links .active{
+  color:#d4af37;
+}
+
+.list-btn{
+  background:#d4af37!important;
+  color:#07111f!important;
+  padding:10px 15px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+/* HERO */
+
+.hero{
+  text-align:center;
+  padding:85px 0 70px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(19,196,184,.15),transparent 30%),
+    radial-gradient(circle at 80% 20%,rgba(212,175,55,.12),transparent 30%);
+}
+
+.eyebrow{
+  color:#13c4b8;
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.hero h1{
+  font-size:clamp(38px,7vw,64px);
+  line-height:1.08;
+  margin:15px 0;
+}
+
+.hero h1 span{
+  color:#d4af37;
+}
+
+.hero p{
+  color:#aebdcd;
+  max-width:700px;
+  margin:0 auto 30px;
+  font-size:17px;
+}
+
+/* SEARCH */
+
+.search-box{
+  background:#0c1b2d;
+  border:1px solid #263a50;
+  border-radius:16px;
+  padding:18px;
+  max-width:900px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:2fr 1fr auto;
+  gap:10px;
+  text-align:left;
+  box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+
+input,
+select{
+  width:100%;
+  background:#07111f;
+  color:#fff;
+  border:1px solid #293d53;
+  border-radius:8px;
+  padding:13px;
+  outline:none;
+}
+
+input:focus,
+select:focus{
+  border-color:#13c4b8;
+}
+
+.search-btn{
+  background:#d4af37;
+  color:#07111f;
+  border:0;
+  border-radius:8px;
+  padding:13px 22px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* SECTIONS */
+
+.section{
+  padding:70px 0;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:35px;
+}
+
+.section-title h2{
+  font-size:32px;
+  margin:0 0 10px;
+}
+
+.section-title p{
+  color:#9eafc1;
+  margin:0;
+}
+
+/* CATEGORIES */
+
+.categories{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.category{
+  background:#0c1b2d;
+  border:1px solid #1d3044;
+  border-radius:13px;
+  padding:22px 15px;
+  text-align:center;
+  transition:.2s;
+}
+
+.category:hover{
+  transform:translateY(-3px);
+  border-color:#d4af37;
+}
+
+.category strong{
+  display:block;
+  margin-bottom:6px;
+  color:#fff;
+}
+
+.category small{
+  color:#8fa3b8;
+}
+
+/* BUSINESS SECTION */
+
+.business-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.business-header h2{
+  margin:0;
+}
+
+.view-all{
+  color:#d4af37;
+  font-size:14px;
+  font-weight:bold;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.card{
+  background:#0c1b2d;
+  border:1px solid #1b2b3e;
+  border-radius:15px;
+  overflow:hidden;
+  transition:.2s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:#d4af37;
+}
+
+.image{
+  height:180px;
+  background:#102338;
+}
+
+.image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.placeholder{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#d4af37;
+  font-weight:bold;
+  font-size:18px;
+}
+
+.content{
+  padding:18px;
+}
+
+.category-label{
+  color:#13c4b8;
+  font-size:11px;
+  font-weight:bold;
+  text-transform:uppercase;
+}
+
+.content h3{
+  margin:7px 0;
+  font-size:19px;
+}
+
+.location,
+.desc{
+  color:#9eafc1;
+  font-size:13px;
+  margin:6px 0;
+}
+
+.view{
+  color:#d4af37;
+  font-size:13px;
+  font-weight:bold;
+  margin-top:15px;
+}
+
+.message{
+  text-align:center;
+  color:#9eafc1;
+  padding:30px;
+  display:none;
+}
+
+/* CTA */
+
+.cta{
+  text-align:center;
+  padding:75px 20px;
+  background:
+    linear-gradient(135deg,#0c1b2d,#10283a);
+  border-top:1px solid #1b3044;
+  border-bottom:1px solid #1b3044;
+}
+
+.cta h2{
+  font-size:34px;
+  margin:0 0 12px;
+}
+
+.cta p{
+  color:#aebdcd;
+  max-width:650px;
+  margin:0 auto 25px;
+}
+
+.btn{
+  display:inline-block;
+  padding:13px 22px;
+  border-radius:8px;
+  background:#d4af37;
+  color:#07111f;
+  font-weight:bold;
+  margin:5px;
+}
+
+.btn.secondary{
+  background:#13c4b8;
+}
+
+/* FOOTER */
+
+footer{
+  background:#050d18;
+  border-top:1px solid #162538;
+  padding:30px 0;
+}
+
+.footer{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.footer-brand{
+  color:#d4af37;
+  font-weight:bold;
+}
+
+.footer small{
+  color:#7f91a5;
+}
+
+.footer-links{
+  display:flex;
+  gap:18px;
+  color:#9eafc1;
+  font-size:13px;
+  flex-wrap:wrap;
+}
+
+.footer-links a:hover{
+  color:#d4af37;
+}
+
+/* RESPONSIVE */
 
 @media(max-width:950px){
-.filters{grid-template-columns:1fr 1fr}
-.grid{grid-template-columns:repeat(2,1fr)}
+
+  .categories{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .search-box{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .search-btn{
+    grid-column:1/-1;
+  }
 }
+
 @media(max-width:650px){
-.nav{flex-direction:column;padding:16px 0}
-.links{flex-wrap:wrap;justify-content:center;gap:12px}
-.filters,.grid{grid-template-columns:1fr}
-.header,.footer{flex-direction:column}
-.active{align-items:flex-start;gap:10px}
+
+  .nav{
+    flex-direction:column;
+    padding:16px 0;
+  }
+
+  .links{
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px;
+  }
+
+  .hero{
+    padding:60px 0 50px;
+  }
+
+  .search-box{
+    grid-template-columns:1fr;
+  }
+
+  .search-btn{
+    grid-column:auto;
+  }
+
+  .categories,
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .business-header,
+  .footer{
+    flex-direction:column;
+  }
+
+  .section{
+    padding:55px 0;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- NAVIGATION -->
+
 <nav>
+
 <div class="container nav">
+
 <a href="index.html" class="brand">
 <div class="logo">LR</div>
 <div>LumaRise <span>Local</span></div>
 </a>
 
 <div class="links">
-<a href="index.html">Home</a>
-<a href="explore.html" class="active">Explore</a>
+
+<a href="index.html" class="active">Home</a>
+
+<a href="explore.html">Explore</a>
+
 <a href="categories.html">Categories</a>
+
 <a href="about.html">About</a>
+
 <a href="list.html" class="list-btn">List Your Business</a>
+
 </div>
+
 </div>
+
 </nav>
 
+
+<!-- HERO -->
+
 <section class="hero">
+
 <div class="container">
-<div class="eyebrow">LumaRise Local Directory</div>
-<h1>Explore <span>Businesses</span></h1>
-<p>Find local businesses, services and professionals across South Africa.</p>
-</div>
-</section>
 
-<main class="container">
-
-<div class="filters">
-
-<div>
-<label>Search</label>
-<input id="keyword" placeholder="Business name or keyword">
+<div class="eyebrow">
+LumaRise Local Directory
 </div>
 
-<div>
-<label>Category</label>
-<select id="category">
-<option value="">All Categories</option>
-<option>Automotive</option>
-<option>Beauty & Wellness</option>
-<option>Business Services</option>
-<option>Construction & Trades</option>
-<option>Education</option>
-<option>Food & Restaurants</option>
-<option>Health</option>
-<option>Home & Property</option>
-<option>Marketing & Technology</option>
-<option>Professional Services</option>
-<option>Retail & Shopping</option>
-<option>Travel & Accommodation</option>
-</select>
-</div>
+<h1>
+Find Local.<br>
+<span>Support Local. Grow Local.</span>
+</h1>
+
+<p>
+Discover local businesses, services and professionals
+across South Africa — all in one place.
+</p>
+
+
+<div class="search-box">
 
 <div>
-<label>Province</label>
+
+<input
+id="keyword"
+type="text"
+placeholder="What are you looking for?"
+>
+
+</div>
+
+
+<div>
+
 <select id="province">
+
 <option value="">All Provinces</option>
+
 <option>Gauteng</option>
 <option>Western Cape</option>
 <option>KwaZulu-Natal</option>
@@ -143,160 +531,281 @@ footer{background:#050d18;border-top:1px solid #162538;padding:30px 0}
 <option>Mpumalanga</option>
 <option>North West</option>
 <option>Northern Cape</option>
+
 </select>
-</div>
-
-<div>
-<label>City / Area</label>
-<input id="area" placeholder="e.g. Benoni">
-</div>
-
-<button class="search" onclick="filterBusinesses()">Search</button>
 
 </div>
 
-<div class="active" id="active">
-<span>Showing: <strong id="activeName"></strong></span>
-<button class="clear" onclick="clearCategory()">Clear ×</button>
+
+<button class="search-btn" onclick="searchBusinesses()">
+Search Businesses
+</button>
+
 </div>
 
-<div class="header">
+</div>
+
+</section>
+
+
+<!-- CATEGORIES -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-title">
+
+<h2>Browse Categories</h2>
+
+<p>
+Find businesses by category.
+</p>
+
+</div>
+
+
+<div class="categories">
+
+<a class="category" href="explore.html?category=Automotive">
+<strong>Automotive</strong>
+<small>Cars & Services</small>
+</a>
+
+<a class="category" href="explore.html?category=Beauty%20%26%20Wellness">
+<strong>Beauty & Wellness</strong>
+<small>Beauty & Personal Care</small>
+</a>
+
+<a class="category" href="explore.html?category=Business%20Services">
+<strong>Business Services</strong>
+<small>Business Support</small>
+</a>
+
+<a class="category" href="explore.html?category=Construction%20%26%20Trades">
+<strong>Construction</strong>
+<small>Builders & Trades</small>
+</a>
+
+<a class="category" href="explore.html?category=Education">
+<strong>Education</strong>
+<small>Schools & Training</small>
+</a>
+
+<a class="category" href="explore.html?category=Food%20%26%20Restaurants">
+<strong>Food & Restaurants</strong>
+<small>Eat & Drink</small>
+</a>
+
+<a class="category" href="explore.html?category=Health">
+<strong>Health</strong>
+<small>Health Services</small>
+</a>
+
+<a class="category" href="explore.html?category=Home%20%26%20Property">
+<strong>Home & Property</strong>
+<small>Property & Home</small>
+</a>
+
+<a class="category" href="explore.html?category=Marketing%20%26%20Technology">
+<strong>Marketing & Technology</strong>
+<small>Digital & Tech</small>
+</a>
+
+<a class="category" href="explore.html?category=Professional%20Services">
+<strong>Professional</strong>
+<small>Professional Services</small>
+</a>
+
+<a class="category" href="explore.html?category=Retail%20%26%20Shopping">
+<strong>Retail</strong>
+<small>Shopping & Retail</small>
+</a>
+
+<a class="category" href="explore.html?category=Travel%20%26%20Accommodation">
+<strong>Travel</strong>
+<small>Travel & Accommodation</small>
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- LOCAL BUSINESSES -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="business-header">
+
 <h2>Local Businesses</h2>
-<span class="count" id="count">Loading...</span>
+
+<a href="explore.html" class="view-all">
+View All Businesses →
+</a>
+
 </div>
 
-<div class="grid" id="grid"></div>
 
-<div class="message" id="message" style="display:none"></div>
+<div class="grid" id="businessGrid"></div>
 
-</main>
+<div class="message" id="businessMessage">
+Loading businesses...
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="cta">
+
+<h2>Is Your Business Ready to Be Discovered?</h2>
+
+<p>
+Add your business to LumaRise Local and give potential
+customers another way to find you.
+</p>
+
+<a href="list.html" class="btn">
+List Your Business
+</a>
+
+<a href="explore.html" class="btn secondary">
+Explore Businesses
+</a>
+
+</section>
+
+
+<!-- FOOTER -->
 
 <footer>
+
 <div class="container footer">
+
 <div>
-<div class="footer-brand">LumaRise Local</div>
-<small>Find Local. Support Local. Grow Local.</small>
+
+<div class="footer-brand">
+LumaRise Local
 </div>
 
+<small>
+Find Local. Support Local. Grow Local.
+</small>
+
+</div>
+
+
 <div class="footer-links">
+
 <a href="index.html">Home</a>
+
 <a href="explore.html">Explore</a>
+
 <a href="categories.html">Categories</a>
+
 <a href="about.html">About</a>
+
 <a href="list.html">List Your Business</a>
+
 </div>
+
 </div>
+
 </footer>
+
+
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <script>
 
-const URL="https://lpbamlwezrkyrjnwgpcp.supabase.co";
-const KEY="sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
-const db=supabase.createClient(URL,KEY);
+const SUPABASE_URL="https://lpbamlwezrkyrjnwgpcp.supabase.co";
 
-let businesses=[];
+const SUPABASE_KEY="sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
 
-async function load(){
+const db=supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
-const result=await db
-.from("businesses")
-.select("*")
-.order("created_at",{ascending:false});
 
-if(result.error){
+async function loadBusinesses(){
 
-document.getElementById("count").textContent="";
-document.getElementById("message").style.display="block";
-document.getElementById("message").innerHTML="<h3>Unable to load businesses</h3><p>Please try again.</p>";
-return;
-}
+const grid=document.getElementById("businessGrid");
 
-businesses=result.data||[];
+const message=document.getElementById("businessMessage");
 
-const params=new URLSearchParams(location.search);
-const cat=params.get("category");
-
-if(cat){
-
-document.getElementById("category").value=cat;
-document.getElementById("activeName").textContent=cat;
-document.getElementById("active").style.display="flex";
-
-}
-
-filterBusinesses();
-
-}
-
-function filterBusinesses(){
-
-const keyword=document.getElementById("keyword").value.toLowerCase().trim();
-const category=document.getElementById("category").value;
-const province=document.getElementById("province").value;
-const area=document.getElementById("area").value.toLowerCase().trim();
-
-if(category){
-
-document.getElementById("activeName").textContent=category;
-document.getElementById("active").style.display="flex";
-
-}else{
-
-document.getElementById("active").style.display="none";
-
-}
-
-const results=businesses.filter(b=>{
-
-const name=(b.business_name||"").toLowerCase();
-const description=(b.description||"").toLowerCase();
-const bcategory=b.category||"";
-const bprovince=b.province||"";
-const city=(b.city||"").toLowerCase();
-const barea=(b.area||"").toLowerCase();
-
-return (!keyword||name.includes(keyword)||description.includes(keyword)||bcategory.toLowerCase().includes(keyword))
-&&(!category||bcategory===category)
-&&(!province||bprovince===province)
-&&(!area||city.includes(area)||barea.includes(area));
-
-});
-
-display(results);
-
-}
-
-function display(results){
-
-const grid=document.getElementById("grid");
-const message=document.getElementById("message");
-
-grid.innerHTML="";
-message.style.display="none";
-
-document.getElementById("count").textContent=
-results.length+" "+(results.length===1?"business":"businesses")+" found";
-
-if(!results.length){
 
 message.style.display="block";
-message.innerHTML="<h3>No businesses found</h3><p>Try another category, province or search term.</p>";
+
+message.textContent="Loading businesses...";
+
+
+try{
+
+const {data,error}=await db
+.from("businesses")
+.select("*")
+.order("created_at",{ascending:false})
+.limit(6);
+
+
+if(error){
+
+console.error(error);
+
+grid.innerHTML="";
+
+message.innerHTML=
+"<h3>Businesses are temporarily unavailable</h3><p>Please try again shortly.</p>";
+
 return;
 
 }
 
-results.forEach(b=>{
 
-const image=b.cover_image_url||b.logo_url;
+grid.innerHTML="";
 
-const location=[
-b.area,b.city,b.province
-].filter(Boolean).join(", ");
+
+if(!data || data.length===0){
+
+message.innerHTML=
+"<h3>No businesses listed yet</h3><p>Be one of the first businesses to join LumaRise Local.</p>";
+
+return;
+
+}
+
+
+message.style.display="none";
+
+
+data.forEach(function(b){
 
 const card=document.createElement("div");
+
 card.className="card";
+
+
+const image=b.cover_image_url || b.logo_url;
+
+
+const location=[
+b.area,
+b.city,
+b.province
+].filter(Boolean).join(", ");
+
 
 card.innerHTML=`
 
@@ -304,43 +813,117 @@ card.innerHTML=`
 
 <div class="image">
 
-${image
-?`<img src="${image}" alt="${safe(b.business_name)}">`
-:`<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#d4af37;font-weight:bold">LumaRise Local</div>`
+${
+image
+?
+`<img src="${safe(businessImage(image))}" alt="${safe(b.business_name)}">`
+:
+`<div class="placeholder">LumaRise Local</div>`
 }
 
 </div>
 
+
 <div class="content">
 
-<div class="category">${safe(b.category||"Business")}</div>
+<div class="category-label">
+${safe(b.category || "Business")}
+</div>
 
-<h3>${safe(b.business_name||"Unnamed Business")}</h3>
+<h3>
+${safe(b.business_name || "Unnamed Business")}
+</h3>
 
-${location?`<div class="location">📍 ${safe(location)}</div>`:""}
+${
+location
+?
+`<div class="location">📍 ${safe(location)}</div>`
+:
+""
+}
 
-${b.description?`<div class="desc">${safe(shorten(b.description,130))}</div>`:""}
+${
+b.description
+?
+`<div class="desc">${safe(shorten(b.description,120))}</div>`
+:
+""
+}
 
-<div class="view">View Business →</div>
+<div class="view">
+View Business →
+</div>
 
 </div>
 
 </a>
+
 `;
 
 grid.appendChild(card);
 
 });
 
+}catch(error){
+
+console.error(error);
+
+grid.innerHTML="";
+
+message.style.display="block";
+
+message.innerHTML=
+"<h3>Something went wrong</h3><p>Please refresh the page and try again.</p>";
+
 }
+
+}
+
+
+function searchBusinesses(){
+
+const keyword=document
+.getElementById("keyword")
+.value
+.trim();
+
+const province=document
+.getElementById("province")
+.value;
+
+
+const params=new URLSearchParams();
+
+
+if(keyword){
+params.set("search",keyword);
+}
+
+if(province){
+params.set("province",province);
+}
+
+
+const query=params.toString();
+
+
+window.location.href=
+"explore.html"+
+(query ? "?"+query : "");
+
+}
+
 
 function shorten(text,max){
 
 return text.length>max
-?text.substring(0,max).trim()+"..."
-:text;
+?
+text.substring(0,max).trim()+"..."
+:
+text;
 
 }
+
 
 function safe(text){
 
@@ -353,21 +936,17 @@ return String(text||"")
 
 }
 
-function clearCategory(){
 
-document.getElementById("category").value="";
+function businessImage(url){
 
-const url=new URL(location.href);
-url.searchParams.delete("category");
-history.replaceState({}, "", url);
-
-filterBusinesses();
+return url;
 
 }
 
-load();
+
+loadBusinesses();
 
 </script>
 
 </body>
-</html>
+  </html>
