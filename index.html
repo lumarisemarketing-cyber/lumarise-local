@@ -2,385 +2,75 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LumaRise Local | Find Local. Support Local. Grow Local.</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Explore Businesses | LumaRise Local</title>
 
 <style>
 *{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#07111f;color:#fff}
+a{text-decoration:none;color:inherit}
+.container{width:92%;max-width:1180px;margin:auto}
 
-html{scroll-behavior:smooth}
+nav{background:#081525;border-bottom:1px solid #24364a}
+.nav{min-height:75px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:bold;font-size:20px}
+.logo{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#d4af37,#13c4b8);color:#07111f;display:flex;align-items:center;justify-content:center;font-weight:900}
+.brand span{color:#d4af37}
+.links{display:flex;gap:22px;align-items:center;font-size:14px}
+.links a{color:#dbe5ef}
+.links a:hover,.links .active{color:#d4af37}
+.list-btn{background:#d4af37!important;color:#07111f!important;padding:10px 15px;border-radius:8px;font-weight:bold}
 
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#07111f;
-color:#fff;
+.hero{text-align:center;padding:65px 0 45px;background:radial-gradient(circle at 20% 20%,rgba(19,196,184,.12),transparent 30%),radial-gradient(circle at 80% 20%,rgba(212,175,55,.1),transparent 30%)}
+.eyebrow{color:#13c4b8;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase}
+h1{font-size:clamp(35px,6vw,55px);margin:12px 0}
+h1 span{color:#d4af37}
+.hero p{color:#aebdcd;max-width:650px;margin:auto}
+
+.filters{background:#0c1b2d;border:1px solid #203249;border-radius:15px;padding:20px;margin-bottom:30px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px}
+label{display:block;color:#8fa3b8;font-size:12px;margin-bottom:5px}
+input,select{width:100%;background:#07111f;color:#fff;border:1px solid #293d53;border-radius:8px;padding:11px;outline:none}
+button{background:#d4af37;color:#07111f;border:0;border-radius:8px;padding:11px 17px;font-weight:bold;cursor:pointer}
+.search{align-self:end}
+
+.active{display:none;background:rgba(19,196,184,.08);border:1px solid rgba(19,196,184,.25);padding:12px 15px;border-radius:9px;margin-bottom:20px;justify-content:space-between;align-items:center}
+.active strong{color:#13c4b8}
+.clear{background:none;color:#d4af37;padding:0}
+
+.header{display:flex;justify-content:space-between;margin-bottom:18px}
+.header h2{margin:0}
+.count{color:#8fa3b8;font-size:13px}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding-bottom:75px}
+.card{background:#0c1b2d;border:1px solid #1b2b3e;border-radius:15px;overflow:hidden;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:#d4af37}
+.image{height:180px;background:#102338}
+.image img{width:100%;height:100%;object-fit:cover}
+.content{padding:18px}
+.category{color:#13c4b8;font-size:11px;font-weight:bold;text-transform:uppercase}
+.content h3{margin:6px 0;font-size:19px}
+.location,.desc{color:#9eafc1;font-size:13px;margin:6px 0}
+.view{color:#d4af37;font-size:13px;font-weight:bold;margin-top:14px}
+
+.message{text-align:center;color:#9eafc1;padding:50px 10px 80px}
+.message h3{color:#fff}
+
+footer{background:#050d18;border-top:1px solid #162538;padding:30px 0}
+.footer{display:flex;justify-content:space-between;gap:20px}
+.footer-brand{color:#d4af37;font-weight:bold}
+.footer small{color:#7f91a5}
+.footer-links{display:flex;gap:18px;color:#9eafc1;font-size:13px}
+
+@media(max-width:950px){
+.filters{grid-template-columns:1fr 1fr}
+.grid{grid-template-columns:repeat(2,1fr)}
 }
-
-a{
-text-decoration:none;
-color:inherit;
-}
-
-nav{
-position:sticky;
-top:0;
-z-index:20;
-background:#07111ff5;
-border-bottom:1px solid #c8a44d55;
-padding:15px 6%;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
-
-.brand{
-display:flex;
-align-items:center;
-gap:10px;
-font-weight:800;
-}
-
-.mark{
-width:42px;
-height:42px;
-border:2px solid #d8b65a;
-border-radius:10px;
-display:grid;
-place-items:center;
-color:#d8b65a;
-font-size:17px;
-}
-
-.brand span{
-font-size:20px;
-}
-
-.brand b{
-color:#22c7b8;
-}
-
-nav .links{
-display:flex;
-gap:24px;
-align-items:center;
-}
-
-nav a{
-font-size:14px;
-}
-
-.btn{
-display:inline-block;
-background:#d8b65a;
-color:#07111f;
-padding:12px 19px;
-border-radius:7px;
-font-weight:800;
-border:0;
-cursor:pointer;
-}
-
-.btn:hover{
-opacity:.88;
-}
-
-.hero{
-text-align:center;
-padding:90px 20px 85px;
-background:radial-gradient(circle at 50% 10%,#1b4568,#07111f 65%);
-}
-
-.tag{
-color:#22c7b8;
-font-size:12px;
-font-weight:bold;
-letter-spacing:2px;
-}
-
-.hero h1{
-font-size:clamp(40px,7vw,72px);
-line-height:1.03;
-margin:18px 0;
-}
-
-.hero h1 span{
-color:#d8b65a;
-}
-
-.hero p{
-max-width:650px;
-margin:0 auto 30px;
-color:#b7c4d2;
-line-height:1.7;
-}
-
-.heroBtns{
-display:flex;
-justify-content:center;
-gap:12px;
-flex-wrap:wrap;
-}
-
-.outline{
-border:1px solid #d8b65a;
-color:#d8b65a;
-background:transparent;
-}
-
-.searchArea{
-max-width:900px;
-margin:-35px auto 0;
-position:relative;
-padding:0 20px;
-}
-
-.searchBox{
-background:#0c1b2d;
-border:1px solid #294158;
-border-radius:12px;
-padding:20px;
-box-shadow:0 15px 40px #0008;
-}
-
-.searchBox form{
-display:flex;
-gap:10px;
-}
-
-input,select{
-width:100%;
-padding:14px;
-border-radius:7px;
-border:1px solid #30455a;
-background:#07111f;
-color:#fff;
-}
-
-section{
-padding:65px 6%;
-max-width:1200px;
-margin:auto;
-}
-
-.heading{
-text-align:center;
-margin-bottom:35px;
-}
-
-.heading h2{
-font-size:32px;
-margin:0 0 10px;
-}
-
-.heading p{
-color:#9eabba;
-margin:0;
-}
-
-.categories{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:12px;
-}
-
-.category{
-background:#0c1b2d;
-border:1px solid #20364b;
-border-radius:9px;
-padding:20px;
-text-align:center;
-color:#c6d1dc;
-}
-
-.category:hover{
-border-color:#22c7b8;
-color:#22c7b8;
-}
-
-.category strong{
-display:block;
-margin-bottom:7px;
-color:#d8b65a;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-}
-
-.card{
-background:#0c1b2d;
-border:1px solid #20364b;
-border-radius:11px;
-overflow:hidden;
-}
-
-.cover{
-height:145px;
-background:linear-gradient(135deg,#183b5b,#102236);
-display:flex;
-align-items:center;
-justify-content:center;
-color:#d8b65a;
-font-size:25px;
-font-weight:bold;
-}
-
-.cover img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.cardbody{
-padding:18px;
-}
-
-.card h3{
-margin:0 0 7px;
-color:#d8b65a;
-}
-
-.meta{
-font-size:12px;
-color:#22c7b8;
-margin-bottom:10px;
-}
-
-.card p{
-font-size:13px;
-color:#aebccc;
-line-height:1.5;
-}
-
-.viewBusiness{
-display:inline-block;
-margin-top:12px;
-color:#22c7b8;
-font-weight:bold;
-}
-
-.viewBusiness:hover{
-color:#d8b65a;
-}
-
-.why{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
-}
-
-.whyBox{
-background:#0c1b2d;
-border:1px solid #20364b;
-border-radius:10px;
-padding:25px;
-}
-
-.whyBox h3{
-color:#d8b65a;
-margin-top:0;
-}
-
-.whyBox p{
-color:#aebccc;
-line-height:1.6;
-font-size:14px;
-}
-
-.cta{
-text-align:center;
-background:linear-gradient(135deg,#102c43,#0b1b2c);
-border:1px solid #294158;
-border-radius:14px;
-padding:50px 20px;
-}
-
-.cta h2{
-font-size:34px;
-margin-top:0;
-}
-
-.cta p{
-color:#aebccc;
-max-width:600px;
-margin:0 auto 25px;
-line-height:1.6;
-}
-
-.empty{
-text-align:center;
-padding:35px;
-color:#9eabba;
-background:#0c1b2d;
-border-radius:10px;
-}
-
-footer{
-border-top:1px solid #20364b;
-padding:40px 6%;
-color:#8291a1;
-}
-
-.footerGrid{
-display:grid;
-grid-template-columns:2fr 1fr 1fr;
-gap:30px;
-}
-
-footer h3{
-color:#d8b65a;
-margin-top:0;
-}
-
-footer a{
-display:block;
-margin:8px 0;
-font-size:13px;
-}
-
-.copy{
-text-align:center;
-border-top:1px solid #20364b;
-margin-top:30px;
-padding-top:20px;
-font-size:12px;
-}
-
-@media(max-width:700px){
-
-nav{
-padding:12px 4%;
-}
-
-.links a:not(.btn){
-display:none;
-}
-
-.hero{
-padding:70px 18px;
-}
-
-.searchBox form{
-flex-direction:column;
-}
-
-section{
-padding:50px 5%;
-}
-
-.why{
-grid-template-columns:1fr;
-}
-
-.footerGrid{
-grid-template-columns:1fr;
-}
-
+@media(max-width:650px){
+.nav{flex-direction:column;padding:16px 0}
+.links{flex-wrap:wrap;justify-content:center;gap:12px}
+.filters,.grid{grid-template-columns:1fr}
+.header,.footer{flex-direction:column}
+.active{align-items:flex-start;gap:10px}
 }
 </style>
 </head>
@@ -388,645 +78,296 @@ grid-template-columns:1fr;
 <body>
 
 <nav>
-
+<div class="container nav">
 <a href="index.html" class="brand">
-<div class="mark">LR</div>
-<div>LumaRise <b>Local</b></div>
+<div class="logo">LR</div>
+<div>LumaRise <span>Local</span></div>
 </a>
 
 <div class="links">
-
-<a href="explore.html">Explore</a>
-
+<a href="index.html">Home</a>
+<a href="explore.html" class="active">Explore</a>
 <a href="categories.html">Categories</a>
-
 <a href="about.html">About</a>
-
-<a href="list.html" class="btn">List Your Business</a>
-
+<a href="list.html" class="list-btn">List Your Business</a>
 </div>
-
+</div>
 </nav>
 
+<section class="hero">
+<div class="container">
+<div class="eyebrow">LumaRise Local Directory</div>
+<h1>Explore <span>Businesses</span></h1>
+<p>Find local businesses, services and professionals across South Africa.</p>
+</div>
+</section>
 
-<header class="hero">
+<main class="container">
 
-<div class="tag">
-SOUTH AFRICA'S LOCAL BUSINESS DIRECTORY
+<div class="filters">
+
+<div>
+<label>Search</label>
+<input id="keyword" placeholder="Business name or keyword">
 </div>
 
-<h1>
-Find Local.<br>
-<span>Support Local.</span><br>
-Grow Local.
-</h1>
-
-<p>
-Discover local businesses, services and professionals across South Africa.
-Find what you need. Support businesses in your community.
-</p>
-
-<div class="heroBtns">
-
-<a href="explore.html" class="btn">
-Explore Businesses
-</a>
-
-<a href="list.html" class="btn outline">
-List Your Business Free
-</a>
-
+<div>
+<label>Category</label>
+<select id="category">
+<option value="">All Categories</option>
+<option>Automotive</option>
+<option>Beauty & Wellness</option>
+<option>Business Services</option>
+<option>Construction & Trades</option>
+<option>Education</option>
+<option>Food & Restaurants</option>
+<option>Health</option>
+<option>Home & Property</option>
+<option>Marketing & Technology</option>
+<option>Professional Services</option>
+<option>Retail & Shopping</option>
+<option>Travel & Accommodation</option>
+</select>
 </div>
 
-</header>
-
-
-<div class="searchArea">
-
-<div class="searchBox">
-
-<form id="searchForm">
-
-<input
-id="searchInput"
-placeholder="What are you looking for? e.g. plumber, salon, restaurant..."
->
-
+<div>
+<label>Province</label>
 <select id="province">
-
-<option value="">All South Africa</option>
+<option value="">All Provinces</option>
+<option>Gauteng</option>
+<option>Western Cape</option>
+<option>KwaZulu-Natal</option>
 <option>Eastern Cape</option>
 <option>Free State</option>
-<option>Gauteng</option>
-<option>KwaZulu-Natal</option>
 <option>Limpopo</option>
 <option>Mpumalanga</option>
 <option>North West</option>
 <option>Northern Cape</option>
-<option>Western Cape</option>
-
 </select>
+</div>
 
-<button class="btn" type="submit">
-Search
-</button>
+<div>
+<label>City / Area</label>
+<input id="area" placeholder="e.g. Benoni">
+</div>
 
-</form>
+<button class="search" onclick="filterBusinesses()">Search</button>
 
 </div>
 
+<div class="active" id="active">
+<span>Showing: <strong id="activeName"></strong></span>
+<button class="clear" onclick="clearCategory()">Clear ×</button>
 </div>
 
-
-<section id="categories">
-
-<div class="heading">
-
-<h2>Browse Categories</h2>
-
-<p>
-Find the right business for what you need.
-</p>
-
+<div class="header">
+<h2>Local Businesses</h2>
+<span class="count" id="count">Loading...</span>
 </div>
 
+<div class="grid" id="grid"></div>
 
-<div class="categories">
+<div class="message" id="message" style="display:none"></div>
 
-<a class="category" href="explore.html?category=Automotive">
-<strong>Automotive</strong>
-Cars & Services
-</a>
-
-<a class="category" href="explore.html?category=Beauty%20%26%20Wellness">
-<strong>Beauty & Wellness</strong>
-Beauty & Personal Care
-</a>
-
-<a class="category" href="explore.html?category=Construction%20%26%20Trades">
-<strong>Construction</strong>
-Builders & Trades
-</a>
-
-<a class="category" href="explore.html?category=Food%20%26%20Restaurants">
-<strong>Food & Restaurants</strong>
-Eat & Drink
-</a>
-
-<a class="category" href="explore.html?category=Health">
-<strong>Health</strong>
-Health Services
-</a>
-
-<a class="category" href="explore.html?category=Home%20%26%20Property">
-<strong>Home & Property</strong>
-Property & Home
-</a>
-
-<a class="category" href="explore.html?category=Professional%20Services">
-<strong>Professional</strong>
-Professional Services
-</a>
-
-<a class="category" href="explore.html?category=Marketing%20%26%20Technology">
-<strong>Marketing & Technology</strong>
-Digital & Tech
-</a>
-
-<a class="category" href="explore.html?category=Retail%20%26%20Shopping">
-<strong>Retail</strong>
-Shopping & Retail
-</a>
-
-<a class="category" href="explore.html?category=Education">
-<strong>Education</strong>
-Schools & Training
-</a>
-
-<a class="category" href="explore.html?category=Travel%20%26%20Accommodation">
-<strong>Travel</strong>
-Travel & Accommodation
-</a>
-
-<a class="category" href="explore.html?category=Business%20Services">
-<strong>Business Services</strong>
-Business Support
-</a>
-
-</div>
-
-</section>
-
-
-<section id="explore">
-
-<div class="heading">
-
-<h2>Discover Local Businesses</h2>
-
-<p>
-Businesses listed on LumaRise Local.
-</p>
-
-</div>
-
-
-<div id="businessGrid" class="grid">
-
-<div class="empty">
-Loading businesses...
-</div>
-
-</div>
-
-</section>
-
-
-<section id="about">
-
-<div class="heading">
-
-<h2>Why LumaRise Local?</h2>
-
-<p>
-Making it easier for South Africans to find and support local businesses.
-</p>
-
-</div>
-
-
-<div class="why">
-
-<div class="whyBox">
-
-<h3>Find Local</h3>
-
-<p>
-Search for businesses and services in your area without having to search through endless results.
-</p>
-
-</div>
-
-
-<div class="whyBox">
-
-<h3>Support Local</h3>
-
-<p>
-Discover small businesses and independent service providers in communities across South Africa.
-</p>
-
-</div>
-
-
-<div class="whyBox">
-
-<h3>Grow Local</h3>
-
-<p>
-Give your business another place online where potential customers can discover you.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<section id="list">
-
-<div class="cta">
-
-<h2>
-Is Your Business Missing?
-</h2>
-
-<p>
-Get your business discovered on LumaRise Local.
-Create your listing and put your business in front of local customers.
-</p>
-
-<a href="list.html" class="btn">
-List Your Business Free
-</a>
-
-</div>
-
-</section>
-
+</main>
 
 <footer>
-
-<div class="footerGrid">
-
+<div class="container footer">
 <div>
-
-<h3>LumaRise Local</h3>
-
-<p>
-Find Local. Support Local. Grow Local.
-</p>
-
-<p>
-A South African local business directory helping customers discover businesses and helping businesses become easier to find.
-</p>
-
+<div class="footer-brand">LumaRise Local</div>
+<small>Find Local. Support Local. Grow Local.</small>
 </div>
 
-
-<div>
-
-<h3>Explore</h3>
-
-<a href="explore.html">
-Businesses
-</a>
-
-<a href="categories.html">
-Categories
-</a>
-
-<a href="about.html">
-About Us
-</a>
-
+<div class="footer-links">
+<a href="index.html">Home</a>
+<a href="explore.html">Explore</a>
+<a href="categories.html">Categories</a>
+<a href="about.html">About</a>
+<a href="list.html">List Your Business</a>
 </div>
-
-
-<div>
-
-<h3>For Businesses</h3>
-
-<a href="list.html">
-List Your Business
-</a>
-
-<a href="list.html">
-Grow Your Visibility
-</a>
-
 </div>
-
-</div>
-
-
-<div class="copy">
-
-© 2026 LumaRise Local • A LumaRise Marketing project
-
-</div>
-
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
-const SUPABASE_URL="https://lpbamlwezrkyrjnwgpcp.supabase.co";
-
-const SUPABASE_KEY="sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
-
-const db=supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
-
+const URL="https://lpbamlwezrkyrjnwgpcp.supabase.co";
+const KEY="sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
+const db=supabase.createClient(URL,KEY);
 
 let businesses=[];
 
+async function load(){
 
-function esc(x){
-
-return String(x||"").replace(/[&<>"']/g,m=>({
-
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-
-}[m]));
-
-}
-
-
-async function loadBusinesses(){
-
-const grid=document.getElementById("businessGrid");
-
-
-const {data,error}=await db
-
+const result=await db
 .from("businesses")
-
 .select("*")
+.order("created_at",{ascending:false});
 
-.order("created_at",{ascending:false})
+if(result.error){
 
-.limit(6);
-
-
-if(error){
-
-console.error(error);
-
-grid.innerHTML=`
-
-<div class="empty">
-
-<h3>Businesses are coming soon</h3>
-
-<p>
-We are preparing the local business directory.
-</p>
-
-</div>
-
-`;
-
+document.getElementById("count").textContent="";
+document.getElementById("message").style.display="block";
+document.getElementById("message").innerHTML="<h3>Unable to load businesses</h3><p>Please try again.</p>";
 return;
+}
+
+businesses=result.data||[];
+
+const params=new URLSearchParams(location.search);
+const cat=params.get("category");
+
+if(cat){
+
+document.getElementById("category").value=cat;
+document.getElementById("activeName").textContent=cat;
+document.getElementById("active").style.display="flex";
 
 }
 
-
-businesses=data||[];
-
-
-if(!businesses.length){
-
-grid.innerHTML=`
-
-<div class="empty">
-
-<h3>Be one of the first businesses listed</h3>
-
-<p>
-Your business could appear here for local customers to discover.
-</p>
-
-</div>
-
-`;
-
-return;
+filterBusinesses();
 
 }
 
+function filterBusinesses(){
 
-grid.innerHTML=businesses.map(b=>{
+const keyword=document.getElementById("keyword").value.toLowerCase().trim();
+const category=document.getElementById("category").value;
+const province=document.getElementById("province").value;
+const area=document.getElementById("area").value.toLowerCase().trim();
 
-let image=b.cover_image_url||b.logo_url;
+if(category){
 
-
-return `
-
-<div class="card">
-
-<div class="cover">
-
-${
-image
-
-? `<img src="${esc(image)}" alt="${esc(b.business_name)}">`
-
-: "LR"
-
-}
-
-</div>
-
-
-<div class="cardbody">
-
-<h3>
-${esc(b.business_name)}
-</h3>
-
-
-<div class="meta">
-
-${esc(b.category||"Business")}
-•
-${esc(b.city||"South Africa")}
-
-</div>
-
-
-<p>
-
-${esc(
-b.description||
-"Discover this local business on LumaRise Local."
-)}
-
-</p>
-
-
-<a
-class="viewBusiness"
-href="business.html?id=${encodeURIComponent(b.id)}"
->
-
-View Business →
-
-</a>
-
-</div>
-
-</div>
-
-`;
-
-}).join("");
-
-}
-
-
-document
-.getElementById("searchForm")
-.addEventListener("submit",function(e){
-
-e.preventDefault();
-
-
-const q=
-document
-.getElementById("searchInput")
-.value
-.trim()
-.toLowerCase();
-
-
-const province=
-document
-.getElementById("province")
-.value;
-
-
-const results=businesses.filter(b=>{
-
-const text=[
-
-b.business_name,
-b.description,
-b.category,
-b.city,
-b.area
-
-].join(" ").toLowerCase();
-
-
-return (!q||text.includes(q))
-
-&&
-
-(!province||b.province===province);
-
-});
-
-
-const grid=
-document.getElementById("businessGrid");
-
-
-if(!results.length){
-
-grid.innerHTML=`
-
-<div class="empty">
-
-<h3>No businesses found</h3>
-
-<p>
-Try another search or explore the full directory.
-</p>
-
-<a
-href="explore.html"
-class="btn"
-style="margin-top:15px;"
->
-
-Explore Businesses
-
-</a>
-
-</div>
-
-`;
+document.getElementById("activeName").textContent=category;
+document.getElementById("active").style.display="flex";
 
 }else{
 
-grid.innerHTML=results.map(b=>`
-
-<div class="card">
-
-<div class="cover">
-
-${
-b.cover_image_url
-
-? `<img src="${esc(b.cover_image_url)}" alt="${esc(b.business_name)}">`
-
-: "LR"
+document.getElementById("active").style.display="none";
 
 }
 
-</div>
+const results=businesses.filter(b=>{
 
+const name=(b.business_name||"").toLowerCase();
+const description=(b.description||"").toLowerCase();
+const bcategory=b.category||"";
+const bprovince=b.province||"";
+const city=(b.city||"").toLowerCase();
+const barea=(b.area||"").toLowerCase();
 
-<div class="cardbody">
-
-<h3>
-${esc(b.business_name)}
-</h3>
-
-
-<div class="meta">
-
-${esc(b.category||"Business")}
-•
-${esc(b.city||"South Africa")}
-
-</div>
-
-
-<p>
-
-${esc(
-b.description||
-"Local business listing."
-)}
-
-</p>
-
-
-<a
-class="viewBusiness"
-href="business.html?id=${encodeURIComponent(b.id)}"
->
-
-View Business →
-
-</a>
-
-</div>
-
-</div>
-
-`).join("");
-
-}
-
-
-window.location.href="explore.html";
+return (!keyword||name.includes(keyword)||description.includes(keyword)||bcategory.toLowerCase().includes(keyword))
+&&(!category||bcategory===category)
+&&(!province||bprovince===province)
+&&(!area||city.includes(area)||barea.includes(area));
 
 });
 
+display(results);
 
-loadBusinesses();
+}
+
+function display(results){
+
+const grid=document.getElementById("grid");
+const message=document.getElementById("message");
+
+grid.innerHTML="";
+message.style.display="none";
+
+document.getElementById("count").textContent=
+results.length+" "+(results.length===1?"business":"businesses")+" found";
+
+if(!results.length){
+
+message.style.display="block";
+message.innerHTML="<h3>No businesses found</h3><p>Try another category, province or search term.</p>";
+return;
+
+}
+
+results.forEach(b=>{
+
+const image=b.cover_image_url||b.logo_url;
+
+const location=[
+b.area,b.city,b.province
+].filter(Boolean).join(", ");
+
+const card=document.createElement("div");
+card.className="card";
+
+card.innerHTML=`
+
+<a href="business.html?id=${encodeURIComponent(b.id)}">
+
+<div class="image">
+
+${image
+?`<img src="${image}" alt="${safe(b.business_name)}">`
+:`<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#d4af37;font-weight:bold">LumaRise Local</div>`
+}
+
+</div>
+
+<div class="content">
+
+<div class="category">${safe(b.category||"Business")}</div>
+
+<h3>${safe(b.business_name||"Unnamed Business")}</h3>
+
+${location?`<div class="location">📍 ${safe(location)}</div>`:""}
+
+${b.description?`<div class="desc">${safe(shorten(b.description,130))}</div>`:""}
+
+<div class="view">View Business →</div>
+
+</div>
+
+</a>
+`;
+
+grid.appendChild(card);
+
+});
+
+}
+
+function shorten(text,max){
+
+return text.length>max
+?text.substring(0,max).trim()+"..."
+:text;
+
+}
+
+function safe(text){
+
+return String(text||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+function clearCategory(){
+
+document.getElementById("category").value="";
+
+const url=new URL(location.href);
+url.searchParams.delete("category");
+history.replaceState({}, "", url);
+
+filterBusinesses();
+
+}
+
+load();
 
 </script>
 
 </body>
- </html>
+</html>
