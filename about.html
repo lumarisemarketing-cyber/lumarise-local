@@ -20,42 +20,92 @@ body{
   line-height:1.6;
 }
 
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+/* NAVIGATION */
+
 nav{
-  background:#0b1728;
+  background:#081525;
   border-bottom:1px solid rgba(212,175,55,.25);
-  padding:18px 6%;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+.nav-container{
+  width:92%;
+  max-width:1180px;
+  margin:auto;
+  min-height:76px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:20px;
-  position:sticky;
-  top:0;
-  z-index:100;
+  gap:25px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:bold;
+  font-size:20px;
+  white-space:nowrap;
 }
 
 .logo{
-  font-size:22px;
-  font-weight:800;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#d4af37,#13c4b8);
+  color:#07111f;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  font-size:18px;
+  flex-shrink:0;
+}
+
+.brand span{
   color:#d4af37;
-  text-decoration:none;
 }
 
 .nav-links{
   display:flex;
-  gap:22px;
+  align-items:center;
+  justify-content:flex-end;
+  gap:24px;
+  font-size:14px;
   flex-wrap:wrap;
 }
 
 .nav-links a{
-  color:#ffffff;
-  text-decoration:none;
-  font-size:14px;
-  font-weight:600;
+  color:#dbe5ef;
+  transition:.2s;
+  white-space:nowrap;
 }
 
-.nav-links a:hover{
-  color:#20c7b7;
+.nav-links a:hover,
+.nav-links a.active{
+  color:#d4af37;
 }
+
+.nav-button{
+  background:#d4af37 !important;
+  color:#07111f !important;
+  padding:11px 17px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+.nav-button:hover{
+  opacity:.9;
+}
+
+/* HERO */
 
 .hero{
   padding:75px 6% 65px;
@@ -222,6 +272,12 @@ nav{
   background:#20c7b7;
 }
 
+.btn:hover{
+  opacity:.9;
+}
+
+/* FOOTER */
+
 footer{
   background:#050c16;
   padding:30px 6%;
@@ -252,16 +308,45 @@ footer p{
   color:#d4af37;
 }
 
-@media(max-width:750px){
+/* TABLET */
 
-  nav{
+@media(max-width:900px){
+
+  .nav-container{
     flex-direction:column;
-    padding:16px 5%;
+    padding:18px 0;
   }
 
   .nav-links{
     justify-content:center;
-    gap:14px;
+    gap:15px;
+  }
+
+  .story{
+    grid-template-columns:1fr;
+  }
+
+  .values{
+    grid-template-columns:1fr;
+  }
+}
+
+/* MOBILE */
+
+@media(max-width:560px){
+
+  .brand{
+    font-size:18px;
+  }
+
+  .nav-links{
+    width:100%;
+    gap:10px 14px;
+    font-size:13px;
+  }
+
+  .nav-button{
+    padding:10px 13px;
   }
 
   .hero{
@@ -272,14 +357,6 @@ footer p{
     font-size:16px;
   }
 
-  .story{
-    grid-template-columns:1fr;
-  }
-
-  .values{
-    grid-template-columns:1fr;
-  }
-
   .section{
     padding:50px 0;
   }
@@ -287,29 +364,70 @@ footer p{
   .card{
     padding:24px;
   }
+
+  .footer-links{
+    gap:12px 16px;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- NAVIGATION -->
+
 <nav>
 
-  <a href="index.html" class="logo">LumaRise Local</a>
+  <div class="nav-container">
 
-  <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="explore.html">Explore</a>
-    <a href="categories.html">Categories</a>
-    <a href="about.html">About</a>
-    <a href="list.html">List Your Business</a>
+    <a href="index.html" class="brand">
+
+      <div class="logo">
+        LR
+      </div>
+
+      <div>
+        LumaRise <span>Local</span>
+      </div>
+
+    </a>
+
+    <div class="nav-links">
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="explore.html">
+        Explore
+      </a>
+
+      <a href="categories.html">
+        Categories
+      </a>
+
+      <a href="about.html" class="active">
+        About
+      </a>
+
+      <a href="list.html" class="nav-button">
+        List Your Business
+      </a>
+
+    </div>
+
   </div>
 
 </nav>
 
+
+<!-- HERO -->
+
 <section class="hero">
 
-  <h1>About <span>LumaRise Local</span></h1>
+  <h1>
+    About <span>LumaRise Local</span>
+  </h1>
 
   <p>
     A place where local businesses can be discovered, supported,
@@ -319,20 +437,31 @@ footer p{
 </section>
 
 
+<!-- WHAT IS LUMARISE LOCAL -->
+
 <section class="section">
 
   <div class="container">
 
     <div class="section-title">
-      <h2>What is LumaRise Local?</h2>
-      <p>Connecting people with businesses in their community.</p>
+
+      <h2>
+        What is LumaRise Local?
+      </h2>
+
+      <p>
+        Connecting people with businesses in their community.
+      </p>
+
     </div>
 
     <div class="story">
 
       <div class="card">
 
-        <h3>Our Mission</h3>
+        <h3>
+          Our Mission
+        </h3>
 
         <p>
           LumaRise Local was created to make it easier for people to
@@ -352,7 +481,9 @@ footer p{
 
       <div class="card">
 
-        <h3>Why Local Matters</h3>
+        <h3>
+          Why Local Matters
+        </h3>
 
         <p>
           Every local business has a story, a service, or a product
@@ -376,13 +507,17 @@ footer p{
 </section>
 
 
+<!-- WHAT WE BELIEVE -->
+
 <section class="section">
 
   <div class="container">
 
     <div class="section-title">
 
-      <h2>What We Believe</h2>
+      <h2>
+        What We Believe
+      </h2>
 
       <p>
         LumaRise Local is built around three simple ideas.
@@ -390,14 +525,17 @@ footer p{
 
     </div>
 
-
     <div class="values">
 
       <div class="value">
 
-        <div class="value-icon">01</div>
+        <div class="value-icon">
+          01
+        </div>
 
-        <h3>Discover</h3>
+        <h3>
+          Discover
+        </h3>
 
         <p>
           Make it easier for customers to find businesses,
@@ -406,12 +544,15 @@ footer p{
 
       </div>
 
-
       <div class="value">
 
-        <div class="value-icon">02</div>
+        <div class="value-icon">
+          02
+        </div>
 
-        <h3>Support</h3>
+        <h3>
+          Support
+        </h3>
 
         <p>
           Give local businesses greater visibility and help
@@ -420,12 +561,15 @@ footer p{
 
       </div>
 
-
       <div class="value">
 
-        <div class="value-icon">03</div>
+        <div class="value-icon">
+          03
+        </div>
 
-        <h3>Grow</h3>
+        <h3>
+          Grow
+        </h3>
 
         <p>
           Create opportunities for businesses to connect with
@@ -436,10 +580,11 @@ footer p{
 
     </div>
 
-
     <div class="highlight">
 
-      <h2>Find Local. <span>Support Local.</span> Grow Local.</h2>
+      <h2>
+        Find Local. <span>Support Local.</span> Grow Local.
+      </h2>
 
       <p>
         That is more than our tagline. It is the idea behind
@@ -453,35 +598,63 @@ footer p{
 </section>
 
 
+<!-- CTA -->
+
 <section class="cta">
 
-  <h2>Ready to Discover Local?</h2>
+  <h2>
+    Ready to Discover Local?
+  </h2>
 
   <p>
     Explore businesses on LumaRise Local or add your own business
     to the directory and start getting discovered.
   </p>
 
-  <a href="explore.html" class="btn">Explore Businesses</a>
+  <a href="explore.html" class="btn">
+    Explore Businesses
+  </a>
 
-  <a href="list.html" class="btn secondary">List Your Business</a>
+  <a href="list.html" class="btn secondary">
+    List Your Business
+  </a>
 
 </section>
 
 
+<!-- FOOTER -->
+
 <footer>
 
-  <p>© 2026 LumaRise Local. Find Local. Support Local. Grow Local.</p>
+  <p>
+    © 2026 LumaRise Local. Find Local. Support Local. Grow Local.
+  </p>
 
   <div class="footer-links">
-    <a href="index.html">Home</a>
-    <a href="explore.html">Explore</a>
-    <a href="categories.html">Categories</a>
-    <a href="about.html">About</a>
-    <a href="list.html">List Your Business</a>
+
+    <a href="index.html">
+      Home
+    </a>
+
+    <a href="explore.html">
+      Explore
+    </a>
+
+    <a href="categories.html">
+      Categories
+    </a>
+
+    <a href="about.html">
+      About
+    </a>
+
+    <a href="list.html">
+      List Your Business
+    </a>
+
   </div>
 
 </footer>
 
 </body>
-                                                                </html>
+  </html>
