@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Categories | LumaRise Local</title>
+
+  <meta name="description" content="Browse business categories on LumaRise Local. Find local businesses, services and professionals across South Africa.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #07111f;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1180px;
+      margin: auto;
+    }
+
+    /* NAVIGATION */
+
+    nav {
+      background: #081525;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #d4af37, #13c4b8);
+      color: #07111f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .brand span {
+      color: #d4af37;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: #dbe5ef;
+      transition: 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #d4af37;
+    }
+
+    .nav-button {
+      background: #d4af37 !important;
+      color: #07111f !important;
+      padding: 11px 17px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    /* HERO */
+
+    .hero {
+      padding: 80px 0 55px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(19, 196, 184, 0.12), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.10), transparent 30%);
+    }
+
+    .eyebrow {
+      color: #13c4b8;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 58px);
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span {
+      color: #d4af37;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: auto;
+      color: #aebdcd;
+      font-size: 17px;
+    }
+
+    /* CATEGORIES */
+
+    .categories-section {
+      padding: 30px 0 80px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .category-card {
+      background: #0c1b2d;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 28px;
+      min-height: 190px;
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-card::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      right: -45px;
+      bottom: -45px;
+      border-radius: 50%;
+      background: rgba(19, 196, 184, 0.08);
+    }
+
+    .category-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(212, 175, 55, 0.45);
+      background: #102338;
+    }
+
+    .category-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(19, 196, 184, 0.12);
+      border: 1px solid rgba(19, 196, 184, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+      margin-bottom: 18px;
+    }
+
+    .category-card h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .category-card p {
+      color: #9eafc1;
+      font-size: 14px;
+      max-width: 320px;
+      margin-bottom: 17px;
+    }
+
+    .browse {
+      color: #d4af37;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* CTA */
+
+    .cta {
+      margin: 0 auto 80px;
+      width: 92%;
+      max-width: 1180px;
+      background: linear-gradient(
+        135deg,
+        #0e2538,
+        #102c35
+      );
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 20px;
+      padding: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .cta h2 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .cta p {
+      color: #aebdcd;
+      max-width: 650px;
+    }
+
+    .cta-button {
+      background: #d4af37;
+      color: #07111f;
+      padding: 14px 22px;
+      border-radius: 9px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .cta-button:hover {
+      opacity: 0.9;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: #050d18;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 35px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .footer-brand {
+      color: #d4af37;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .footer-text {
+      color: #7f91a5;
+      font-size: 13px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      font-size: 13px;
+      color: #9eafc1;
+    }
+
+    .footer-links a:hover {
+      color: #d4af37;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 850px) {
+
+      .nav-inner {
+        flex-direction: column;
+        padding: 18px 0;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px;
+      }
+    }
+
+    @media (max-width: 560px) {
+
+      .hero {
+        padding: 60px 0 40px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-card {
+        min-height: auto;
+      }
+
+      .cta {
+        width: 92%;
+        padding: 28px;
+      }
+
+      .cta h2 {
+        font-size: 24px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+
+  <nav>
+    <div class="container nav-inner">
+
+      <a href="index.html" class="brand">
+        <div class="logo">LR</div>
+        <div>LumaRise <span>Local</span></div>
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="categories.html" class="active">Categories</a>
+        <a href="about.html">About</a>
+        <a href="list.html" class="nav-button">List Your Business</a>
+      </div>
+
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="container">
+
+      <div class="eyebrow">Explore Local Businesses</div>
+
+      <h1>
+        Browse by <span>Category</span>
+      </h1>
+
+      <p>
+        Discover businesses, services and professionals across South Africa.
+        Choose a category below to start exploring.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- CATEGORIES -->
+
+  <section class="categories-section">
+
+    <div class="container">
+
+      <div class="category-grid">
+
+        <a href="explore.html?category=Automotive" class="category-card">
+          <div class="category-icon">🚗</div>
+          <h2>Automotive</h2>
+          <p>Cars, dealerships, repairs, mechanics, tyres and automotive services.</p>
+          <div class="browse">Browse Automotive →</div>
+        </a>
+
+        <a href="explore.html?category=Beauty%20%26%20Wellness" class="category-card">
+          <div class="category-icon">✨</div>
+          <h2>Beauty & Wellness</h2>
+          <p>Beauty professionals, salons, spas, wellness services and more.</p>
+          <div class="browse">Browse Beauty & Wellness →</div>
+        </a>
+
+        <a href="explore.html?category=Business%20Services" class="category-card">
+          <div class="category-icon">💼</div>
+          <h2>Business Services</h2>
+          <p>Business support, consulting, administration and specialist services.</p>
+          <div class="browse">Browse Business Services →</div>
+        </a>
+
+        <a href="explore.html?category=Construction%20%26%20Trades" class="category-card">
+          <div class="category-icon">🛠️</div>
+          <h2>Construction & Trades</h2>
+          <p>Builders, renovations, plumbing, electrical and skilled trades.</p>
+          <div class="browse">Browse Construction & Trades →</div>
+        </a>
+
+        <a href="explore.html?category=Education" class="category-card">
+          <div class="category-icon">🎓</div>
+          <h2>Education</h2>
+          <p>Schools, tutors, training providers, courses and educational services.</p>
+          <div class="browse">Browse Education →</div>
+        </a>
+
+        <a href="explore.html?category=Food%20%26%20Restaurants" class="category-card">
+          <div class="category-icon">🍽️</div>
+          <h2>Food & Restaurants</h2>
+          <p>Restaurants, takeaways, cafés, caterers, bakeries and food businesses.</p>
+          <div class="browse">Browse Food & Restaurants →</div>
+        </a>
+
+        <a href="explore.html?category=Health" class="category-card">
+          <div class="category-icon">❤️</div>
+          <h2>Health</h2>
+          <p>Healthcare providers, practitioners, clinics and health-related services.</p>
+          <div class="browse">Browse Health →</div>
+        </a>
+
+        <a href="explore.html?category=Home%20%26%20Property" class="category-card">
+          <div class="category-icon">🏠</div>
+          <h2>Home & Property</h2>
+          <p>Property services, estate agents, home services and property professionals.</p>
+          <div class="browse">Browse Home & Property →</div>
+        </a>
+
+        <a href="explore.html?category=Marketing%20%26%20Technology" class="category-card">
+          <div class="category-icon">📱</div>
+          <h2>Marketing & Technology</h2>
+          <p>Marketing agencies, digital services, IT, websites and technology businesses.</p>
+          <div class="browse">Browse Marketing & Technology →</div>
+        </a>
+
+        <a href="explore.html?category=Professional%20Services" class="category-card">
+          <div class="category-icon">📊</div>
+          <h2>Professional Services</h2>
+          <p>Accountants, legal services, financial professionals and specialists.</p>
+          <div class="browse">Browse Professional Services →</div>
+        </a>
+
+        <a href="explore.html?category=Retail%20%26%20Shopping" class="category-card">
+          <div class="category-icon">🛍️</div>
+          <h2>Retail & Shopping</h2>
+          <p>Local shops, stores, products, boutiques and shopping businesses.</p>
+          <div class="browse">Browse Retail & Shopping →</div>
+        </a>
+
+        <a href="explore.html?category=Travel%20%26%20Accommodation" class="category-card">
+          <div class="category-icon">✈️</div>
+          <h2>Travel & Accommodation</h2>
+          <p>Travel services, accommodation, guest houses, tourism and experiences.</p>
+          <div class="browse">Browse Travel & Accommodation →</div>
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CTA -->
+
+  <section class="cta">
+
+    <div>
+      <h2>Don't see your business?</h2>
+
+      <p>
+        Add your business to LumaRise Local and make it easier for local
+        customers to discover what you offer.
+      </p>
+    </div>
+
+    <a href="list.html" class="cta-button">
+      List Your Business →
+    </a>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="container footer-inner">
+
+      <div>
+        <div class="footer-brand">LumaRise Local</div>
+
+        <div class="footer-text">
+          Find Local. Support Local. Grow Local.
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a href="about.html">About</a>
+        <a href="list.html">List Your Business</a>
+      </div>
+
+    </div>
+
+  </footer>
+
+</body>
+  </html>
