@@ -1,1203 +1,1433 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>Explore Businesses | LumaRise Local</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#07111f;
-color:#fff;
-}
-
-a{
-text-decoration:none;
-color:inherit;
-}
-
-.container{
-width:92%;
-max-width:1180px;
-margin:auto;
-}
-
-/* NAVIGATION */
-
-nav{
-background:#081525;
-border-bottom:1px solid #24364a;
-}
-
-.nav{
-min-height:75px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:20px;
-}
-
-.brand{
-display:flex;
-align-items:center;
-gap:10px;
-font-weight:bold;
-font-size:20px;
-}
-
-.logo{
-width:42px;
-height:42px;
-border-radius:11px;
-background:linear-gradient(135deg,#d4af37,#13c4b8);
-color:#07111f;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:900;
-}
-
-.brand span{
-color:#d4af37;
-}
-
-.links{
-display:flex;
-gap:22px;
-align-items:center;
-font-size:14px;
-}
-
-.links a{
-color:#dbe5ef;
-}
-
-.links a:hover,
-.links .active{
-color:#d4af37;
-}
-
-.list-btn{
-background:#d4af37!important;
-color:#07111f!important;
-padding:10px 15px;
-border-radius:8px;
-font-weight:bold;
-}
-
-/* HERO */
-
-.hero{
-text-align:center;
-padding:65px 0 50px;
-
-background:
-radial-gradient(
-circle at 20% 20%,
-rgba(19,196,184,.12),
-transparent 30%
-),
-
-radial-gradient(
-circle at 80% 20%,
-rgba(212,175,55,.10),
-transparent 30%
-);
-}
-
-.eyebrow{
-color:#13c4b8;
-font-size:12px;
-font-weight:bold;
-letter-spacing:2px;
-text-transform:uppercase;
-}
-
-.hero h1{
-font-size:clamp(35px,6vw,55px);
-margin:12px 0;
-}
-
-.hero h1 span{
-color:#d4af37;
-}
-
-.hero p{
-color:#aebdcd;
-max-width:650px;
-margin:auto;
-line-height:1.7;
-}
-
-/* FILTERS */
-
-.filters-section{
-padding:35px 0 25px;
-}
-
-.filters{
-background:#0c1b2d;
-border:1px solid #203249;
-border-radius:15px;
-padding:20px;
-
-display:grid;
-grid-template-columns:2fr 1fr 1fr 1fr auto;
-gap:10px;
-}
-
-label{
-display:block;
-color:#8fa3b8;
-font-size:12px;
-margin-bottom:5px;
-}
-
-input,
-select{
-width:100%;
-background:#07111f;
-color:#fff;
-border:1px solid #293d53;
-border-radius:8px;
-padding:12px;
-outline:none;
-}
-
-input:focus,
-select:focus{
-border-color:#13c4b8;
-}
-
-.search-btn{
-align-self:end;
-background:#d4af37;
-color:#07111f;
-border:0;
-border-radius:8px;
-padding:12px 18px;
-font-weight:bold;
-cursor:pointer;
-}
-
-/* CATEGORY MESSAGE */
-
-.active-category{
-display:none;
-background:rgba(19,196,184,.08);
-border:1px solid rgba(19,196,184,.25);
-padding:12px 15px;
-border-radius:9px;
-margin-bottom:20px;
-align-items:center;
-justify-content:space-between;
-gap:15px;
-}
-
-.active-category strong{
-color:#13c4b8;
-}
-
-.clear-btn{
-background:none;
-border:0;
-color:#d4af37;
-cursor:pointer;
-font-weight:bold;
-}
-
-/* BUSINESSES */
-
-.business-section{
-padding:25px 0 75px;
-}
-
-.business-header{
-display:flex;
-align-items:end;
-justify-content:space-between;
-gap:20px;
-margin-bottom:20px;
-}
-
-.business-header h2{
-margin:0;
-font-size:30px;
-}
-
-.business-header p{
-margin:6px 0 0;
-color:#8fa3b8;
-}
-
-.count{
-color:#8fa3b8;
-font-size:13px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
-}
-
-.card{
-background:#0c1b2d;
-border:1px solid #1b2b3e;
-border-radius:15px;
-overflow:hidden;
-transition:.2s;
-}
-
-.card:hover{
-transform:translateY(-4px);
-border-color:#d4af37;
-}
-
-.image{
-height:180px;
-background:#102338;
-}
-
-.image img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.placeholder{
-height:100%;
-display:flex;
-align-items:center;
-justify-content:center;
-color:#d4af37;
-font-weight:bold;
-font-size:18px;
-}
-
-.content{
-padding:18px;
-}
-
-.category{
-color:#13c4b8;
-font-size:11px;
-font-weight:bold;
-text-transform:uppercase;
-}
-
-.content h3{
-margin:7px 0;
-font-size:19px;
-}
-
-.location{
-color:#9eafc1;
-font-size:13px;
-margin:6px 0;
-}
-
-.description{
-color:#9eafc1;
-font-size:13px;
-line-height:1.5;
-margin:8px 0;
-}
-
-.view{
-display:inline-block;
-color:#d4af37;
-font-size:13px;
-font-weight:bold;
-margin-top:8px;
-}
-
-.message{
-text-align:center;
-color:#9eafc1;
-padding:55px 15px;
-background:#0c1b2d;
-border-radius:15px;
-grid-column:1/-1;
-}
-
-.message h3{
-color:#fff;
-margin-bottom:8px;
-}
-
-/* FOOTER */
-
-footer{
-background:#050d18;
-border-top:1px solid #162538;
-padding:30px 0;
-}
-
-.footer{
-display:flex;
-justify-content:space-between;
-gap:20px;
-}
-
-.footer-brand{
-color:#d4af37;
-font-weight:bold;
-}
-
-.footer small{
-color:#7f91a5;
-}
-
-.footer-links{
-display:flex;
-gap:18px;
-color:#9eafc1;
-font-size:13px;
-flex-wrap:wrap;
-}
-
-.footer-links a:hover{
-color:#d4af37;
-}
-
-/* MOBILE */
-
-@media(max-width:950px){
-
-.filters{
-grid-template-columns:1fr 1fr;
-}
-
-.grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.search-btn{
-grid-column:1/-1;
-}
-
-}
-
-@media(max-width:700px){
-
-.nav{
-flex-direction:column;
-padding:16px 0;
-}
-
-.links{
-flex-wrap:wrap;
-justify-content:center;
-gap:12px;
-}
-
-.filters{
-grid-template-columns:1fr;
-}
-
-.search-btn{
-grid-column:auto;
-}
-
-.grid{
-grid-template-columns:1fr;
-}
-
-.business-header{
-align-items:flex-start;
-flex-direction:column;
-}
-
-.footer{
-flex-direction:column;
-}
-
-.active-category{
-align-items:flex-start;
-}
-
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Explore Businesses | LumaRise Local</title>
+
+  <meta
+    name="description"
+    content="Explore local businesses, services and professionals on LumaRise Local."
+  >
+
+  <meta
+    name="theme-color"
+    content="#071525"
+  >
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #071525;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* NAVIGATION */
+
+    nav {
+      background: #091a2d;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: bold;
+      font-size: 19px;
+      white-space: nowrap;
+    }
+
+    .logo-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(
+        135deg,
+        #d4af37,
+        #f4d77a
+      );
+      color: #071525;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .brand span {
+      color: #d4af37;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      color: #e9eef5;
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: #d4af37;
+    }
+
+    .nav-cta {
+      padding: 11px 17px;
+      border-radius: 8px;
+      background: #d4af37;
+      color: #071525 !important;
+      font-weight: bold;
+    }
+
+    /* PAGE HEADER */
+
+    .page-header {
+      padding: 65px 0 45px;
+      text-align: center;
+      background:
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(0, 183, 176, 0.12),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 80% 10%,
+          rgba(212, 175, 55, 0.13),
+          transparent 28%
+        ),
+        #071525;
+    }
+
+    .eyebrow {
+      color: #00b7b0;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+
+    .page-header h1 {
+      font-size: clamp(34px, 5vw, 52px);
+      margin-bottom: 12px;
+    }
+
+    .page-header p {
+      color: #aebdcd;
+      max-width: 680px;
+      margin: auto;
+    }
+
+    /* FILTERS */
+
+    .filters-section {
+      padding: 25px 0;
+      background: #091a2d;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns:
+        1.5fr
+        1fr
+        1fr
+        1fr
+        auto;
+      gap: 10px;
+    }
+
+    .filters input,
+    .filters select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #29415b;
+      background: #071525;
+      color: white;
+      outline: none;
+      font-size: 13px;
+    }
+
+    .filters input:focus,
+    .filters select:focus {
+      border-color: #d4af37;
+    }
+
+    .filter-btn {
+      border: none;
+      padding: 13px 20px;
+      border-radius: 8px;
+      background: #d4af37;
+      color: #071525;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .filter-btn:hover {
+      background: #f1d36d;
+    }
+
+    /* ACTIVE CATEGORY */
+
+    .active-category {
+      padding: 20px 0 0;
+      display: none;
+    }
+
+    .active-category-inner {
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 10px;
+      padding: 14px 18px;
+      color: #d4af37;
+      font-size: 14px;
+    }
+
+    /* RESULTS */
+
+    .results-section {
+      padding: 55px 0 80px;
+    }
+
+    .results-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .results-top h2 {
+      font-size: 25px;
+    }
+
+    .result-count {
+      color: #8fa2b5;
+      font-size: 13px;
+    }
+
+    .business-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .business-card {
+      background: #10243a;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 15px;
+      overflow: hidden;
+      transition:
+        transform 0.25s,
+        border-color 0.25s,
+        box-shadow 0.25s;
+    }
+
+    .business-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(212,175,55,0.55);
+      box-shadow:
+        0 18px 35px rgba(0,0,0,0.22);
+    }
+
+    .business-image {
+      height: 185px;
+      background: #0b1d30;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .business-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .business-image.no-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #63778d;
+      font-size: 14px;
+    }
+
+    .badges {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 9px;
+      border-radius: 50px;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.4px;
+    }
+
+    .featured-badge {
+      background: #d4af37;
+      color: #071525;
+    }
+
+    .verified-badge {
+      background: #00a99d;
+      color: white;
+    }
+
+    .business-content {
+      padding: 20px;
+    }
+
+    .business-content h3 {
+      font-size: 20px;
+      margin-bottom: 7px;
+    }
+
+    .category {
+      color: #d4af37;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .location {
+      color: #9fb0c2;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .description {
+      color: #c1ccda;
+      font-size: 14px;
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .view-business {
+      display: inline-block;
+      margin-top: 16px;
+      color: #00b7b0;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* EMPTY / LOADING */
+
+    .loading,
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 50px 20px;
+      color: #93a6ba;
+      background: #10243a;
+      border-radius: 12px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: #050f1b;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 35px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .footer-brand {
+      color: #d4af37;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .footer-text {
+      color: #8193a7;
+      font-size: 13px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #9eafc0;
+      font-size: 13px;
+    }
+
+    .footer-links a:hover {
+      color: #d4af37;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 1000px) {
+
+      .filters {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .filter-btn {
+        width: 100%;
+      }
+
+      .business-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+    }
+
+    @media (max-width: 850px) {
+
+      .nav-inner {
+        flex-direction: column;
+        padding: 15px 0;
+      }
+
+      .nav-links {
+        justify-content: center;
+        gap: 14px;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .page-header {
+        padding: 50px 0 35px;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .business-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .results-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-links {
+        justify-content: center;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+      }
+
+      .nav-cta {
+        padding: 9px 12px;
+      }
+
+    }
+
+  </style>
 </head>
 
 <body>
 
-<!-- NAVIGATION -->
+  <!-- NAVIGATION -->
 
-<nav>
+  <nav>
 
-<div class="container nav">
+    <div class="container nav-inner">
 
-<a href="index.html" class="brand">
+      <a href="index.html" class="brand">
 
-<div class="logo">LR</div>
+        <div class="logo-mark">
+          LR
+        </div>
 
-<div>
-LumaRise <span>Local</span>
-</div>
+        <div>
+          LumaRise <span>Local</span>
+        </div>
 
-</a>
+      </a>
 
+      <div class="nav-links">
 
-<div class="links">
+        <a href="index.html">
+          Home
+        </a>
 
-<a href="index.html">
-Home
-</a>
+        <a href="explore.html">
+          Explore
+        </a>
 
-<a href="explore.html" class="active">
-Explore
-</a>
+        <a href="categories.html">
+          Categories
+        </a>
 
-<a href="categories.html">
-Categories
-</a>
+        <a href="about.html">
+          About
+        </a>
 
-<a href="about.html">
-About
-</a>
+        <a href="list.html" class="nav-cta">
+          List Your Business
+        </a>
 
-<a href="list.html" class="list-btn">
-List Your Business
-</a>
+      </div>
 
-</div>
+    </div>
 
-</div>
+  </nav>
 
-</nav>
 
+  <!-- PAGE HEADER -->
 
-<!-- HERO -->
+  <header class="page-header">
 
-<section class="hero">
+    <div class="container">
 
-<div class="container">
+      <div class="eyebrow">
+        Discover Local
+      </div>
 
-<div class="eyebrow">
-LumaRise Local Directory
-</div>
+      <h1>
+        Explore Local Businesses
+      </h1>
 
-<h1>
-Explore <span>Businesses</span>
-</h1>
+      <p>
+        Find businesses, services and professionals
+        across South Africa.
+      </p>
 
-<p>
-Find local businesses, services and professionals
-across South Africa.
-</p>
+    </div>
 
-</div>
+  </header>
 
-</section>
 
+  <!-- FILTERS -->
 
-<!-- FILTERS -->
+  <section class="filters-section">
 
-<section class="filters-section">
+    <div class="container">
 
-<div class="container">
+      <div class="filters">
 
-<div class="filters">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search businesses..."
+        >
 
-<div>
+        <select id="categoryInput">
 
-<label>Search</label>
+          <option value="">
+            All Categories
+          </option>
 
-<input
-id="keyword"
-placeholder="Business name or keyword..."
->
+          <option value="Automotive">
+            Automotive
+          </option>
 
-</div>
+          <option value="Beauty & Wellness">
+            Beauty & Wellness
+          </option>
 
+          <option value="Business Services">
+            Business Services
+          </option>
 
-<div>
+          <option value="Construction & Trades">
+            Construction & Trades
+          </option>
 
-<label>Category</label>
+          <option value="Education">
+            Education
+          </option>
 
-<select id="category">
+          <option value="Food & Restaurants">
+            Food & Restaurants
+          </option>
 
-<option value="">
-All Categories
-</option>
+          <option value="Health">
+            Health
+          </option>
 
-<option>Automotive</option>
-<option>Beauty & Wellness</option>
-<option>Business Services</option>
-<option>Construction & Trades</option>
-<option>Education</option>
-<option>Food & Restaurants</option>
-<option>Health</option>
-<option>Home & Property</option>
-<option>Marketing & Technology</option>
-<option>Professional Services</option>
-<option>Retail & Shopping</option>
-<option>Travel & Accommodation</option>
+          <option value="Home & Property">
+            Home & Property
+          </option>
 
-</select>
+          <option value="Marketing & Technology">
+            Marketing & Technology
+          </option>
 
-</div>
+          <option value="Professional Services">
+            Professional Services
+          </option>
 
+          <option value="Retail & Shopping">
+            Retail & Shopping
+          </option>
 
-<div>
+          <option value="Travel & Accommodation">
+            Travel & Accommodation
+          </option>
 
-<label>Province</label>
+        </select>
 
-<select id="province">
 
-<option value="">
-All Provinces
-</option>
+        <select id="provinceInput">
 
-<option>Gauteng</option>
-<option>Western Cape</option>
-<option>KwaZulu-Natal</option>
-<option>Eastern Cape</option>
-<option>Free State</option>
-<option>Limpopo</option>
-<option>Mpumalanga</option>
-<option>North West</option>
-<option>Northern Cape</option>
+          <option value="">
+            All Provinces
+          </option>
 
-</select>
+          <option value="Gauteng">
+            Gauteng
+          </option>
 
-</div>
+          <option value="Western Cape">
+            Western Cape
+          </option>
 
+          <option value="KwaZulu-Natal">
+            KwaZulu-Natal
+          </option>
 
-<div>
+          <option value="Eastern Cape">
+            Eastern Cape
+          </option>
 
-<label>City / Area</label>
+          <option value="Free State">
+            Free State
+          </option>
 
-<input
-id="area"
-placeholder="e.g. Johannesburg"
->
+          <option value="Limpopo">
+            Limpopo
+          </option>
 
-</div>
+          <option value="Mpumalanga">
+            Mpumalanga
+          </option>
 
+          <option value="Northern Cape">
+            Northern Cape
+          </option>
 
-<button
-class="search-btn"
-onclick="filterBusinesses()"
->
-Search
-</button>
+          <option value="North West">
+            North West
+          </option>
 
-</div>
+        </select>
 
-</div>
 
-</section>
+        <input
+          type="text"
+          id="cityInput"
+          placeholder="City / Town"
+        >
 
 
-<!-- ACTIVE CATEGORY -->
+        <button
+          class="filter-btn"
+          onclick="applyFilters()"
+        >
+          Search
+        </button>
 
-<section style="padding-top:0;padding-bottom:0">
+      </div>
 
-<div class="container">
 
-<div
-class="active-category"
-id="activeCategory"
->
+      <div
+        id="activeCategory"
+        class="active-category"
+      ></div>
 
-<span>
-Showing:
-<strong id="activeName"></strong>
-</span>
+    </div>
 
-<button
-class="clear-btn"
-onclick="clearCategory()"
->
-Clear ×
-</button>
+  </section>
 
-</div>
 
-</div>
+  <!-- RESULTS -->
 
-</section>
+  <main class="results-section">
 
+    <div class="container">
 
-<!-- BUSINESSES -->
+      <div class="results-top">
 
-<section class="business-section">
+        <h2>
+          Local Businesses
+        </h2>
 
-<div class="container">
+        <div
+          id="resultCount"
+          class="result-count"
+        >
+          Loading...
+        </div>
 
-<div class="business-header">
+      </div>
 
-<div>
 
-<h2>
-Local Businesses
-</h2>
+      <div
+        id="businesses"
+        class="business-grid"
+      >
 
-<p>
-Discover businesses listed on LumaRise Local.
-</p>
+        <div class="loading">
+          Loading local businesses...
+        </div>
 
-</div>
+      </div>
 
-<span
-class="count"
-id="count"
->
-Loading...
-</span>
+    </div>
 
-</div>
+  </main>
 
 
-<div
-class="grid"
-id="businessGrid"
->
+  <!-- FOOTER -->
 
-<div
-class="message"
-id="message"
->
+  <footer>
 
-<h3>
-Loading businesses...
-</h3>
+    <div class="container footer-inner">
 
-<p>
-Please wait while we load the directory.
-</p>
+      <div>
 
-</div>
+        <div class="footer-brand">
+          LumaRise Local
+        </div>
 
-</div>
+        <div class="footer-text">
+          Find Local. Support Local. Grow Local.
+        </div>
 
-</div>
+        <div class="footer-text">
+          © 2026 LumaRise Local. All rights reserved.
+        </div>
 
-</section>
+      </div>
 
 
-<!-- FOOTER -->
+      <div class="footer-links">
 
-<footer>
+        <a href="index.html">
+          Home
+        </a>
 
-<div class="container footer">
+        <a href="explore.html">
+          Explore
+        </a>
 
-<div>
+        <a href="categories.html">
+          Categories
+        </a>
 
-<div class="footer-brand">
-LumaRise Local
-</div>
+        <a href="about.html">
+          About
+        </a>
 
-<small>
-Find Local. Support Local. Grow Local.
-</small>
+        <a href="list.html">
+          List Your Business
+        </a>
 
-</div>
+      </div>
 
+    </div>
 
-<div class="footer-links">
+          </footer>
+            <script>
 
-<a href="index.html">
-Home
-</a>
+    const SUPABASE_URL =
+      "https://lpbamlwezrkyrjnwgpcp.supabase.co";
 
-<a href="explore.html">
-Explore
-</a>
+    const SUPABASE_KEY =
+      "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
 
-<a href="categories.html">
-Categories
-</a>
+    const db =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-<a href="about.html">
-About
-</a>
 
-<a href="list.html">
-List Your Business
-</a>
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
 
-</div>
 
-</div>
+    const initialSearch =
+      params.get("search") || "";
 
-</footer>
 
+    const initialProvince =
+      params.get("province") || "";
 
-<script>
 
-const SUPABASE_URL=
-"https://lpbamlwezrkyrjnwgpcp.supabase.co";
+    const initialCategory =
+      params.get("category") || "";
 
-const SUPABASE_KEY=
-"sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
 
-const db=
-supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
+    const initialCity =
+      params.get("city") || "";
 
-let businesses=[];
 
+    let allBusinesses = [];
 
-/* SAFE TEXT */
 
-function safe(text){
+    function escapeHtml(value) {
 
-return String(text||"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+      if (!value) return "";
 
-}
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
+    }
 
-/* SHORT DESCRIPTION */
 
-function shorten(text,max){
+    function createBusinessCard(business) {
 
-return text.length>max
-?
-text.substring(0,max).trim()+"..."
-:
-text;
+      const image =
+        business.cover_image_url ||
+        business.logo_url ||
+        "";
 
-}
 
+      const locationParts = [
+        business.area,
+        business.city,
+        business.province
+      ].filter(Boolean);
 
-/* LOAD BUSINESSES */
 
-async function loadBusinesses(){
+      const imageHTML = image
+        ? `
+          <div class="business-image">
 
-const grid=
-document.getElementById("businessGrid");
+            <img
+              src="${escapeHtml(image)}"
+              alt="${escapeHtml(
+                business.business_name
+              )}"
+              loading="lazy"
+            >
 
-const message=
-document.getElementById("message");
+            <div class="badges">
 
-try{
+              ${
+                business.is_featured
+                  ? `
+                    <span class="badge featured-badge">
+                      ⭐ FEATURED
+                    </span>
+                  `
+                  : ""
+              }
 
-const result=
-await db
-.from("businesses")
-.select("*")
-.order("created_at",{ascending:false});
+              ${
+                business.is_verified
+                  ? `
+                    <span class="badge verified-badge">
+                      ✓ VERIFIED
+                    </span>
+                  `
+                  : ""
+              }
 
+            </div>
 
-if(result.error){
+          </div>
+        `
+        : `
+          <div class="business-image no-image">
 
-console.error(result.error);
+            <div class="badges">
 
-message.innerHTML=
-`
-<h3>Unable to load businesses</h3>
-<p>Please refresh the page and try again.</p>
-`;
+              ${
+                business.is_featured
+                  ? `
+                    <span class="badge featured-badge">
+                      ⭐ FEATURED
+                    </span>
+                  `
+                  : ""
+              }
 
-return;
+              ${
+                business.is_verified
+                  ? `
+                    <span class="badge verified-badge">
+                      ✓ VERIFIED
+                    </span>
+                  `
+                  : ""
+              }
 
-}
+            </div>
 
+            No image available
 
-businesses=
-result.data || [];
+          </div>
+        `;
 
 
-/* READ URL PARAMETERS */
+      return `
 
-const params=
-new URLSearchParams(
-window.location.search
-);
+        <a
+          href="business.html?id=${encodeURIComponent(
+            business.id
+          )}"
+          class="business-card"
+        >
 
-const search=
-params.get("search");
+          ${imageHTML}
 
-const province=
-params.get("province");
+          <div class="business-content">
 
-const category=
-params.get("category");
+            ${
+              business.category
+                ? `
+                  <div class="category">
+                    ${escapeHtml(
+                      business.category
+                    )}
+                  </div>
+                `
+                : ""
+            }
 
 
-if(search){
+            <h3>
+              ${escapeHtml(
+                business.business_name
+              )}
+            </h3>
 
-document.getElementById("keyword").value=
-search;
 
-}
+            ${
+              locationParts.length
+                ? `
+                  <div class="location">
+                    📍 ${escapeHtml(
+                      locationParts.join(", ")
+                    )}
+                  </div>
+                `
+                : ""
+            }
 
 
-if(province){
+            <div class="description">
 
-document.getElementById("province").value=
-province;
+              ${
+                escapeHtml(
+                  business.description ||
+                  "Discover this local business on LumaRise Local."
+                )
+              }
 
-}
+            </div>
 
 
-if(category){
+            <div class="view-business">
+              View Business →
+            </div>
 
-document.getElementById("category").value=
-category;
+          </div>
 
-document.getElementById("activeName").textContent=
-category;
+        </a>
 
-document.getElementById("activeCategory").style.display=
-"flex";
+      `;
 
-}
+    }
 
 
-filterBusinesses();
+    function updateActiveCategory() {
 
-}catch(error){
+      const box =
+        document.getElementById(
+          "activeCategory"
+        );
 
-console.error(error);
 
-message.innerHTML=
-`
-<h3>Something went wrong</h3>
-<p>Please refresh the page and try again.</p>
-`;
+      if (!initialCategory) {
 
-}
+        box.style.display = "none";
 
-}
+        box.innerHTML = "";
 
+        return;
 
-/* FILTER */
+      }
 
-function filterBusinesses(){
 
-const keyword=
-document.getElementById("keyword")
-.value
-.toLowerCase()
-.trim();
+      box.style.display = "block";
 
-const category=
-document.getElementById("category").value;
 
-const province=
-document.getElementById("province").value;
+      box.innerHTML = `
 
-const area=
-document.getElementById("area")
-.value
-.toLowerCase()
-.trim();
+        <div class="active-category-inner">
 
+          Showing businesses in:
+          <strong>
+            ${escapeHtml(initialCategory)}
+          </strong>
 
-if(category){
+        </div>
 
-document.getElementById("activeName").textContent=
-category;
+      `;
 
-document.getElementById("activeCategory").style.display=
-"flex";
+    }
 
-}else{
 
-document.getElementById("activeCategory").style.display=
-"none";
+    function matchesSearch(
+      business,
+      search
+    ) {
 
-}
+      if (!search) return true;
 
 
-const results=
-businesses.filter(function(b){
+      const term =
+        search.toLowerCase();
 
-const name=
-(b.business_name||"").toLowerCase();
 
-const description=
-(b.description||"").toLowerCase();
+      const searchableText = [
 
-const bcategory=
-b.category||"";
+        business.business_name,
+        business.description,
+        business.category,
+        business.province,
+        business.city,
+        business.area,
+        business.address
 
-const bprovince=
-b.province||"";
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
 
-const city=
-(b.city||"").toLowerCase();
 
-const barea=
-(b.area||"").toLowerCase();
+      return searchableText.includes(
+        term
+      );
 
+    }
 
-return (
 
-!keyword ||
+    function applyBusinessFilters() {
 
-name.includes(keyword) ||
+      const search =
+        document
+          .getElementById("searchInput")
+          .value
+          .trim()
+          .toLowerCase();
 
-description.includes(keyword) ||
 
-bcategory.toLowerCase().includes(keyword)
+      const category =
+        document
+          .getElementById("categoryInput")
+          .value;
 
-)
 
-&&
+      const province =
+        document
+          .getElementById("provinceInput")
+          .value;
 
-(
 
-!category ||
+      const city =
+        document
+          .getElementById("cityInput")
+          .value
+          .trim()
+          .toLowerCase();
 
-bcategory===category
 
-)
+      const filtered =
+        allBusinesses.filter(
+          function(business) {
 
-&&
+            const searchMatch =
+              matchesSearch(
+                business,
+                search
+              );
 
-(
 
-!province ||
+            const categoryMatch =
+              !category ||
+              business.category === category;
 
-bprovince===province
 
-)
+            const provinceMatch =
+              !province ||
+              business.province === province;
 
-&&
 
-(
+            const businessCity =
+              String(
+                business.city || ""
+              ).toLowerCase();
 
-!area ||
 
-city.includes(area) ||
+            const cityMatch =
+              !city ||
+              businessCity.includes(
+                city
+              );
 
-barea.includes(area)
 
-);
+            return (
+              searchMatch &&
+              categoryMatch &&
+              provinceMatch &&
+              cityMatch
+            );
 
-});
+          }
+        );
 
 
-displayBusinesses(results);
+      renderBusinesses(
+        filtered
+      );
 
-}
+    }
 
 
-/* DISPLAY */
+    function applyFilters() {
 
-function displayBusinesses(results){
+      const search =
+        document
+          .getElementById("searchInput")
+          .value
+          .trim();
 
-const grid=
-document.getElementById("businessGrid");
 
-const message=
-document.getElementById("message");
+      const category =
+        document
+          .getElementById("categoryInput")
+          .value;
 
 
-message.style.display=
-"none";
+      const province =
+        document
+          .getElementById("provinceInput")
+          .value;
 
 
-document.getElementById("count").textContent=
-results.length+
-" "+
-(
-results.length===1
-?
-"business"
-:
-"businesses"
-);
+      const city =
+        document
+          .getElementById("cityInput")
+          .value
+          .trim();
 
 
-if(!results.length){
+      const newParams =
+        new URLSearchParams();
 
-message.style.display=
-"block";
 
-message.innerHTML=
-`
-<h3>No businesses found</h3>
+      if (search) {
+        newParams.set(
+          "search",
+          search
+        );
+      }
 
-<p>
-Try changing your search or filters.
-</p>
 
-<a
-href="list.html"
-style="
-display:inline-block;
-margin-top:15px;
-background:#d4af37;
-color:#07111f;
-padding:11px 18px;
-border-radius:8px;
-font-weight:bold;
-"
->
-List Your Business
-</a>
-`;
+      if (category) {
+        newParams.set(
+          "category",
+          category
+        );
+      }
 
-return;
 
-}
+      if (province) {
+        newParams.set(
+          "province",
+          province
+        );
+      }
 
 
-grid.innerHTML="";
+      if (city) {
+        newParams.set(
+          "city",
+          city
+        );
+      }
 
 
-results.forEach(function(b){
+      const query =
+        newParams.toString();
 
-const image=
-b.cover_image_url ||
-b.logo_url ||
-"";
 
+      window.history.replaceState(
+        {},
+        "",
+        "explore.html" +
+        (query
+          ? "?" + query
+          : "")
+      );
 
-const location=
-[
-b.area,
-b.city,
-b.province
-]
-.filter(Boolean)
-.join(", ");
 
+      applyBusinessFilters();
 
-const card=
-document.createElement("div");
+    }
 
-card.className=
-"card";
 
+    function renderBusinesses(
+      businesses
+    ) {
 
-card.innerHTML=
-`
+      const container =
+        document.getElementById(
+          "businesses"
+        );
 
-<a
-href="business.html?id=${encodeURIComponent(b.id)}"
->
 
-<div class="image">
+      const count =
+        document.getElementById(
+          "resultCount"
+        );
 
-${
-image
-?
-`
-<img
-src="${safe(image)}"
-alt="${safe(b.business_name)}"
->
-`
-:
-`
-<div class="placeholder">
-LumaRise Local
-</div>
-`
-}
 
-</div>
+      count.textContent =
+        businesses.length +
+        (
+          businesses.length === 1
+            ? " business"
+            : " businesses"
+        );
 
 
-<div class="content">
+      if (!businesses.length) {
 
-<div class="category">
-${safe(b.category || "Business")}
-</div>
+        container.innerHTML = `
 
+          <div class="empty">
 
-<h3>
-${safe(b.business_name || "Unnamed Business")}
-</h3>
+            <h3>
+              No businesses found
+            </h3>
 
+            <p style="margin-top:8px;">
+              Try changing your search
+              or filters.
+            </p>
 
-${
-location
-?
-`
-<div class="location">
-📍 ${safe(location)}
-</div>
-`
-:
-""
-}
+          </div>
 
+        `;
 
-${
-b.description
-?
-`
-<div class="description">
-${safe(shorten(b.description,130))}
-</div>
-`
-:
-""
-}
+        return;
 
+      }
 
-<div class="view">
-View Business →
-</div>
 
-</div>
+      container.innerHTML =
+        businesses
+          .map(
+            createBusinessCard
+          )
+          .join("");
 
-</a>
+    }
 
-`;
 
+    async function loadBusinesses() {
 
-grid.appendChild(card);
+      const container =
+        document.getElementById(
+          "businesses"
+        );
 
-});
 
-}
+      try {
 
+        const {
+          data,
+          error
+        } =
+          await db
+            .from("businesses")
+            .select("*")
+            .order(
+              "created_at",
+              {
+                ascending: false
+              }
+            );
 
-/* CLEAR CATEGORY */
 
-function clearCategory(){
+        if (error) {
+          throw error;
+        }
 
-document.getElementById("category").value="";
 
-const url=
-new URL(window.location.href);
+        allBusinesses =
+          data || [];
 
-url.searchParams.delete("category");
 
-window.history.replaceState(
-{},
-"",
-url
-);
+        applyBusinessFilters();
 
-filterBusinesses();
 
-}
+      } catch (error) {
 
+        console.error(
+          "Error loading businesses:",
+          error
+        );
 
-/* START */
 
-loadBusinesses();
+        document.getElementById(
+          "resultCount"
+        ).textContent =
+          "Unable to load";
 
-</script>
 
-</body>
-  </html>
+        container.innerHTML = `
+
+          <div class="empty">
+
+            <h3>
+              We couldn't load the businesses
+            </h3>
+
+            <p style="margin-top:8px;">
+              Please refresh the page
+              and try again.
+            </p>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+    function initialiseFilters() {
+
+      document.getElementById(
+        "searchInput"
+      ).value =
+        initialSearch;
+
+
+      document.getElementById(
+        "provinceInput"
+      ).value =
+        initialProvince;
+
+
+      document.getElementById(
+        "categoryInput"
+      ).value =
+        initialCategory;
+
+
+      document.getElementById(
+        "cityInput"
+      ).value =
+        initialCity;
+
+
+      updateActiveCategory();
+
+    }
+
+
+    document
+      .getElementById("searchInput")
+      .addEventListener(
+        "keydown",
+        function(event) {
+
+          if (
+            event.key === "Enter"
+          ) {
+
+            applyFilters();
+
+          }
+
+        }
+      );
+
+
+    initialiseFilters();
+
+    loadBusinesses();
+
+            </script>
+            </body>
+</html>
