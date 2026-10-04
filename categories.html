@@ -57,6 +57,7 @@
       gap: 12px;
       font-weight: bold;
       font-size: 20px;
+      white-space: nowrap;
     }
 
     .logo {
@@ -70,6 +71,7 @@
       justify-content: center;
       font-weight: 900;
       font-size: 18px;
+      flex-shrink: 0;
     }
 
     .brand span {
@@ -79,13 +81,16 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 25px;
+      justify-content: flex-end;
+      gap: 24px;
       font-size: 14px;
+      flex-wrap: wrap;
     }
 
     .nav-links a {
       color: #dbe5ef;
       transition: 0.2s;
+      white-space: nowrap;
     }
 
     .nav-links a:hover,
@@ -99,6 +104,10 @@
       padding: 11px 17px;
       border-radius: 8px;
       font-weight: bold;
+    }
+
+    .nav-button:hover {
+      opacity: 0.9;
     }
 
     /* HERO */
@@ -282,15 +291,16 @@
       gap: 20px;
       font-size: 13px;
       color: #9eafc1;
+      flex-wrap: wrap;
     }
 
     .footer-links a:hover {
       color: #d4af37;
     }
 
-    /* MOBILE */
+    /* TABLET */
 
-    @media (max-width: 850px) {
+    @media (max-width: 900px) {
 
       .nav-inner {
         flex-direction: column;
@@ -298,7 +308,6 @@
       }
 
       .nav-links {
-        flex-wrap: wrap;
         justify-content: center;
         gap: 15px;
       }
@@ -314,7 +323,23 @@
       }
     }
 
+    /* MOBILE */
+
     @media (max-width: 560px) {
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .nav-links {
+        width: 100%;
+        gap: 10px 14px;
+        font-size: 13px;
+      }
+
+      .nav-button {
+        padding: 10px 13px;
+      }
 
       .hero {
         padding: 60px 0 40px;
@@ -341,13 +366,17 @@
         font-size: 24px;
       }
 
+      .cta-button {
+        width: 100%;
+        text-align: center;
+      }
+
       .footer-inner {
         flex-direction: column;
         text-align: center;
       }
 
       .footer-links {
-        flex-wrap: wrap;
         justify-content: center;
       }
     }
@@ -367,11 +396,27 @@
       </a>
 
       <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="explore.html">Explore</a>
-        <a href="categories.html" class="active">Categories</a>
-        <a href="about.html">About</a>
-        <a href="list.html" class="nav-button">List Your Business</a>
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore
+        </a>
+
+        <a href="categories.html" class="active">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="list.html" class="nav-button">
+          List Your Business
+        </a>
+
       </div>
 
     </div>
@@ -384,7 +429,9 @@
 
     <div class="container">
 
-      <div class="eyebrow">Explore Local Businesses</div>
+      <div class="eyebrow">
+        Explore Local Businesses
+      </div>
 
       <h1>
         Browse by <span>Category</span>
@@ -504,12 +551,16 @@
   <section class="cta">
 
     <div>
-      <h2>Don't see your business?</h2>
+
+      <h2>
+        Don't see your business?
+      </h2>
 
       <p>
         Add your business to LumaRise Local and make it easier for local
         customers to discover what you offer.
       </p>
+
     </div>
 
     <a href="list.html" class="cta-button">
@@ -526,19 +577,25 @@
     <div class="container footer-inner">
 
       <div>
-        <div class="footer-brand">LumaRise Local</div>
+
+        <div class="footer-brand">
+          LumaRise Local
+        </div>
 
         <div class="footer-text">
           Find Local. Support Local. Grow Local.
         </div>
+
       </div>
 
       <div class="footer-links">
+
         <a href="index.html">Home</a>
         <a href="explore.html">Explore</a>
         <a href="categories.html">Categories</a>
         <a href="about.html">About</a>
         <a href="list.html">List Your Business</a>
+
       </div>
 
     </div>
@@ -546,4 +603,4 @@
   </footer>
 
 </body>
-  </html>
+                                                          </html>
