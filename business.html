@@ -1,769 +1,986 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Business Profile | LumaRise Local</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
-
-body{
-font-family:Arial,Helvetica,sans-serif;
-background:#07111f;
-color:#f5f7fa;
-line-height:1.6;
-}
-
-a{
-text-decoration:none;
-color:inherit;
-}
-
-header{
-position:sticky;
-top:0;
-z-index:100;
-background:rgba(7,17,31,.96);
-border-bottom:1px solid rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
-}
-
-.nav{
-max-width:1200px;
-margin:auto;
-padding:16px 20px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:20px;
-}
-
-.brand{
-display:flex;
-align-items:center;
-gap:12px;
-font-weight:800;
-font-size:20px;
-}
-
-.logo{
-width:42px;
-height:42px;
-border-radius:12px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:linear-gradient(135deg,#d9ad45,#f4d47b);
-color:#07111f;
-font-weight:900;
-font-size:17px;
-}
-
-.navlinks{
-display:flex;
-gap:24px;
-align-items:center;
-font-size:14px;
-font-weight:600;
-}
-
-.navlinks a{
-opacity:.9;
-transition:.2s;
-}
-
-.navlinks a:hover{
-color:#f1c75b;
-}
-
-.navcta{
-background:#d9ad45;
-color:#07111f !important;
-padding:10px 16px;
-border-radius:10px;
-font-weight:800;
-}
-
-.hero{
-padding:60px 20px 30px;
-}
-
-.container{
-max-width:1100px;
-margin:auto;
-}
-
-.back{
-display:inline-flex;
-align-items:center;
-gap:8px;
-color:#d9ad45;
-font-weight:700;
-margin-bottom:25px;
-}
-
-.loading{
-text-align:center;
-padding:80px 20px;
-color:#b7c0cc;
-}
-
-.profile{
-background:#0d1a2b;
-border:1px solid rgba(255,255,255,.09);
-border-radius:22px;
-overflow:hidden;
-box-shadow:0 20px 60px rgba(0,0,0,.25);
-}
-
-.cover{
-height:300px;
-background:linear-gradient(135deg,#13243a,#0a1524);
-position:relative;
-overflow:hidden;
-}
-
-.cover img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
-}
-
-.cover::after{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(to top,rgba(7,17,31,.7),transparent 55%);
-pointer-events:none;
-}
-
-.profilebody{
-padding:0 38px 40px;
-}
-
-.logoWrap{
-margin-top:-70px;
-position:relative;
-z-index:2;
-width:130px;
-height:130px;
-border-radius:22px;
-background:#101e30;
-border:5px solid #0d1a2b;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
-box-shadow:0 12px 30px rgba(0,0,0,.3);
-}
-
-.logoWrap img{
-width:100%;
-height:100%;
-object-fit:contain;
-}
-
-.logoFallback{
-font-size:38px;
-font-weight:900;
-color:#d9ad45;
-}
-
-.mainInfo{
-padding-top:20px;
-display:flex;
-justify-content:space-between;
-gap:30px;
-align-items:flex-start;
-}
-
-.titleArea{
-flex:1;
-}
-
-.businessName{
-font-size:38px;
-line-height:1.15;
-margin-bottom:10px;
-}
-
-.category{
-display:inline-block;
-padding:7px 12px;
-border-radius:999px;
-background:rgba(217,173,69,.12);
-border:1px solid rgba(217,173,69,.3);
-color:#f1c75b;
-font-size:13px;
-font-weight:800;
-margin-bottom:12px;
-}
-
-.location{
-color:#aeb9c7;
-font-size:15px;
-}
-
-.verified{
-display:inline-flex;
-align-items:center;
-gap:6px;
-margin-left:8px;
-color:#61d4c4;
-font-size:13px;
-font-weight:700;
-}
-
-.description{
-margin-top:30px;
-color:#cbd3dd;
-font-size:16px;
-max-width:850px;
-}
-
-.contentGrid{
-display:grid;
-grid-template-columns:1.3fr .7fr;
-gap:30px;
-margin-top:38px;
-}
-
-.section{
-background:#101f31;
-border:1px solid rgba(255,255,255,.07);
-border-radius:18px;
-padding:25px;
-}
-
-.section h2{
-font-size:20px;
-margin-bottom:18px;
-}
-
-.detail{
-display:flex;
-gap:14px;
-padding:13px 0;
-border-bottom:1px solid rgba(255,255,255,.07);
-}
-
-.detail:last-child{
-border-bottom:0;
-}
-
-.icon{
-width:35px;
-height:35px;
-border-radius:10px;
-background:rgba(217,173,69,.12);
-display:flex;
-align-items:center;
-justify-content:center;
-color:#f1c75b;
-flex-shrink:0;
-font-size:16px;
-}
-
-.detail strong{
-display:block;
-font-size:12px;
-color:#8794a5;
-margin-bottom:2px;
-text-transform:uppercase;
-letter-spacing:.5px;
-}
-
-.detail a,
-.detail span{
-font-size:14px;
-color:#e9edf2;
-word-break:break-word;
-}
-
-.actions{
-display:grid;
-gap:12px;
-}
-
-.action{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:9px;
-padding:13px 16px;
-border-radius:11px;
-font-weight:800;
-font-size:14px;
-transition:.2s;
-}
-
-.action:hover{
-transform:translateY(-2px);
-}
-
-.phone{
-background:#d9ad45;
-color:#07111f;
-}
-
-.whatsapp{
-background:#20b86a;
-color:white;
-}
-
-.email{
-background:#273b54;
-color:white;
-}
-
-.website{
-background:#172b42;
-border:1px solid rgba(255,255,255,.1);
-color:#f1c75b;
-}
-
-.empty{
-text-align:center;
-padding:80px 20px;
-}
-
-.empty h1{
-font-size:32px;
-margin-bottom:12px;
-}
-
-.empty p{
-color:#aeb9c7;
-margin-bottom:25px;
-}
-
-.btn{
-display:inline-block;
-padding:13px 20px;
-border-radius:11px;
-background:#d9ad45;
-color:#07111f;
-font-weight:800;
-}
-
-footer{
-margin-top:70px;
-border-top:1px solid rgba(255,255,255,.08);
-padding:30px 20px;
-color:#8f9aaa;
-font-size:13px;
-}
-
-.footerinner{
-max-width:1100px;
-margin:auto;
-display:flex;
-justify-content:space-between;
-gap:20px;
-flex-wrap:wrap;
-}
-
-@media(max-width:800px){
-.nav{
-padding:13px 15px;
-}
-
-.navlinks{
-gap:10px;
-font-size:12px;
-}
-
-.navlinks a:nth-child(3),
-.navlinks a:nth-child(4){
-display:none;
-}
-
-.hero{
-padding:35px 15px 20px;
-}
-
-.cover{
-height:220px;
-}
-
-.profilebody{
-padding:0 20px 30px;
-}
-
-.logoWrap{
-width:105px;
-height:105px;
-margin-top:-55px;
-}
-
-.mainInfo{
-display:block;
-}
-
-.businessName{
-font-size:30px;
-}
-
-.contentGrid{
-grid-template-columns:1fr;
-gap:20px;
-}
-
-.section{
-padding:20px;
-}
-}
-
-@media(max-width:480px){
-.brand span{
-font-size:17px;
-}
-
-.navcta{
-padding:8px 10px;
-}
-
-.cover{
-height:190px;
-}
-
-.businessName{
-font-size:26px;
-}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Business Profile | LumaRise Local</title>
+
+  <meta name="description" content="View a local business profile on LumaRise Local.">
+
+  <meta name="theme-color" content="#071525">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #071525;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    /* NAVIGATION */
+
+    nav {
+      background: #091a2d;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: bold;
+      font-size: 19px;
+      white-space: nowrap;
+    }
+
+    .logo-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #d4af37, #f4d77a);
+      color: #071525;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .brand span {
+      color: #d4af37;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      color: #e9eef5;
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: #d4af37;
+    }
+
+    .nav-cta {
+      padding: 11px 17px;
+      border-radius: 8px;
+      background: #d4af37;
+      color: #071525 !important;
+      font-weight: bold;
+    }
+
+    /* PROFILE */
+
+    .profile-page {
+      padding: 45px 0 80px;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: #00b7b0;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .profile-card {
+      background: #10243a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    .cover {
+      height: 300px;
+      background: #0b1d30;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .cover.no-cover {
+      background:
+        radial-gradient(circle at 20% 30%, rgba(0, 183, 176, 0.16), transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.18), transparent 35%),
+        #0b1d30;
+    }
+
+    .profile-main {
+      padding: 0 35px 35px;
+      position: relative;
+    }
+
+    .profile-header {
+      display: flex;
+      gap: 25px;
+      align-items: flex-end;
+      margin-top: -65px;
+      position: relative;
+    }
+
+    .profile-logo {
+      width: 130px;
+      height: 130px;
+      flex-shrink: 0;
+      border-radius: 18px;
+      background: #091a2d;
+      border: 5px solid #10243a;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d4af37;
+      font-weight: bold;
+      font-size: 28px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    }
+
+    .profile-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-title {
+      padding-bottom: 8px;
+      min-width: 0;
+    }
+
+    .profile-title h1 {
+      font-size: 36px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+      word-break: break-word;
+    }
+
+    .category {
+      color: #d4af37;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .location {
+      color: #9fb0c2;
+      font-size: 14px;
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 11px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .featured-badge {
+      background: #d4af37;
+      color: #071525;
+    }
+
+    .verified-badge {
+      background: #00a99d;
+      color: white;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1.45fr 0.8fr;
+      gap: 25px;
+      margin-top: 35px;
+    }
+
+    .info-card {
+      background: #091a2d;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 25px;
+    }
+
+    .info-card h2 {
+      font-size: 21px;
+      margin-bottom: 15px;
+    }
+
+    .description {
+      color: #c1ccda;
+      white-space: pre-line;
+      font-size: 15px;
+    }
+
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-btn {
+      display: block;
+      padding: 13px 15px;
+      border-radius: 9px;
+      background: #10243a;
+      border: 1px solid #29415b;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .contact-btn:hover {
+      border-color: #d4af37;
+      color: #d4af37;
+    }
+
+    .address {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: #aebdcd;
+      font-size: 14px;
+    }
+
+    .not-found {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .not-found h1 {
+      font-size: 35px;
+      margin-bottom: 15px;
+    }
+
+    .not-found p {
+      color: #9fb0c2;
+      margin-bottom: 25px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 13px 21px;
+      border-radius: 9px;
+      background: #d4af37;
+      color: #071525;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 80px 20px;
+      color: #9fb0c2;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: #050f1b;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 35px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .footer-brand {
+      color: #d4af37;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .footer-text {
+      color: #8193a7;
+      font-size: 13px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #9eafc0;
+      font-size: 13px;
+    }
+
+    .footer-links a:hover {
+      color: #d4af37;
+    }
+
+    @media (max-width: 850px) {
+
+      .nav-inner {
+        flex-direction: column;
+        padding: 15px 0;
+      }
+
+      .nav-links {
+        justify-content: center;
+        gap: 14px;
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .profile-page {
+        padding: 30px 0 60px;
+      }
+
+      .cover {
+        height: 220px;
+      }
+
+      .profile-main {
+        padding: 0 18px 25px;
+      }
+
+      .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: -55px;
+        gap: 15px;
+      }
+
+      .profile-logo {
+        width: 110px;
+        height: 110px;
+      }
+
+      .profile-title h1 {
+        font-size: 28px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-links {
+        justify-content: center;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+      }
+
+      .nav-cta {
+        padding: 9px 12px;
+      }
+
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-<div class="nav">
-
-<a href="index.html" class="brand">
-<div class="logo">LR</div>
-<span>LumaRise Local</span>
-</a>
-
-<nav class="navlinks">
-<a href="index.html">Home</a>
-<a href="explore.html">Explore</a>
-<a href="categories.html">Categories</a>
-<a href="about.html">About</a>
-<a href="list.html" class="navcta">List Your Business</a>
-</nav>
-
-</div>
-</header>
-
-<main class="hero">
-<div class="container">
-
-<a href="explore.html" class="back">← Back to Explore</a>
-
-<div id="loading" class="loading">
-Loading business profile...
-</div>
-
-<div id="profile" style="display:none;"></div>
-
-<div id="notFound" class="empty" style="display:none;">
-<h1>Business Not Found</h1>
-<p>We couldn't find the business profile you're looking for.</p>
-<a href="explore.html" class="btn">Explore Businesses</a>
-</div>
-
-</div>
-</main>
-
-<footer>
-<div class="footerinner">
-<div>© 2026 LumaRise Local. All rights reserved.</div>
-<div>Find Local. Support Local. Grow Local.</div>
-</div>
-</footer>
-
-<script>
-const SUPABASE_URL="https://lpbamlwezrkyrjnwgpcp.supabase.co";
-const SUPABASE_KEY="sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
-
-const db=supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
-
-function esc(x){
-return String(x||"").replace(/[&<>"']/g,m=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-}[m]));
-}
-
-function cleanUrl(url){
-if(!url) return "";
-url=String(url).trim();
-
-if(!/^https?:\/\//i.test(url)){
-return "https://"+url;
-}
-
-return url;
-}
-
-async function loadBusiness(){
-
-const params=new URLSearchParams(location.search);
-const id=params.get("id");
-
-const loading=document.getElementById("loading");
-const profile=document.getElementById("profile");
-const notFound=document.getElementById("notFound");
-
-if(!id){
-loading.style.display="none";
-notFound.style.display="block";
-return;
-}
-
-const {data,error}=await db
-.from("businesses")
-.select("*")
-.eq("id",id)
-.single();
-
-if(error || !data){
-console.error(error);
-loading.style.display="none";
-notFound.style.display="block";
-return;
-}
-
-const b=data;
-
-document.title=esc(b.business_name)+" | LumaRise Local";
-
-const cover=b.cover_image_url
-? `<img src="${esc(b.cover_image_url)}" alt="${esc(b.business_name)}">`
-: "";
-
-const logo=b.logo_url
-? `<img src="${esc(b.logo_url)}" alt="${esc(b.business_name)} logo">`
-: `<div class="logoFallback">${esc((b.business_name||"LR").substring(0,2).toUpperCase())}</div>`;
-
-const locationParts=[
-b.area,
-b.city,
-b.province
-].filter(Boolean);
-
-const locationText=locationParts.join(", ");
-
-const verified=b.is_verified
-? `<span class="verified">✓ Verified Business</span>`
-: "";
-
-let actions="";
-
-if(b.phone){
-actions+=`
-<a class="action phone" href="tel:${esc(b.phone)}">
-☎ Call Business
-</a>`;
-}
-
-if(b.whatsapp){
-let wa=String(b.whatsapp).replace(/[^\d]/g,"");
-
-if(wa.startsWith("0")){
-wa="27"+wa.substring(1);
-}
-
-actions+=`
-<a class="action whatsapp"
-href="https://wa.me/${esc(wa)}"
-target="_blank"
-rel="noopener">
-💬 WhatsApp
-</a>`;
-}
-
-if(b.email){
-actions+=`
-<a class="action email"
-href="mailto:${esc(b.email)}">
-✉ Email Business
-</a>`;
-}
-
-if(b.website){
-actions+=`
-<a class="action website"
-href="${esc(cleanUrl(b.website))}"
-target="_blank"
-rel="noopener">
-🌐 Visit Website
-</a>`;
-}
-
-let details="";
-
-if(b.phone){
-details+=`
-<div class="detail">
-<div class="icon">☎</div>
-<div>
-<strong>Phone</strong>
-<a href="tel:${esc(b.phone)}">${esc(b.phone)}</a>
-</div>
-</div>`;
-}
-
-if(b.whatsapp){
-details+=`
-<div class="detail">
-<div class="icon">💬</div>
-<div>
-<strong>WhatsApp</strong>
-<a href="https://wa.me/${esc(String(b.whatsapp).replace(/[^\d]/g,""))}"
-target="_blank"
-rel="noopener">
-${esc(b.whatsapp)}
-</a>
-</div>
-</div>`;
-}
-
-if(b.email){
-details+=`
-<div class="detail">
-<div class="icon">✉</div>
-<div>
-<strong>Email</strong>
-<a href="mailto:${esc(b.email)}">${esc(b.email)}</a>
-</div>
-</div>`;
-}
-
-if(b.website){
-details+=`
-<div class="detail">
-<div class="icon">🌐</div>
-<div>
-<strong>Website</strong>
-<a href="${esc(cleanUrl(b.website))}"
-target="_blank"
-rel="noopener">
-${esc(b.website)}
-</a>
-</div>
-</div>`;
-}
-
-if(b.address){
-details+=`
-<div class="detail">
-<div class="icon">📍</div>
-<div>
-<strong>Address</strong>
-<span>${esc(b.address)}</span>
-</div>
-</div>`;
-}
-
-profile.innerHTML=`
-
-<div class="profile">
-
-<div class="cover">
-${cover}
-</div>
-
-<div class="profilebody">
-
-<div class="logoWrap">
-${logo}
-</div>
-
-<div class="mainInfo">
-
-<div class="titleArea">
-
-<div class="category">
-${esc(b.category || "Local Business")}
-</div>
-
-<h1 class="businessName">
-${esc(b.business_name)}
-</h1>
-
-${locationText
-? `<div class="location">📍 ${esc(locationText)} ${verified}</div>`
-: verified
-}
-
-</div>
-
-</div>
-
-${b.description
-? `<div class="description">${esc(b.description)}</div>`
-: `<div class="description">Welcome to this local business profile on LumaRise Local.</div>`
-}
-
-<div class="contentGrid">
-
-<div class="section">
-
-<h2>Business Information</h2>
-
-${details || `
-<p style="color:#aeb9c7;">
-Contact information has not been added yet.
-</p>
-`}
-
-</div>
-
-<div class="section">
-
-<h2>Contact This Business</h2>
-
-<div class="actions">
-
-${actions || `
-<p style="color:#aeb9c7;">
-No contact options are available yet.
-</p>
-`}
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-`;
-
-loading.style.display="none";
-profile.style.display="block";
-
-}
-
-loadBusiness();
-</script>
-
-</body>
-  </html>
+  <!-- NAVIGATION -->
+
+  <nav>
+    <div class="container nav-inner">
+
+      <a href="index.html" class="brand">
+        <div class="logo-mark">LR</div>
+        <div>LumaRise <span>Local</span></div>
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a href="about.html">About</a>
+        <a href="list.html" class="nav-cta">List Your Business</a>
+      </div>
+
+    </div>
+  </nav>
+
+
+  <!-- PROFILE -->
+
+  <main class="profile-page">
+
+    <div class="container">
+
+      <a href="explore.html" class="back-link">
+        ← Back to Explore
+      </a>
+
+      <div id="profile">
+
+        <div class="loading">
+          Loading business profile...
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="container footer-inner">
+
+      <div>
+
+        <div class="footer-brand">
+          LumaRise Local
+        </div>
+
+        <div class="footer-text">
+          Find Local. Support Local. Grow Local.
+        </div>
+
+        <div class="footer-text">
+          © 2026 LumaRise Local. All rights reserved.
+        </div>
+
+      </div>
+
+      <div class="footer-links">
+
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a href="about.html">About</a>
+        <a href="list.html">List Your Business</a>
+
+      </div>
+
+    </div>
+
+  </footer>
+    <script>
+
+    const SUPABASE_URL =
+      "https://lpbamlwezrkyrjnwgpcp.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
+
+    const db =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const id =
+      params.get("id");
+
+
+    function escapeHtml(value) {
+
+      if (!value) return "";
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    function normaliseWhatsApp(number) {
+
+      if (!number) return "";
+
+      let value =
+        String(number)
+          .replace(/\s+/g, "")
+          .replace(/[^0-9+]/g, "");
+
+      if (value.startsWith("0")) {
+        value =
+          "27" +
+          value.substring(1);
+      }
+
+      if (value.startsWith("+")) {
+        value =
+          value.substring(1);
+      }
+
+      return value;
+
+    }
+
+
+    function websiteUrl(url) {
+
+      if (!url) return "";
+
+      let value =
+        String(url).trim();
+
+      if (
+        !value.startsWith("http://") &&
+        !value.startsWith("https://")
+      ) {
+        value =
+          "https://" + value;
+      }
+
+      return value;
+
+    }
+
+
+    function getLocation(business) {
+
+      return [
+        business.area,
+        business.city,
+        business.province
+      ]
+        .filter(Boolean)
+        .join(", ");
+
+    }
+
+
+    async function loadBusiness() {
+
+      const profile =
+        document.getElementById("profile");
+
+
+      if (!id) {
+
+        profile.innerHTML = `
+          <div class="profile-card">
+            <div class="not-found">
+
+              <h1>Business Not Found</h1>
+
+              <p>
+                We couldn't find the business profile you're looking for.
+              </p>
+
+              <a
+                href="explore.html"
+                class="btn-primary"
+              >
+                Explore Businesses
+              </a>
+
+            </div>
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      try {
+
+        const { data, error } =
+          await db
+            .from("businesses")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+
+        if (error || !data) {
+          throw error || new Error("Business not found");
+        }
+
+
+        const business =
+          data;
+
+
+        const location =
+          getLocation(business);
+
+
+        const website =
+          websiteUrl(
+            business.website
+          );
+
+
+        const whatsapp =
+          normaliseWhatsApp(
+            business.whatsapp ||
+            business.phone
+          );
+
+
+        const coverImage =
+          business.cover_image_url ||
+          "";
+
+
+        const logoImage =
+          business.logo_url ||
+          "";
+
+
+        const badges = `
+
+          ${
+            business.is_featured
+              ? `
+                <span class="badge featured-badge">
+                  ⭐ Featured Business
+                </span>
+              `
+              : ""
+          }
+
+          ${
+            business.is_verified
+              ? `
+                <span class="badge verified-badge">
+                  ✓ Verified Business
+                </span>
+              `
+              : ""
+          }
+
+        `;
+
+
+        const contactButtons = `
+
+          ${
+            business.phone
+              ? `
+                <a
+                  class="contact-btn"
+                  href="tel:${escapeHtml(business.phone)}"
+                >
+                  📞 Call Business
+                </a>
+              `
+              : ""
+          }
+
+
+          ${
+            whatsapp
+              ? `
+                <a
+                  class="contact-btn"
+                  href="https://wa.me/${whatsapp}"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  💬 WhatsApp Business
+                </a>
+              `
+              : ""
+          }
+
+
+          ${
+            business.email
+              ? `
+                <a
+                  class="contact-btn"
+                  href="mailto:${escapeHtml(business.email)}"
+                >
+                  ✉️ Email Business
+                </a>
+              `
+              : ""
+          }
+
+
+          ${
+            website
+              ? `
+                <a
+                  class="contact-btn"
+                  href="${escapeHtml(website)}"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  🌐 Visit Website
+                </a>
+              `
+              : ""
+          }
+
+        `;
+
+
+        profile.innerHTML = `
+
+          <div class="profile-card">
+
+            ${
+              coverImage
+                ? `
+                  <div class="cover">
+                    <img
+                      src="${escapeHtml(coverImage)}"
+                      alt="${escapeHtml(business.business_name)}"
+                    >
+                  </div>
+                `
+                : `
+                  <div class="cover no-cover"></div>
+                `
+            }
+
+
+            <div class="profile-main">
+
+              <div class="profile-header">
+
+                <div class="profile-logo">
+
+                  ${
+                    logoImage
+                      ? `
+                        <img
+                          src="${escapeHtml(logoImage)}"
+                          alt="${escapeHtml(business.business_name)} logo"
+                        >
+                      `
+                      : `
+                        ${escapeHtml(
+                          business.business_name
+                            ? business.business_name
+                                .substring(0, 2)
+                                .toUpperCase()
+                            : "LR"
+                        )}
+                      `
+                  }
+
+                </div>
+
+
+                <div class="profile-title">
+
+                  ${
+                    business.category
+                      ? `
+                        <div class="category">
+                          ${escapeHtml(business.category)}
+                        </div>
+                      `
+                      : ""
+                  }
+
+
+                  <h1>
+                    ${escapeHtml(
+                      business.business_name
+                    )}
+                  </h1>
+
+
+                  ${
+                    location
+                      ? `
+                        <div class="location">
+                          📍 ${escapeHtml(location)}
+                        </div>
+                      `
+                      : ""
+                  }
+
+
+                  <div class="badges">
+                    ${badges}
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="profile-grid">
+
+                <div class="info-card">
+
+                  <h2>
+                    About This Business
+                  </h2>
+
+                  <div class="description">
+
+                    ${
+                      escapeHtml(
+                        business.description ||
+                        "This business has not added a description yet."
+                      )
+                    }
+
+                  </div>
+
+
+                  ${
+                    business.address
+                      ? `
+                        <div class="address">
+                          <strong>📍 Address</strong><br>
+                          ${escapeHtml(
+                            business.address
+                          )}
+                        </div>
+                      `
+                      : ""
+                  }
+
+                </div>
+
+
+                <div class="info-card">
+
+                  <h2>
+                    Contact
+                  </h2>
+
+                  <div class="contact-list">
+
+                    ${
+                      contactButtons ||
+                      `
+                        <div class="description">
+                          Contact details have not been added yet.
+                        </div>
+                      `
+                    }
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        `;
+
+
+        document.title =
+          business.business_name +
+          " | LumaRise Local";
+
+
+      } catch (error) {
+
+        console.error(
+          "Error loading business:",
+          error
+        );
+
+
+        profile.innerHTML = `
+
+          <div class="profile-card">
+
+            <div class="not-found">
+
+              <h1>
+                Business Not Found
+              </h1>
+
+              <p>
+                We couldn't load this business profile.
+                Please return to Explore and try again.
+              </p>
+
+              <a
+                href="explore.html"
+                class="btn-primary"
+              >
+                Explore Businesses
+              </a>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+    loadBusiness();
+
+    </script>
+    </body>
+</html>
