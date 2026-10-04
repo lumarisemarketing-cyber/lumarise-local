@@ -189,6 +189,16 @@
       color: white;
     }
 
+    .feature-btn {
+      background: #d97706;
+      color: white;
+    }
+
+    .unfeature-btn {
+      background: #6b7280;
+      color: white;
+    }
+
     .error {
       background: #fee2e2;
       color: #991b1b;
@@ -461,6 +471,26 @@ async function loadBusinesses() {
           `;
 
 
+        const featureButton =
+          business.is_featured
+
+          ? `
+            <button
+              class="unfeature-btn"
+              onclick="toggleFeatured('${business.id}', false)">
+              ★ Remove Featured
+            </button>
+          `
+
+          : `
+            <button
+              class="feature-btn"
+              onclick="toggleFeatured('${business.id}', true)">
+              ⭐ Feature Business
+            </button>
+          `;
+
+
         return `
 
           <div class="business-card">
@@ -522,6 +552,8 @@ async function loadBusinesses() {
             <div class="actions">
 
               ${verifyButton}
+
+              ${featureButton}
 
             </div>
 
@@ -594,6 +626,62 @@ async function toggleVerified(id, newValue) {
   message.innerHTML = `
     <div class="success">
       ✓ Business verification updated successfully.
+    </div>
+  `;
+
+  await loadBusinesses();
+
+}
+
+
+async function toggleFeatured(id, newValue) {
+
+  const message =
+    document.getElementById("message");
+
+  message.innerHTML = "";
+
+  const {
+    data: { session }
+  } = await db.auth.getSession();
+
+  if (!session) {
+
+    message.innerHTML = `
+      <div class="error">
+        Please log in again.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  const { error } =
+    await db
+      .from("businesses")
+      .update({
+        is_featured: newValue
+      })
+      .eq("id", id);
+
+  if (error) {
+
+    console.error(error);
+
+    message.innerHTML = `
+      <div class="error">
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+
+    return;
+  }
+
+
+  message.innerHTML = `
+    <div class="success">
+      ✓ Featured status updated successfully.
     </div>
   `;
 
