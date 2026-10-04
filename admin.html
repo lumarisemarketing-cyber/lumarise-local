@@ -33,22 +33,71 @@
       padding: 30px;
       border-radius: 18px;
       margin-bottom: 25px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
     }
 
     header h1 {
       margin-bottom: 8px;
     }
 
-    header p {
-      opacity: 0.9;
+    .login-box {
+      max-width: 450px;
+      margin: 60px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    .login-box h1 {
+      color: #5b21b6;
+      margin-bottom: 10px;
+    }
+
+    .login-box p {
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    .login-btn {
+      width: 100%;
+      background: #5b21b6;
+      color: white;
+      padding: 13px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      background: #4c1d95;
+    }
+
+    .logout-btn {
+      float: right;
+      background: white;
+      color: #5b21b6;
+      border: none;
+      padding: 9px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
     }
 
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 15px;
-      margin-bottom: 25px;
+      margin: 25px 0;
     }
 
     .stat-card {
@@ -135,88 +184,103 @@
       color: white;
     }
 
-    .verify-btn:hover {
-      background: #15803d;
-    }
-
     .unverify-btn {
       background: #dc2626;
       color: white;
     }
 
-    .unverify-btn:hover {
-      background: #b91c1c;
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
     }
 
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .empty {
-      background: white;
-      padding: 30px;
-      text-align: center;
-      border-radius: 15px;
-      color: #666;
+    .success {
+      background: #dcfce7;
+      color: #166534;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
     }
 
     .loading {
       text-align: center;
       padding: 30px;
     }
-
-    .error {
-      background: #fee2e2;
-      color: #991b1b;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-
-    .success {
-      background: #dcfce7;
-      color: #166534;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
   </style>
 </head>
 
 <body>
 
-<div class="container">
+<div id="loginSection" class="login-box">
 
-  <header>
-    <h1>🌟 LumaRise Local Admin</h1>
-    <p>Manage businesses listed on LumaRise Local.</p>
-  </header>
+  <h1>🌟 LumaRise Local</h1>
 
-  <div id="message"></div>
+  <p>Admin Login</p>
 
-  <section class="stats">
+  <div id="loginMessage"></div>
 
-    <div class="stat-card">
-      <h3>Total Businesses</h3>
-      <strong id="totalBusinesses">0</strong>
-    </div>
+  <input
+    type="email"
+    id="email"
+    placeholder="Admin email"
+  >
 
-    <div class="stat-card">
-      <h3>Verified Businesses</h3>
-      <strong id="verifiedBusinesses">0</strong>
-    </div>
+  <input
+    type="password"
+    id="password"
+    placeholder="Password"
+  >
 
-    <div class="stat-card">
-      <h3>Featured Businesses</h3>
-      <strong id="featuredBusinesses">0</strong>
-    </div>
+  <button class="login-btn" onclick="login()">
+    Login
+  </button>
 
-  </section>
+</div>
 
-  <section>
 
-    <h2 style="margin-bottom:15px;">Business Listings</h2>
+<div id="adminSection" style="display:none;">
+
+  <div class="container">
+
+    <header>
+
+      <button class="logout-btn" onclick="logout()">
+        Logout
+      </button>
+
+      <h1>🌟 LumaRise Local Admin</h1>
+
+      <p>Manage businesses listed on LumaRise Local.</p>
+
+    </header>
+
+    <div id="message"></div>
+
+    <section class="stats">
+
+      <div class="stat-card">
+        <h3>Total Businesses</h3>
+        <strong id="totalBusinesses">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <h3>Verified Businesses</h3>
+        <strong id="verifiedBusinesses">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <h3>Featured Businesses</h3>
+        <strong id="featuredBusinesses">0</strong>
+      </div>
+
+    </section>
+
+    <h2 style="margin-bottom:15px;">
+      Business Listings
+    </h2>
 
     <div id="loading" class="loading">
       Loading businesses...
@@ -224,15 +288,18 @@
 
     <div id="businesses" class="businesses"></div>
 
-  </section>
+  </div>
 
 </div>
 
+
 <script>
 
-const SUPABASE_URL = "https://lpbamlwezrkyrjnwgpcp.supabase.co";
+const SUPABASE_URL =
+  "https://lpbamlwezrkyrjnwgpcp.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
+const SUPABASE_KEY =
+  "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
 
 const db = supabase.createClient(
   SUPABASE_URL,
@@ -240,18 +307,105 @@ const db = supabase.createClient(
 );
 
 
+async function login() {
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  const message =
+    document.getElementById("loginMessage");
+
+  message.innerHTML = "";
+
+  if (!email || !password) {
+
+    message.innerHTML = `
+      <div class="error">
+        Please enter your email and password.
+      </div>
+    `;
+
+    return;
+  }
+
+  const { error } =
+    await db.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+  if (error) {
+
+    message.innerHTML = `
+      <div class="error">
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+
+    return;
+  }
+
+  showAdmin();
+
+}
+
+
+async function logout() {
+
+  await db.auth.signOut();
+
+  document.getElementById("adminSection").style.display = "none";
+
+  document.getElementById("loginSection").style.display = "block";
+
+}
+
+
+async function checkLogin() {
+
+  const {
+    data: { session }
+  } = await db.auth.getSession();
+
+  if (session) {
+
+    showAdmin();
+
+  }
+
+}
+
+
+function showAdmin() {
+
+  document.getElementById("loginSection").style.display = "none";
+
+  document.getElementById("adminSection").style.display = "block";
+
+  loadBusinesses();
+
+}
+
+
 async function loadBusinesses() {
 
-  const loading = document.getElementById("loading");
-  const businessesContainer = document.getElementById("businesses");
-  const messageBox = document.getElementById("message");
+  const loading =
+    document.getElementById("loading");
+
+  const businessesContainer =
+    document.getElementById("businesses");
 
   try {
 
     const { data, error } = await db
       .from("businesses")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", {
+        ascending: false
+      });
 
     if (error) {
       throw error;
@@ -259,111 +413,131 @@ async function loadBusinesses() {
 
     loading.style.display = "none";
 
-    if (!data || data.length === 0) {
-
-      businessesContainer.innerHTML = `
-        <div class="empty">
-          No businesses found.
-        </div>
-      `;
-
-      return;
-    }
-
     const total = data.length;
 
-    const verified = data.filter(
-      business => business.is_verified === true
-    ).length;
+    const verified =
+      data.filter(
+        business => business.is_verified === true
+      ).length;
 
-    const featured = data.filter(
-      business => business.is_featured === true
-    ).length;
+    const featured =
+      data.filter(
+        business => business.is_featured === true
+      ).length;
 
-    document.getElementById("totalBusinesses").textContent = total;
+    document.getElementById(
+      "totalBusinesses"
+    ).textContent = total;
 
-    document.getElementById("verifiedBusinesses").textContent = verified;
+    document.getElementById(
+      "verifiedBusinesses"
+    ).textContent = verified;
 
-    document.getElementById("featuredBusinesses").textContent = featured;
+    document.getElementById(
+      "featuredBusinesses"
+    ).textContent = featured;
 
 
-    businessesContainer.innerHTML = data.map(business => {
+    businessesContainer.innerHTML =
+      data.map(business => {
 
-      const verifiedButton = business.is_verified
-        ? `
-          <button
-            class="unverify-btn"
-            onclick="toggleVerified('${business.id}', false)">
-            ✕ Remove Verification
-          </button>
-        `
-        : `
-          <button
-            class="verify-btn"
-            onclick="toggleVerified('${business.id}', true)">
-            ✓ Verify Business
-          </button>
+        const verifyButton =
+          business.is_verified
+
+          ? `
+            <button
+              class="unverify-btn"
+              onclick="toggleVerified('${business.id}', false)">
+              ✕ Remove Verification
+            </button>
+          `
+
+          : `
+            <button
+              class="verify-btn"
+              onclick="toggleVerified('${business.id}', true)">
+              ✓ Verify Business
+            </button>
+          `;
+
+
+        return `
+
+          <div class="business-card">
+
+            <h2>
+              ${escapeHtml(
+                business.business_name ||
+                "Unnamed Business"
+              )}
+            </h2>
+
+            <p>
+              <strong>Category:</strong>
+              ${escapeHtml(
+                business.category ||
+                "Not specified"
+              )}
+            </p>
+
+            <p>
+              <strong>Location:</strong>
+              ${escapeHtml(
+                business.city || ""
+              )}
+              ${
+                business.province
+                ? ", " +
+                  escapeHtml(
+                    business.province
+                  )
+                : ""
+              }
+            </p>
+
+            <p>
+              <strong>Description:</strong>
+              ${escapeHtml(
+                business.description ||
+                "No description"
+              )}
+            </p>
+
+            <div class="badges">
+
+              ${
+                business.is_verified
+                ? '<span class="badge verified">✓ Verified</span>'
+                : '<span class="badge">Not Verified</span>'
+              }
+
+              ${
+                business.is_featured
+                ? '<span class="badge featured">⭐ Featured</span>'
+                : '<span class="badge">Not Featured</span>'
+              }
+
+            </div>
+
+            <div class="actions">
+
+              ${verifyButton}
+
+            </div>
+
+          </div>
+
         `;
 
-
-      return `
-        <div class="business-card">
-
-          <h2>${escapeHtml(business.business_name || "Unnamed Business")}</h2>
-
-          <p>
-            <strong>Category:</strong>
-            ${escapeHtml(business.category || "Not specified")}
-          </p>
-
-          <p>
-            <strong>Location:</strong>
-            ${escapeHtml(business.city || "")}
-            ${business.province ? ", " + escapeHtml(business.province) : ""}
-          </p>
-
-          <p>
-            <strong>Description:</strong>
-            ${escapeHtml(business.description || "No description")}
-          </p>
-
-          <div class="badges">
-
-            ${
-              business.is_verified
-              ? '<span class="badge verified">✓ Verified</span>'
-              : '<span class="badge">Not Verified</span>'
-            }
-
-            ${
-              business.is_featured
-              ? '<span class="badge featured">⭐ Featured</span>'
-              : '<span class="badge">Not Featured</span>'
-            }
-
-          </div>
-
-          <div class="actions">
-
-            ${verifiedButton}
-
-          </div>
-
-        </div>
-      `;
-
-    }).join("");
+      }).join("");
 
   } catch (error) {
 
     console.error(error);
 
-    loading.style.display = "none";
-
-    messageBox.innerHTML = `
+    loading.innerHTML = `
       <div class="error">
         Unable to load businesses.
-        Please check the database connection.
       </div>
     `;
 
@@ -374,47 +548,56 @@ async function loadBusinesses() {
 
 async function toggleVerified(id, newValue) {
 
-  const messageBox = document.getElementById("message");
+  const message =
+    document.getElementById("message");
 
-  messageBox.innerHTML = "";
+  message.innerHTML = "";
 
-  try {
+  const {
+    data: { session }
+  } = await db.auth.getSession();
 
-    const { error } = await db
+  if (!session) {
+
+    message.innerHTML = `
+      <div class="error">
+        Please log in again.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  const { error } =
+    await db
       .from("businesses")
       .update({
         is_verified: newValue
       })
       .eq("id", id);
 
-    if (error) {
-      throw error;
-    }
-
-    messageBox.innerHTML = `
-      <div class="success">
-        ${
-          newValue
-          ? "✓ Business successfully verified."
-          : "✓ Business verification removed."
-        }
-      </div>
-    `;
-
-    await loadBusinesses();
-
-  } catch (error) {
+  if (error) {
 
     console.error(error);
 
-    messageBox.innerHTML = `
+    message.innerHTML = `
       <div class="error">
-        Unable to update verification status.
-        Please check your Supabase permissions.
+        ${escapeHtml(error.message)}
       </div>
     `;
 
+    return;
   }
+
+
+  message.innerHTML = `
+    <div class="success">
+      ✓ Business verification updated successfully.
+    </div>
+  `;
+
+  await loadBusinesses();
 
 }
 
@@ -431,7 +614,7 @@ function escapeHtml(value) {
 }
 
 
-loadBusinesses();
+checkLogin();
 
 </script>
 
