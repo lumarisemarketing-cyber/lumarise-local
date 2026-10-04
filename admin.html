@@ -114,6 +114,45 @@
       color: #92400e;
     }
 
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      padding: 11px 16px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .verify-btn {
+      background: #16a34a;
+      color: white;
+    }
+
+    .verify-btn:hover {
+      background: #15803d;
+    }
+
+    .unverify-btn {
+      background: #dc2626;
+      color: white;
+    }
+
+    .unverify-btn:hover {
+      background: #b91c1c;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .empty {
       background: white;
       padding: 30px;
@@ -134,6 +173,14 @@
       border-radius: 10px;
       margin-bottom: 20px;
     }
+
+    .success {
+      background: #dcfce7;
+      color: #166534;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 
@@ -146,7 +193,7 @@
     <p>Manage businesses listed on LumaRise Local.</p>
   </header>
 
-  <div id="error"></div>
+  <div id="message"></div>
 
   <section class="stats">
 
@@ -168,6 +215,7 @@
   </section>
 
   <section>
+
     <h2 style="margin-bottom:15px;">Business Listings</h2>
 
     <div id="loading" class="loading">
@@ -196,7 +244,7 @@ async function loadBusinesses() {
 
   const loading = document.getElementById("loading");
   const businessesContainer = document.getElementById("businesses");
-  const errorBox = document.getElementById("error");
+  const messageBox = document.getElementById("message");
 
   try {
 
@@ -241,19 +289,41 @@ async function loadBusinesses() {
 
     businessesContainer.innerHTML = data.map(business => {
 
+      const verifiedButton = business.is_verified
+        ? `
+          <button
+            class="unverify-btn"
+            onclick="toggleVerified('${business.id}', false)">
+            ✕ Remove Verification
+          </button>
+        `
+        : `
+          <button
+            class="verify-btn"
+            onclick="toggleVerified('${business.id}', true)">
+            ✓ Verify Business
+          </button>
+        `;
+
+
       return `
         <div class="business-card">
 
           <h2>${escapeHtml(business.business_name || "Unnamed Business")}</h2>
 
-          <p><strong>Category:</strong> ${escapeHtml(business.category || "Not specified")}</p>
+          <p>
+            <strong>Category:</strong>
+            ${escapeHtml(business.category || "Not specified")}
+          </p>
 
-          <p><strong>Location:</strong>
+          <p>
+            <strong>Location:</strong>
             ${escapeHtml(business.city || "")}
             ${business.province ? ", " + escapeHtml(business.province) : ""}
           </p>
 
-          <p><strong>Description:</strong>
+          <p>
+            <strong>Description:</strong>
             ${escapeHtml(business.description || "No description")}
           </p>
 
@@ -273,6 +343,12 @@ async function loadBusinesses() {
 
           </div>
 
+          <div class="actions">
+
+            ${verifiedButton}
+
+          </div>
+
         </div>
       `;
 
@@ -284,10 +360,57 @@ async function loadBusinesses() {
 
     loading.style.display = "none";
 
-    errorBox.innerHTML = `
+    messageBox.innerHTML = `
       <div class="error">
         Unable to load businesses.
         Please check the database connection.
+      </div>
+    `;
+
+  }
+
+}
+
+
+async function toggleVerified(id, newValue) {
+
+  const messageBox = document.getElementById("message");
+
+  messageBox.innerHTML = "";
+
+  try {
+
+    const { error } = await db
+      .from("businesses")
+      .update({
+        is_verified: newValue
+      })
+      .eq("id", id);
+
+    if (error) {
+      throw error;
+    }
+
+    messageBox.innerHTML = `
+      <div class="success">
+        ${
+          newValue
+          ? "✓ Business successfully verified."
+          : "✓ Business verification removed."
+        }
+      </div>
+    `;
+
+    await loadBusinesses();
+
+  } catch (error) {
+
+    console.error(error);
+
+    messageBox.innerHTML = `
+      <div class="error">
+        Unable to update verification status.
+        Please check your Supabase permissions.
       </div>
     `;
 
@@ -313,4 +436,4 @@ loadBusinesses();
 </script>
 
 </body>
-  </html>
+</html>
