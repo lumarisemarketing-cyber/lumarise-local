@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>List Your Business | LumaRise Local</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#07111f;
+color:#f5f7fa;
+line-height:1.6;
+}
+
+a{
+text-decoration:none;
+color:inherit;
+}
+
+header{
+position:sticky;
+top:0;
+z-index:100;
+background:rgba(7,17,31,.96);
+border-bottom:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+}
+
+.nav{
+max-width:1200px;
+margin:auto;
+padding:16px 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:12px;
+font-weight:800;
+font-size:20px;
+}
+
+.logo{
+width:42px;
+height:42px;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,#d9ad45,#f4d47b);
+color:#07111f;
+font-weight:900;
+font-size:17px;
+}
+
+.navlinks{
+display:flex;
+gap:24px;
+align-items:center;
+font-size:14px;
+font-weight:600;
+}
+
+.navlinks a{
+opacity:.9;
+}
+
+.navlinks a:hover{
+color:#f1c75b;
+}
+
+.navcta{
+background:#d9ad45;
+color:#07111f !important;
+padding:10px 16px;
+border-radius:10px;
+font-weight:800;
+}
+
+.hero{
+padding:60px 20px 30px;
+}
+
+.container{
+max-width:1050px;
+margin:auto;
+}
+
+.heroText{
+max-width:720px;
+margin-bottom:35px;
+}
+
+.eyebrow{
+color:#d9ad45;
+font-size:13px;
+font-weight:800;
+text-transform:uppercase;
+letter-spacing:1.5px;
+margin-bottom:10px;
+}
+
+h1{
+font-size:44px;
+line-height:1.1;
+margin-bottom:15px;
+}
+
+.heroText p{
+color:#aeb9c7;
+font-size:17px;
+}
+
+.formCard{
+background:#0d1a2b;
+border:1px solid rgba(255,255,255,.09);
+border-radius:22px;
+padding:35px;
+box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.formSection{
+margin-bottom:35px;
+}
+
+.formSection:last-of-type{
+margin-bottom:10px;
+}
+
+.formSection h2{
+font-size:21px;
+margin-bottom:6px;
+}
+
+.formSection p{
+color:#8996a7;
+font-size:14px;
+margin-bottom:22px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.field{
+display:flex;
+flex-direction:column;
+gap:7px;
+}
+
+.full{
+grid-column:1 / -1;
+}
+
+label{
+font-size:13px;
+font-weight:700;
+color:#dbe2ea;
+}
+
+.required{
+color:#d9ad45;
+}
+
+input,
+select,
+textarea{
+width:100%;
+border:1px solid rgba(255,255,255,.12);
+background:#091626;
+color:#f5f7fa;
+border-radius:10px;
+padding:13px 14px;
+font-family:inherit;
+font-size:14px;
+outline:none;
+transition:.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+border-color:#d9ad45;
+box-shadow:0 0 0 3px rgba(217,173,69,.08);
+}
+
+textarea{
+min-height:130px;
+resize:vertical;
+}
+
+select{
+cursor:pointer;
+}
+
+input[type="file"]{
+padding:10px;
+}
+
+input[type="file"]::file-selector-button{
+background:#d9ad45;
+border:0;
+border-radius:7px;
+padding:8px 12px;
+margin-right:10px;
+font-weight:700;
+cursor:pointer;
+color:#07111f;
+}
+
+.help{
+font-size:12px;
+color:#7f8da0;
+}
+
+.submitArea{
+border-top:1px solid rgba(255,255,255,.08);
+padding-top:25px;
+margin-top:30px;
+}
+
+.submitBtn{
+width:100%;
+border:0;
+background:linear-gradient(135deg,#d9ad45,#f0ca65);
+color:#07111f;
+padding:15px 20px;
+border-radius:11px;
+font-size:15px;
+font-weight:900;
+cursor:pointer;
+transition:.2s;
+}
+
+.submitBtn:hover{
+transform:translateY(-2px);
+}
+
+.submitBtn:disabled{
+opacity:.6;
+cursor:not-allowed;
+transform:none;
+}
+
+.message{
+display:none;
+margin-top:18px;
+padding:14px 16px;
+border-radius:10px;
+font-size:14px;
+}
+
+.success{
+display:block;
+background:rgba(32,184,106,.12);
+border:1px solid rgba(32,184,106,.35);
+color:#75e2a9;
+}
+
+.error{
+display:block;
+background:rgba(230,75,75,.12);
+border:1px solid rgba(230,75,75,.35);
+color:#ff9999;
+}
+
+.notice{
+margin-top:20px;
+padding:15px;
+border-radius:11px;
+background:rgba(217,173,69,.08);
+border:1px solid rgba(217,173,69,.18);
+color:#b9c3cf;
+font-size:13px;
+}
+
+footer{
+margin-top:70px;
+border-top:1px solid rgba(255,255,255,.08);
+padding:30px 20px;
+color:#8f9aaa;
+font-size:13px;
+}
+
+.footerinner{
+max-width:1050px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+gap:20px;
+flex-wrap:wrap;
+}
+
+@media(max-width:750px){
+
+.nav{
+padding:13px 15px;
+}
+
+.navlinks{
+gap:10px;
+font-size:12px;
+}
+
+.navlinks a:nth-child(3),
+.navlinks a:nth-child(4){
+display:none;
+}
+
+.hero{
+padding:40px 15px 20px;
+}
+
+h1{
+font-size:34px;
+}
+
+.formCard{
+padding:22px 18px;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.full{
+grid-column:auto;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="nav">
+
+<a href="index.html" class="brand">
+<div class="logo">LR</div>
+<span>LumaRise Local</span>
+</a>
+
+<nav class="navlinks">
+<a href="index.html">Home</a>
+<a href="explore.html">Explore</a>
+<a href="categories.html">Categories</a>
+<a href="about.html">About</a>
+<a href="list.html" class="navcta">List Your Business</a>
+</nav>
+
+</div>
+
+</header>
+
+
+<main class="hero">
+
+<div class="container">
+
+<div class="heroText">
+
+<div class="eyebrow">Grow Your Local Presence</div>
+
+<h1>List Your Business</h1>
+
+<p>
+Put your business in front of people searching for local products and services.
+Create your LumaRise Local business profile and make it easier for customers to find you.
+</p>
+
+</div>
+
+
+<form id="businessForm" class="formCard">
+
+<div class="formSection">
+
+<h2>Business Details</h2>
+
+<p>
+Tell us about your business. Fields marked with <span class="required">*</span> are required.
+</p>
+
+<div class="grid">
+
+<div class="field">
+
+<label for="business_name">
+Business Name <span class="required">*</span>
+</label>
+
+<input
+type="text"
+id="business_name"
+name="business_name"
+placeholder="e.g. ABC Plumbing"
+required>
+
+</div>
+
+
+<div class="field">
+
+<label for="category">
+Category <span class="required">*</span>
+</label>
+
+<select id="category" name="category" required>
+
+<option value="">Select a category</option>
+
+<option>Automotive</option>
+<option>Beauty & Wellness</option>
+<option>Business Services</option>
+<option>Construction & Trades</option>
+<option>Education</option>
+<option>Food & Restaurants</option>
+<option>Health</option>
+<option>Home & Property</option>
+<option>Marketing & Technology</option>
+<option>Professional Services</option>
+<option>Retail & Shopping</option>
+<option>Travel & Accommodation</option>
+<option>Other / My Category</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label for="province">
+Province <span class="required">*</span>
+</label>
+
+<select id="province" name="province" required>
+
+<option value="">Select province</option>
+
+<option>Eastern Cape</option>
+<option>Free State</option>
+<option>Gauteng</option>
+<option>KwaZulu-Natal</option>
+<option>Limpopo</option>
+<option>Mpumalanga</option>
+<option>Northern Cape</option>
+<option>North West</option>
+<option>Western Cape</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label for="city">
+City / Town <span class="required">*</span>
+</label>
+
+<input
+type="text"
+id="city"
+name="city"
+placeholder="e.g. Johannesburg"
+required>
+
+</div>
+
+
+<div class="field">
+
+<label for="area">
+Area / Suburb
+</label>
+
+<input
+type="text"
+id="area"
+name="area"
+placeholder="e.g. Sandton">
+
+</div>
+
+
+<div class="field">
+
+<label for="address">
+Business Address
+</label>
+
+<input
+type="text"
+id="address"
+name="address"
+placeholder="Street address">
+
+</div>
+
+
+<div class="field full">
+
+<label for="description">
+Business Description <span class="required">*</span>
+</label>
+
+<textarea
+id="description"
+name="description"
+placeholder="Tell potential customers what your business does, what you offer and what makes your business special."
+required></textarea>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="formSection">
+
+<h2>Contact Information</h2>
+
+<p>
+Give customers easy ways to contact your business.
+</p>
+
+<div class="grid">
+
+<div class="field">
+
+<label for="phone">
+Phone Number
+</label>
+
+<input
+type="tel"
+id="phone"
+name="phone"
+placeholder="e.g. 011 123 4567">
+
+</div>
+
+
+<div class="field">
+
+<label for="whatsapp">
+WhatsApp Number
+</label>
+
+<input
+type="tel"
+id="whatsapp"
+name="whatsapp"
+placeholder="e.g. 082 123 4567">
+
+</div>
+
+
+<div class="field">
+
+<label for="email">
+Email Address
+</label>
+
+<input
+type="email"
+id="email"
+name="email"
+placeholder="business@example.com">
+
+</div>
+
+
+<div class="field">
+
+<label for="website">
+Website
+</label>
+
+<input
+type="text"
+id="website"
+name="website"
+placeholder="www.example.co.za">
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="formSection">
+
+<h2>Business Images</h2>
+
+<p>
+Add your business logo and a cover image to make your profile stand out.
+</p>
+
+<div class="grid">
+
+<div class="field">
+
+<label for="logo">
+Business Logo
+</label>
+
+<input
+type="file"
+id="logo"
+accept="image/*">
+
+<span class="help">
+Recommended: square JPG or PNG image.
+</span>
+
+</div>
+
+
+<div class="field">
+
+<label for="cover">
+Cover Image
+</label>
+
+<input
+type="file"
+id="cover"
+accept="image/*">
+
+<span class="help">
+Recommended: landscape JPG or PNG image.
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="notice">
+
+<strong>Please note:</strong>
+Your submission will be added to LumaRise Local for review.
+Verification and featured placement may be handled separately.
+
+</div>
+
+
+<div class="submitArea">
+
+<button type="submit" id="submitBtn" class="submitBtn">
+Submit My Business
+</button>
+
+<div id="message" class="message"></div>
+
+</div>
+
+</form>
+
+</div>
+
+</main>
+
+
+<footer>
+
+<div class="footerinner">
+
+<div>
+© 2026 LumaRise Local. All rights reserved.
+</div>
+
+<div>
+Find Local. Support Local. Grow Local.
+</div>
+
+</div>
+
+</footer>
+
+
+<script>
+
+const SUPABASE_URL="https://lpbamlwezrkyrjnwgpcp.supabase.co";
+
+const SUPABASE_KEY="sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
+
+const db=supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+const form=document.getElementById("businessForm");
+
+const submitBtn=document.getElementById("submitBtn");
+
+const message=document.getElementById("message");
+
+
+function showMessage(text,type){
+
+message.textContent=text;
+
+message.className="message "+type;
+
+}
+
+
+function cleanFileName(name){
+
+return name
+.toLowerCase()
+.replace(/[^a-z0-9.-]/g,"-");
+
+}
+
+
+async function uploadImage(file){
+
+if(!file){
+return null;
+}
+
+const fileName=
+Date.now()
++"-"
++Math.random().toString(36).substring(2,8)
++"-"
++cleanFileName(file.name);
+
+const filePath=fileName;
+
+
+const {error}=await db
+.storage
+.from("business-images")
+.upload(filePath,file,{
+cacheControl:"3600",
+upsert:false
+});
+
+
+if(error){
+throw error;
+}
+
+
+const {data}=db
+.storage
+.from("business-images")
+.getPublicUrl(filePath);
+
+
+return data.publicUrl;
+
+}
+
+
+form.addEventListener("submit",async function(e){
+
+e.preventDefault();
+
+showMessage("","");
+
+message.style.display="none";
+
+submitBtn.disabled=true;
+
+submitBtn.textContent="Submitting Business...";
+
+
+try{
+
+const businessName=
+document.getElementById("business_name").value.trim();
+
+const category=
+document.getElementById("category").value;
+
+const province=
+document.getElementById("province").value;
+
+const city=
+document.getElementById("city").value.trim();
+
+const area=
+document.getElementById("area").value.trim();
+
+const address=
+document.getElementById("address").value.trim();
+
+const description=
+document.getElementById("description").value.trim();
+
+const phone=
+document.getElementById("phone").value.trim();
+
+const whatsapp=
+document.getElementById("whatsapp").value.trim();
+
+const email=
+document.getElementById("email").value.trim();
+
+const website=
+document.getElementById("website").value.trim();
+
+const logoFile=
+document.getElementById("logo").files[0];
+
+const coverFile=
+document.getElementById("cover").files[0];
+
+
+let logoUrl=null;
+
+let coverUrl=null;
+
+
+if(logoFile){
+
+submitBtn.textContent="Uploading Logo...";
+
+logoUrl=await uploadImage(logoFile);
+
+}
+
+
+if(coverFile){
+
+submitBtn.textContent="Uploading Cover Image...";
+
+coverUrl=await uploadImage(coverFile);
+
+}
+
+
+submitBtn.textContent="Saving Business...";
+
+
+const {data,error}=await db
+.from("businesses")
+.insert([{
+
+business_name:businessName,
+
+description:description,
+
+category:category,
+
+province:province,
+
+city:city,
+
+area:area,
+
+phone:phone || null,
+
+whatsapp:whatsapp || null,
+
+email:email || null,
+
+website:website || null,
+
+address:address || null,
+
+logo_url:logoUrl,
+
+cover_image_url:coverUrl,
+
+is_verified:false,
+
+is_featured:false
+
+}])
+.select()
+.single();
+
+
+if(error){
+throw error;
+}
+
+
+showMessage(
+"Your business has been successfully submitted to LumaRise Local!",
+"success"
+);
+
+
+form.reset();
+
+
+submitBtn.textContent="Business Submitted";
+
+
+setTimeout(()=>{
+
+if(data && data.id){
+
+window.location.href=
+"business.html?id="
++encodeURIComponent(data.id);
+
+}
+
+},1800);
+
+
+}catch(error){
+
+console.error(error);
+
+showMessage(
+"Something went wrong while submitting your business. Please check your information and try again.",
+"error"
+);
+
+submitBtn.disabled=false;
+
+submitBtn.textContent="Submit My Business";
+
+}
+
+});
+
+</script>
+
+</body>
+  </html>
