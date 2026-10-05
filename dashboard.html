@@ -61,23 +61,16 @@
     .logout-btn {
       background: white;
       color: #4b1d70;
-
       border: none;
-
       padding: 10px 18px;
-
       border-radius: 8px;
-
       font-weight: bold;
-
       cursor: pointer;
     }
 
     .container {
       max-width: 1000px;
-
       margin: 35px auto;
-
       padding: 0 20px;
     }
 
@@ -87,23 +80,18 @@
 
     .welcome h1 {
       margin: 0 0 8px;
-
       color: #321052;
     }
 
     .welcome p {
       margin: 0;
-
       color: #666;
     }
 
     .card {
       background: white;
-
       border-radius: 14px;
-
       padding: 25px;
-
       margin-bottom: 20px;
 
       box-shadow:
@@ -112,65 +100,61 @@
 
     .card h2 {
       margin-top: 0;
-
       color: #321052;
     }
 
     .business-name {
       font-size: 24px;
-
       font-weight: bold;
-
       margin-bottom: 10px;
     }
 
     .business-info {
       color: #666;
-
       line-height: 1.8;
     }
 
     .status {
       display: inline-block;
-
-      padding: 7px 13px;
-
+      padding: 8px 14px;
       border-radius: 20px;
-
       font-size: 13px;
-
       font-weight: bold;
-
       margin-top: 15px;
-    }
-
-    .status.verified {
-      background: #dff6e5;
-
-      color: #16733a;
     }
 
     .status.pending {
       background: #fff1cc;
-
       color: #8a5b00;
+    }
+
+    .status.approved {
+      background: #dff6e5;
+      color: #16733a;
+    }
+
+    .status.rejected {
+      background: #ffe0e0;
+      color: #a30000;
+    }
+
+    .status.verified {
+      background: #dff6e5;
+      color: #16733a;
     }
 
     .empty {
       text-align: center;
-
       padding: 25px 10px;
     }
 
     .empty h3 {
       color: #321052;
-
       margin-bottom: 8px;
     }
 
     .empty p {
       color: #666;
-
       line-height: 1.6;
     }
 
@@ -185,19 +169,12 @@
         );
 
       color: white;
-
       text-decoration: none;
-
       border: none;
-
       padding: 12px 22px;
-
       border-radius: 8px;
-
       font-weight: bold;
-
       cursor: pointer;
-
       margin-top: 15px;
     }
 
@@ -205,73 +182,57 @@
       display: inline-block;
 
       background: #f0e8f7;
-
       color: #4b176f;
-
       text-decoration: none;
-
       border: none;
-
       padding: 11px 20px;
-
       border-radius: 8px;
-
       font-weight: bold;
-
       cursor: pointer;
-
       margin-top: 15px;
-
       margin-right: 8px;
     }
 
     .loading {
       text-align: center;
-
       padding: 40px 10px;
-
       color: #666;
     }
 
     .error {
       background: #ffe5e5;
-
       color: #a30000;
-
       padding: 15px;
-
       border-radius: 8px;
-
       margin-bottom: 20px;
-
       display: none;
-
       line-height: 1.6;
     }
 
     .info-box {
       background: #f3edf8;
-
       border-left: 4px solid #6d28a8;
-
       padding: 14px;
-
       margin-top: 18px;
-
       border-radius: 5px;
-
       color: #555;
+      line-height: 1.6;
+    }
 
+    .rejected-box {
+      background: #fff0f0;
+      border-left: 4px solid #c62828;
+      padding: 14px;
+      margin-top: 18px;
+      border-radius: 5px;
+      color: #7a1c1c;
       line-height: 1.6;
     }
 
     footer {
       text-align: center;
-
       color: #777;
-
       padding: 30px 20px;
-
       font-size: 14px;
     }
 
@@ -279,7 +240,6 @@
 
       .header-inner {
         flex-direction: column;
-
         align-items: flex-start;
       }
 
@@ -443,6 +403,90 @@
 
   }
 
+  function getStatusHTML(business) {
+
+    const status =
+      business.approval_status || "pending";
+
+    if (status === "approved") {
+
+      return `
+        <span class="status approved">
+          ✓ Approved
+        </span>
+      `;
+
+    }
+
+    if (status === "rejected") {
+
+      return `
+        <span class="status rejected">
+          ✕ Rejected
+        </span>
+      `;
+
+    }
+
+    return `
+      <span class="status pending">
+        Pending Review
+      </span>
+    `;
+
+  }
+
+  function getStatusMessage(business) {
+
+    const status =
+      business.approval_status || "pending";
+
+    if (status === "approved") {
+
+      return `
+        <div class="info-box">
+
+          Your business listing has been
+          approved by LumaRise Local.
+
+          Your listing can now be displayed
+          as an approved business.
+
+        </div>
+      `;
+
+    }
+
+    if (status === "rejected") {
+
+      return `
+        <div class="rejected-box">
+
+          Your business listing has been
+          rejected by LumaRise Local.
+
+          Please contact LumaRise Local if
+          you need assistance with your listing.
+
+        </div>
+      `;
+
+    }
+
+    return `
+      <div class="info-box">
+
+        Your business listing is connected
+        to your owner account.
+
+        Your listing is currently waiting
+        for review by LumaRise Local.
+
+      </div>
+    `;
+
+  }
+
   async function loadDashboard() {
 
     try {
@@ -498,7 +542,8 @@
 
       loading.style.display = "none";
 
-      dashboardContent.style.display = "block";
+      dashboardContent.style.display =
+        "block";
 
       if (
         !businesses ||
@@ -535,19 +580,6 @@
 
       const business =
         businesses[0];
-
-      const verificationStatus =
-        business.is_verified
-          ? `
-            <span class="status verified">
-              ✓ Verified Business
-            </span>
-          `
-          : `
-            <span class="status pending">
-              Pending Verification
-            </span>
-          `;
 
       businessContent.innerHTML = `
 
@@ -684,20 +716,9 @@
 
         </div>
 
-        ${verificationStatus}
+        ${getStatusHTML(business)}
 
-        <div class="info-box">
-
-          Your business listing is connected
-          to your owner account.
-
-          ${
-            business.is_verified
-              ? "Your business has been verified."
-              : "Your listing is waiting for verification by LumaRise Local."
-          }
-
-        </div>
+        ${getStatusMessage(business)}
 
         <div>
 
