@@ -2254,9 +2254,78 @@ document.addEventListener(
       return;
     }
 
-    alert(
-      "Delete function is ready to be connected."
-    );
+    const {
+  data: {
+    user
+  },
+  error: userError
+} = await db.auth.getUser();
+
+if (userError || !user) {
+  alert(
+    "Your session could not be verified. Please log in again."
+  );
+  return;
+}
+
+const {
+  data: business,
+  error: businessError
+} = await db
+  .from("businesses")
+  .select("id, business_name")
+  .eq("owner_id", user.id)
+  .maybeSingle();
+
+if (businessError) {
+  alert(
+    "We could not find your business listing.\n\n" +
+    businessError.message
+  );
+  return;
+}
+
+if (!business) {
+  alert(
+    "No business listing was found for your account."
+  );
+  return;
+}
+
+const deleteConfirmed =
+  confirm(
+    "Delete \"" +
+    business.business_name +
+    "\" permanently?\n\n" +
+    "This action cannot be undone."
+  );
+
+if (!deleteConfirmed) {
+  return;
+}
+
+const {
+  error: deleteError
+} = await db
+  .from("businesses")
+  .delete()
+  .eq("id", business.id)
+  .eq("owner_id", user.id);
+
+if (deleteError) {
+  alert(
+    "Your listing could not be deleted.\n\n" +
+    deleteError.message
+  );
+  return;
+}
+
+alert(
+  "Your business listing has been deleted successfully."
+);
+
+window.location.href =
+  "dashboard.html";
 
   }
 );
