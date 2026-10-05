@@ -1,379 +1,962 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Business Profile | LumaRise Local</title>
 
-  <meta name="description" content="View a local business profile on LumaRise Local.">
+  <meta
+    name="description"
+    content="View a local business profile on LumaRise Local."
+  >
 
-  <meta name="theme-color" content="#071525">
+  <meta
+    name="theme-color"
+    content="#08080c"
+  >
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
   <style>
+
+    /* =========================
+       LUMARISE LOCAL BRAND
+    ========================== */
+
+    :root {
+      --black: #08080c;
+      --black-soft: #111117;
+
+      --purple: #7c3aed;
+      --purple-dark: #5b21b6;
+      --purple-light: #a855f7;
+
+      --gold: #d4af37;
+      --gold-light: #f4d878;
+
+      --white: #ffffff;
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+
+      --border: rgba(255,255,255,0.10);
+
+      --card: #15151d;
+
+      --success: #22c55e;
+      --danger: #ef4444;
+
+      --max-width: 1180px;
+      --radius: 18px;
+
+      --shadow:
+        0 15px 40px rgba(0,0,0,0.30);
+    }
+
+
+    /* =========================
+       GLOBAL
+    ========================== */
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #071525;
-      color: #ffffff;
-      line-height: 1.6;
+
+    html {
+      scroll-behavior: smooth;
     }
+
+
+    body {
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      background: var(--black);
+      color: var(--text);
+      line-height: 1.6;
+
+      overflow-x: hidden;
+    }
+
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
 
     a {
       text-decoration: none;
       color: inherit;
     }
 
-    .container {
-      width: 92%;
-      max-width: 1100px;
-      margin: auto;
+
+    button,
+    input,
+    select {
+      font: inherit;
     }
 
-    /* NAVIGATION */
 
-    nav {
-      background: #091a2d;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    .container {
+      width:
+        min(
+          100% - 32px,
+          var(--max-width)
+        );
+
+      margin: 0 auto;
+    }
+
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    .site-header {
       position: sticky;
       top: 0;
       z-index: 1000;
+
+      background:
+        rgba(8,8,12,0.96);
+
+      border-bottom:
+        1px solid var(--border);
+
+      backdrop-filter: blur(14px);
     }
 
-    .nav-inner {
+
+    .header-inner {
       min-height: 78px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 25px;
+
+      gap: 24px;
     }
+
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-weight: bold;
-      font-size: 19px;
-      white-space: nowrap;
+
+      flex-shrink: 0;
     }
 
-    .logo-mark {
+
+    .brand-logo {
+      width: 175px;
+      height: auto;
+
+      max-height: 58px;
+
+      object-fit: contain;
+      object-position: left center;
+    }
+
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+
+
+    .desktop-nav a {
+      padding: 10px 13px;
+
+      border-radius: 10px;
+
+      color: #d4d4d8;
+
+      font-size: 14px;
+      font-weight: 600;
+
+      white-space: nowrap;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+
+    .desktop-nav a:hover {
+      background:
+        rgba(124,58,237,0.14);
+
+      color: var(--white);
+    }
+
+
+    .desktop-nav .nav-login {
+      border:
+        1px solid
+        rgba(124,58,237,0.55);
+
+      color: #ddd6fe;
+    }
+
+
+    .desktop-nav .nav-signup {
+      background: var(--purple);
+      color: var(--white);
+    }
+
+
+    .desktop-nav .nav-signup:hover {
+      background: var(--purple-light);
+    }
+
+
+    .desktop-nav .nav-list {
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      color: #17120a;
+
+      font-weight: 800;
+    }
+
+
+    .desktop-nav .nav-list:hover {
+      background: var(--gold-light);
+      color: #17120a;
+    }
+
+
+    /* =========================
+       MOBILE MENU BUTTON
+    ========================== */
+
+    .mobile-menu-button {
+      display: none;
+
       width: 44px;
       height: 44px;
+
+      border:
+        1px solid var(--border);
+
       border-radius: 12px;
-      background: linear-gradient(135deg, #d4af37, #f4d77a);
-      color: #071525;
-      display: flex;
+
+      background: var(--black-soft);
+      color: var(--white);
+
+      cursor: pointer;
+
       align-items: center;
       justify-content: center;
-      font-weight: 900;
-      font-size: 18px;
+
+      flex-direction: column;
+      gap: 5px;
     }
 
-    .brand span {
-      color: #d4af37;
+
+    .mobile-menu-button span {
+      width: 20px;
+      height: 2px;
+
+      background: var(--white);
+
+      border-radius: 2px;
     }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+
+    /* =========================
+       MOBILE NAV
+    ========================== */
+
+    .mobile-nav {
+      display: none;
+      padding: 0 0 18px;
     }
 
-    .nav-links a {
-      color: #e9eef5;
-      font-size: 14px;
+
+    .mobile-nav-inner {
+      display: grid;
+      gap: 7px;
+
+      padding-top: 8px;
     }
 
-    .nav-links a:hover {
-      color: #d4af37;
+
+    .mobile-nav a {
+      display: block;
+
+      padding: 13px 15px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 11px;
+
+      background:
+        rgba(255,255,255,0.03);
+
+      color: #e4e4e7;
+
+      font-size: 15px;
+      font-weight: 600;
     }
 
-    .nav-cta {
-      padding: 11px 17px;
-      border-radius: 8px;
-      background: #d4af37;
-      color: #071525 !important;
-      font-weight: bold;
+
+    .mobile-nav a.login {
+      border-color:
+        rgba(124,58,237,0.5);
+
+      color: #ddd6fe;
     }
 
-    /* PROFILE */
+
+    .mobile-nav a.signup {
+      background: var(--purple);
+      border-color: var(--purple);
+
+      color: var(--white);
+
+      text-align: center;
+    }
+
+
+    .mobile-nav a.list-business {
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      border-color: var(--gold);
+
+      color: #17120a;
+
+      text-align: center;
+
+      font-weight: 800;
+    }
+
+
+    /* =========================
+       PROFILE PAGE
+    ========================== */
 
     .profile-page {
       padding: 45px 0 80px;
+      background: var(--black);
     }
+
 
     .back-link {
-      display: inline-block;
-      color: #00b7b0;
+      display: inline-flex;
+      align-items: center;
+
+      margin-bottom: 22px;
+
+      color: var(--purple-light);
+
       font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 20px;
+      font-weight: 700;
+
+      transition: color 0.2s ease;
     }
+
+
+    .back-link:hover {
+      color: var(--gold-light);
+    }
+
+
+    /* =========================
+       PROFILE CARD
+    ========================== */
 
     .profile-card {
-      background: #10243a;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 18px;
+      background: var(--card);
+
+      border:
+        1px solid var(--border);
+
+      border-radius: var(--radius);
+
       overflow: hidden;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+
+      box-shadow: var(--shadow);
     }
 
+
+    /* =========================
+       COVER
+    ========================== */
+
     .cover {
-      height: 300px;
-      background: #0b1d30;
+      height: 310px;
+
+      background: #0f0f16;
+
       position: relative;
       overflow: hidden;
     }
+
 
     .cover img {
       width: 100%;
       height: 100%;
+
       object-fit: cover;
+
       display: block;
     }
 
+
     .cover.no-cover {
       background:
-        radial-gradient(circle at 20% 30%, rgba(0, 183, 176, 0.16), transparent 35%),
-        radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.18), transparent 35%),
-        #0b1d30;
+        radial-gradient(
+          circle at 20% 30%,
+          rgba(124,58,237,0.22),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 80% 20%,
+          rgba(212,175,55,0.18),
+          transparent 35%
+        ),
+        linear-gradient(
+          135deg,
+          #111117,
+          #08080c
+        );
     }
+
+
+    /* =========================
+       PROFILE MAIN
+    ========================== */
 
     .profile-main {
       padding: 0 35px 35px;
+
       position: relative;
     }
 
+
     .profile-header {
       display: flex;
+
       gap: 25px;
+
       align-items: flex-end;
+
       margin-top: -65px;
+
       position: relative;
     }
+
+
+    /* =========================
+       PROFILE LOGO
+    ========================== */
 
     .profile-logo {
       width: 130px;
       height: 130px;
+
       flex-shrink: 0;
+
       border-radius: 18px;
-      background: #091a2d;
-      border: 5px solid #10243a;
+
+      background: var(--black-soft);
+
+      border:
+        5px solid var(--card);
+
       overflow: hidden;
+
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #d4af37;
-      font-weight: bold;
+
+      color: var(--gold-light);
+
+      font-weight: 800;
       font-size: 28px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+
+      box-shadow:
+        0 10px 25px rgba(0,0,0,0.30);
     }
+
 
     .profile-logo img {
       width: 100%;
       height: 100%;
+
       object-fit: cover;
     }
+
+
+    /* =========================
+       PROFILE TITLE
+    ========================== */
 
     .profile-title {
       padding-bottom: 8px;
       min-width: 0;
     }
 
+
     .profile-title h1 {
+      color: var(--white);
+
       font-size: 36px;
       line-height: 1.15;
+
       margin-bottom: 8px;
+
       word-break: break-word;
     }
 
+
     .category {
-      color: #d4af37;
+      color: var(--gold-light);
+
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 800;
+
       margin-bottom: 5px;
     }
 
+
     .location {
-      color: #9fb0c2;
+      color: var(--muted);
+
       font-size: 14px;
     }
 
+
+    /* =========================
+       BADGES
+    ========================== */
+
     .badges {
       display: flex;
+
       gap: 8px;
+
       flex-wrap: wrap;
+
       margin-top: 12px;
     }
+
 
     .badge {
       display: inline-flex;
       align-items: center;
+
       padding: 7px 11px;
+
       border-radius: 50px;
+
       font-size: 11px;
-      font-weight: bold;
+      font-weight: 800;
     }
+
 
     .featured-badge {
-      background: #d4af37;
-      color: #071525;
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      color: #17120a;
     }
 
+
     .verified-badge {
-      background: #00a99d;
-      color: white;
+      background:
+        rgba(34,197,94,0.92);
+
+      color: var(--white);
     }
+        /* =========================
+       PROFILE GRID
+    ========================== */
 
     .profile-grid {
       display: grid;
-      grid-template-columns: 1.45fr 0.8fr;
+
+      grid-template-columns:
+        1.45fr 0.8fr;
+
       gap: 25px;
+
       margin-top: 35px;
     }
 
+
+    /* =========================
+       INFO CARDS
+    ========================== */
+
     .info-card {
-      background: #091a2d;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
+      background: var(--black-soft);
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 16px;
+
       padding: 25px;
     }
 
+
     .info-card h2 {
+      color: var(--white);
+
       font-size: 21px;
+      line-height: 1.3;
+
       margin-bottom: 15px;
     }
 
+
     .description {
-      color: #c1ccda;
+      color: #c4c4cc;
+
       white-space: pre-line;
+
       font-size: 15px;
+      line-height: 1.7;
     }
+
+
+    /* =========================
+       CONTACT BUTTONS
+    ========================== */
 
     .contact-list {
       display: flex;
+
       flex-direction: column;
+
       gap: 10px;
     }
 
+
     .contact-btn {
       display: block;
+
       padding: 13px 15px;
-      border-radius: 9px;
-      background: #10243a;
-      border: 1px solid #29415b;
-      color: #ffffff;
+
+      border-radius: 10px;
+
+      background: var(--card);
+
+      border:
+        1px solid
+        rgba(255,255,255,0.10);
+
+      color: var(--white);
+
       font-size: 14px;
-      font-weight: bold;
-      transition: 0.2s;
+      font-weight: 700;
+
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
     }
 
+
     .contact-btn:hover {
-      border-color: #d4af37;
-      color: #d4af37;
+      border-color:
+        rgba(124,58,237,0.65);
+
+      background:
+        rgba(124,58,237,0.10);
+
+      color: var(--gold-light);
+
+      transform: translateY(-1px);
     }
+
+
+    /* =========================
+       ADDRESS
+    ========================== */
 
     .address {
       margin-top: 20px;
+
       padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      color: #aebdcd;
+
+      border-top:
+        1px solid var(--border);
+
+      color: var(--muted);
+
       font-size: 14px;
+
+      line-height: 1.7;
     }
+
+
+    .address strong {
+      color: var(--white);
+    }
+
+
+    /* =========================
+       NOT FOUND
+    ========================== */
 
     .not-found {
       text-align: center;
-      padding: 80px 20px;
+
+      padding: 85px 20px;
     }
 
+
     .not-found h1 {
+      color: var(--white);
+
       font-size: 35px;
+
+      line-height: 1.2;
+
       margin-bottom: 15px;
     }
 
+
     .not-found p {
-      color: #9fb0c2;
+      color: var(--muted);
+
       margin-bottom: 25px;
     }
 
+
+    /* =========================
+       PRIMARY BUTTON
+    ========================== */
+
     .btn-primary {
-      display: inline-block;
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
       padding: 13px 21px;
-      border-radius: 9px;
-      background: #d4af37;
-      color: #071525;
-      font-weight: bold;
+
+      border-radius: 10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      color: #17120a;
+
+      font-weight: 800;
+
       font-size: 14px;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
     }
+
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 10px 25px
+        rgba(212,175,55,0.18);
+    }
+
+
+    /* =========================
+       LOADING
+    ========================== */
 
     .loading {
       text-align: center;
+
       padding: 80px 20px;
-      color: #9fb0c2;
+
+      color: var(--muted);
     }
 
-    /* FOOTER */
+
+    .loading::before {
+      content: "";
+
+      display: block;
+
+      width: 30px;
+      height: 30px;
+
+      margin: 0 auto 16px;
+
+      border:
+        3px solid
+        rgba(255,255,255,0.10);
+
+      border-top-color:
+        var(--purple-light);
+
+      border-radius: 50%;
+
+      animation:
+        spin 0.8s linear infinite;
+    }
+
+
+    @keyframes spin {
+
+      to {
+        transform: rotate(360deg);
+      }
+
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================== */
 
     footer {
-      background: #050f1b;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 35px 0;
+      background: #050509;
+
+      border-top:
+        1px solid var(--border);
+
+      padding: 44px 0 28px;
     }
+
 
     .footer-inner {
       display: flex;
+
       justify-content: space-between;
+
       gap: 25px;
+
       align-items: center;
-    }
 
-    .footer-brand {
-      color: #d4af37;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .footer-text {
-      color: #8193a7;
-      font-size: 13px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 18px;
       flex-wrap: wrap;
     }
 
-    .footer-links a {
-      color: #9eafc0;
-      font-size: 13px;
+
+    .footer-brand {
+      color: var(--white);
+
+      font-weight: 800;
+
+      font-size: 16px;
+
+      margin-bottom: 5px;
     }
+
+
+    .footer-text {
+      color: #71717a;
+
+      font-size: 13px;
+
+      line-height: 1.7;
+    }
+
+
+    .footer-links {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: flex-end;
+
+      gap: 8px;
+
+      flex-wrap: wrap;
+    }
+
+
+    .footer-links a {
+      padding: 8px 11px;
+
+      border-radius: 9px;
+
+      color: #a1a1aa;
+
+      font-size: 13px;
+
+      transition:
+        color 0.2s ease,
+        background 0.2s ease;
+    }
+
 
     .footer-links a:hover {
-      color: #d4af37;
+      color: var(--white);
+
+      background:
+        rgba(124,58,237,0.12);
     }
 
-    @media (max-width: 850px) {
 
-      .nav-inner {
-        flex-direction: column;
-        padding: 15px 0;
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 1050px) {
+
+      .desktop-nav {
+        gap: 2px;
       }
 
-      .nav-links {
-        justify-content: center;
-        gap: 14px;
+
+      .desktop-nav a {
+        padding: 9px 9px;
+
+        font-size: 13px;
       }
+
+
+      .brand-logo {
+        width: 155px;
+      }
+
+    }
+
+
+    @media (max-width: 900px) {
 
       .profile-grid {
         grid-template-columns: 1fr;
@@ -381,90 +964,319 @@
 
     }
 
+
+    @media (max-width: 800px) {
+
+      .container {
+        width:
+          min(
+            100% - 24px,
+            var(--max-width)
+          );
+      }
+
+
+      .header-inner {
+        min-height: 70px;
+      }
+
+
+      .brand-logo {
+        width: 150px;
+
+        max-height: 52px;
+      }
+
+
+      .desktop-nav {
+        display: none;
+      }
+
+
+      .mobile-menu-button {
+        display: flex;
+      }
+
+
+      .mobile-nav.open {
+        display: block;
+      }
+
+
+      .profile-page {
+        padding: 35px 0 65px;
+      }
+
+
+      .profile-main {
+        padding:
+          0 25px 30px;
+      }
+
+
+      .cover {
+        height: 270px;
+      }
+
+    }
+
+
     @media (max-width: 600px) {
+
+      .container {
+        width:
+          min(
+            100% - 20px,
+            var(--max-width)
+          );
+      }
+
+
+      .brand-logo {
+        width: 138px;
+      }
+
 
       .profile-page {
         padding: 30px 0 60px;
       }
 
+
       .cover {
         height: 220px;
       }
 
+
       .profile-main {
-        padding: 0 18px 25px;
+        padding:
+          0 18px 25px;
       }
+
 
       .profile-header {
         flex-direction: column;
+
         align-items: flex-start;
+
         margin-top: -55px;
+
         gap: 15px;
       }
+
 
       .profile-logo {
         width: 110px;
         height: 110px;
       }
 
+
       .profile-title h1 {
         font-size: 28px;
       }
 
-      .footer-inner {
-        flex-direction: column;
-        text-align: center;
+
+      .info-card {
+        padding: 20px;
       }
+
+
+      .footer-inner {
+        align-items: flex-start;
+
+        flex-direction: column;
+      }
+
 
       .footer-links {
-        justify-content: center;
-      }
-
-      .nav-links a {
-        font-size: 12px;
-      }
-
-      .nav-cta {
-        padding: 9px 12px;
+        justify-content: flex-start;
       }
 
     }
+
+
+    @media (max-width: 430px) {
+
+      .profile-title h1 {
+        font-size: 25px;
+      }
+
+
+      .cover {
+        height: 190px;
+      }
+
+
+      .profile-logo {
+        width: 100px;
+        height: 100px;
+      }
+
+    }
+
   </style>
+
 </head>
 
 <body>
+    <!-- =========================
+       HEADER
+  ========================== -->
 
-  <!-- NAVIGATION -->
+  <header class="site-header">
 
-  <nav>
-    <div class="container nav-inner">
+    <div class="container header-inner">
 
-      <a href="index.html" class="brand">
-        <div class="logo-mark">LR</div>
-        <div>LumaRise <span>Local</span></div>
+      <a
+        href="index.html"
+        class="brand"
+        aria-label="LumaRise Local home"
+      >
+
+        <img
+          src="IMG-20260919-WA0037.jpg"
+          alt="LumaRise Marketing"
+          class="brand-logo"
+        >
+
       </a>
 
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="explore.html">Explore</a>
-        <a href="categories.html">Categories</a>
-        <a href="about.html">About</a>
-        <a href="list.html" class="nav-cta">List Your Business</a>
+
+      <nav
+        class="desktop-nav"
+        aria-label="Main navigation"
+      >
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore
+        </a>
+
+        <a href="categories.html">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a
+          href="login.html"
+          class="nav-login"
+        >
+          Business Login
+        </a>
+
+        <a
+          href="signup.html"
+          class="nav-signup"
+        >
+          Sign Up
+        </a>
+
+        <a
+          href="list.html"
+          class="nav-list"
+        >
+          List Your Business
+        </a>
+
+      </nav>
+
+
+      <button
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </button>
+
+    </div>
+
+
+    <!-- MOBILE NAVIGATION -->
+
+    <div
+      class="mobile-nav"
+      id="mobileNav"
+    >
+
+      <div class="container mobile-nav-inner">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore Businesses
+        </a>
+
+        <a href="categories.html">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About LumaRise Local
+        </a>
+
+        <a
+          href="login.html"
+          class="login"
+        >
+          Business Login
+        </a>
+
+        <a
+          href="signup.html"
+          class="signup"
+        >
+          Create Business Account
+        </a>
+
+        <a
+          href="list.html"
+          class="list-business"
+        >
+          + List Your Business
+        </a>
+
       </div>
 
     </div>
-  </nav>
+
+  </header>
 
 
-  <!-- PROFILE -->
+  <!-- =========================
+       BUSINESS PROFILE
+  ========================== -->
 
   <main class="profile-page">
 
     <div class="container">
 
-      <a href="explore.html" class="back-link">
+      <a
+        href="explore.html"
+        class="back-link"
+      >
         ← Back to Explore
       </a>
+
+
+      <!--
+        IMPORTANT:
+        The JavaScript in Part 4
+        will populate this element.
+      -->
 
       <div id="profile">
 
@@ -479,7 +1291,9 @@
   </main>
 
 
-  <!-- FOOTER -->
+  <!-- =========================
+       FOOTER
+  ========================== -->
 
   <footer>
 
@@ -501,26 +1315,54 @@
 
       </div>
 
-      <div class="footer-links">
 
-        <a href="index.html">Home</a>
-        <a href="explore.html">Explore</a>
-        <a href="categories.html">Categories</a>
-        <a href="about.html">About</a>
-        <a href="list.html">List Your Business</a>
+      <nav
+        class="footer-links"
+        aria-label="Footer navigation"
+      >
 
-      </div>
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore
+        </a>
+
+        <a href="categories.html">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="list.html">
+          List Your Business
+        </a>
+
+      </nav>
 
     </div>
 
   </footer>
-    <script>
+    <!-- =========================
+       BUSINESS PROFILE SCRIPT
+  ========================== -->
+
+  <script>
+
+    /* =========================
+       SUPABASE
+    ========================== */
 
     const SUPABASE_URL =
       "https://lpbamlwezrkyrjnwgpcp.supabase.co";
 
+
     const SUPABASE_KEY =
       "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
+
 
     const db =
       supabase.createClient(
@@ -529,103 +1371,185 @@
       );
 
 
+    /* =========================
+       URL PARAMETER
+    ========================== */
+
     const params =
       new URLSearchParams(
         window.location.search
       );
 
+
     const id =
       params.get("id");
 
 
+    /* =========================
+       ESCAPE HTML
+    ========================== */
+
     function escapeHtml(value) {
 
-      if (!value) return "";
+      if (!value) {
+        return "";
+      }
+
 
       return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
 
     }
 
 
+    /* =========================
+       WHATSAPP NUMBER
+    ========================== */
+
     function normaliseWhatsApp(number) {
 
-      if (!number) return "";
+      if (!number) {
+        return "";
+      }
+
 
       let value =
         String(number)
           .replace(/\s+/g, "")
           .replace(/[^0-9+]/g, "");
 
-      if (value.startsWith("0")) {
+
+      if (
+        value.startsWith("0")
+      ) {
+
         value =
           "27" +
           value.substring(1);
+
       }
 
-      if (value.startsWith("+")) {
+
+      if (
+        value.startsWith("+")
+      ) {
+
         value =
           value.substring(1);
+
       }
+
 
       return value;
 
     }
 
 
+    /* =========================
+       WEBSITE URL
+    ========================== */
+
     function websiteUrl(url) {
 
-      if (!url) return "";
+      if (!url) {
+        return "";
+      }
+
 
       let value =
         String(url).trim();
+
 
       if (
         !value.startsWith("http://") &&
         !value.startsWith("https://")
       ) {
+
         value =
           "https://" + value;
+
       }
+
 
       return value;
 
     }
 
 
+    /* =========================
+       LOCATION
+    ========================== */
+
     function getLocation(business) {
 
       return [
+
         business.area,
+
         business.city,
+
         business.province
+
       ]
+
         .filter(Boolean)
+
         .join(", ");
 
     }
 
 
+    /* =========================
+       LOAD BUSINESS
+    ========================== */
+
     async function loadBusiness() {
 
       const profile =
-        document.getElementById("profile");
+        document.getElementById(
+          "profile"
+        );
 
 
       if (!id) {
 
         profile.innerHTML = `
+
           <div class="profile-card">
+
             <div class="not-found">
 
-              <h1>Business Not Found</h1>
+              <h1>
+                Business Not Found
+              </h1>
 
               <p>
-                We couldn't find the business profile you're looking for.
+                We couldn't find the business profile
+                you're looking for.
               </p>
 
               <a
@@ -636,7 +1560,9 @@
               </a>
 
             </div>
+
           </div>
+
         `;
 
         return;
@@ -646,16 +1572,35 @@
 
       try {
 
-        const { data, error } =
-          await db
-            .from("businesses")
-            .select("*")
-            .eq("id", id)
-            .single();
+        const {
+          data,
+          error
+        } = await db
+
+          .from("businesses")
+
+          .select("*")
+
+          .eq(
+            "id",
+            id
+          )
+
+          .single();
 
 
-        if (error || !data) {
-          throw error || new Error("Business not found");
+        if (
+          error ||
+          !data
+        ) {
+
+          throw (
+            error ||
+            new Error(
+              "Business not found"
+            )
+          );
+
         }
 
 
@@ -664,7 +1609,9 @@
 
 
         const location =
-          getLocation(business);
+          getLocation(
+            business
+          );
 
 
         const website =
@@ -690,24 +1637,37 @@
           "";
 
 
+        /* =========================
+           BADGES
+        ========================== */
+
         const badges = `
 
           ${
             business.is_featured
               ? `
-                <span class="badge featured-badge">
+
+                <span
+                  class="badge featured-badge"
+                >
                   ⭐ Featured Business
                 </span>
+
               `
               : ""
           }
 
+
           ${
             business.is_verified
               ? `
-                <span class="badge verified-badge">
+
+                <span
+                  class="badge verified-badge"
+                >
                   ✓ Verified Business
                 </span>
+
               `
               : ""
           }
@@ -715,17 +1675,25 @@
         `;
 
 
+        /* =========================
+           CONTACT BUTTONS
+        ========================== */
+
         const contactButtons = `
 
           ${
             business.phone
               ? `
+
                 <a
                   class="contact-btn"
-                  href="tel:${escapeHtml(business.phone)}"
+                  href="tel:${escapeHtml(
+                    business.phone
+                  )}"
                 >
                   📞 Call Business
                 </a>
+
               `
               : ""
           }
@@ -734,6 +1702,7 @@
           ${
             whatsapp
               ? `
+
                 <a
                   class="contact-btn"
                   href="https://wa.me/${whatsapp}"
@@ -742,6 +1711,7 @@
                 >
                   💬 WhatsApp Business
                 </a>
+
               `
               : ""
           }
@@ -750,12 +1720,16 @@
           ${
             business.email
               ? `
+
                 <a
                   class="contact-btn"
-                  href="mailto:${escapeHtml(business.email)}"
+                  href="mailto:${escapeHtml(
+                    business.email
+                  )}"
                 >
                   ✉️ Email Business
                 </a>
+
               `
               : ""
           }
@@ -764,14 +1738,18 @@
           ${
             website
               ? `
+
                 <a
                   class="contact-btn"
-                  href="${escapeHtml(website)}"
+                  href="${escapeHtml(
+                    website
+                  )}"
                   target="_blank"
                   rel="noopener"
                 >
                   🌐 Visit Website
                 </a>
+
               `
               : ""
           }
@@ -779,95 +1757,170 @@
         `;
 
 
+        /* =========================
+           PROFILE HTML
+        ========================== */
+
         profile.innerHTML = `
 
           <div class="profile-card">
 
+
             ${
               coverImage
+
                 ? `
+
                   <div class="cover">
+
                     <img
-                      src="${escapeHtml(coverImage)}"
-                      alt="${escapeHtml(business.business_name)}"
+                      src="${escapeHtml(
+                        coverImage
+                      )}"
+                      alt="${escapeHtml(
+                        business.business_name
+                      )}"
                     >
+
                   </div>
+
                 `
+
                 : `
-                  <div class="cover no-cover"></div>
+
+                  <div
+                    class="
+                      cover
+                      no-cover
+                    "
+                  ></div>
+
                 `
             }
 
 
             <div class="profile-main">
 
+
               <div class="profile-header">
+
+
+                <!-- BUSINESS LOGO -->
 
                 <div class="profile-logo">
 
                   ${
                     logoImage
+
                       ? `
+
                         <img
-                          src="${escapeHtml(logoImage)}"
-                          alt="${escapeHtml(business.business_name)} logo"
+                          src="${escapeHtml(
+                            logoImage
+                          )}"
+                          alt="${escapeHtml(
+                            business.business_name
+                          )} logo"
                         >
+
                       `
+
                       : `
+
                         ${escapeHtml(
+
                           business.business_name
+
                             ? business.business_name
-                                .substring(0, 2)
+                                .substring(
+                                  0,
+                                  2
+                                )
                                 .toUpperCase()
+
                             : "LR"
+
                         )}
+
                       `
                   }
 
                 </div>
 
 
+                <!-- BUSINESS TITLE -->
+
                 <div class="profile-title">
+
 
                   ${
                     business.category
+
                       ? `
+
                         <div class="category">
-                          ${escapeHtml(business.category)}
+
+                          ${escapeHtml(
+                            business.category
+                          )}
+
                         </div>
+
                       `
+
                       : ""
                   }
 
 
                   <h1>
+
                     ${escapeHtml(
                       business.business_name
                     )}
+
                   </h1>
 
 
                   ${
                     location
+
                       ? `
+
                         <div class="location">
-                          📍 ${escapeHtml(location)}
+
+                          📍
+                          ${escapeHtml(
+                            location
+                          )}
+
                         </div>
+
                       `
+
                       : ""
                   }
 
 
                   <div class="badges">
+
                     ${badges}
+
                   </div>
+
 
                 </div>
 
               </div>
 
 
+              <!-- =========================
+                   PROFILE CONTENT
+              ========================== -->
+
               <div class="profile-grid">
+
+
+                <!-- ABOUT -->
 
                 <div class="info-card">
 
@@ -875,33 +1928,49 @@
                     About This Business
                   </h2>
 
+
                   <div class="description">
 
-                    ${
-                      escapeHtml(
-                        business.description ||
-                        "This business has not added a description yet."
-                      )
-                    }
+                    ${escapeHtml(
+
+                      business.description ||
+
+                      "This business has not added a description yet."
+
+                    )}
 
                   </div>
 
 
                   ${
                     business.address
+
                       ? `
+
                         <div class="address">
-                          <strong>📍 Address</strong><br>
+
+                          <strong>
+                            📍 Address
+                          </strong>
+
+                          <br>
+
                           ${escapeHtml(
                             business.address
                           )}
+
                         </div>
+
                       `
+
                       : ""
                   }
 
+
                 </div>
 
+
+                <!-- CONTACT -->
 
                 <div class="info-card">
 
@@ -909,14 +1978,21 @@
                     Contact
                   </h2>
 
+
                   <div class="contact-list">
 
                     ${
                       contactButtons ||
+
                       `
-                        <div class="description">
-                          Contact details have not been added yet.
+
+                        <div
+                          class="description"
+                        >
+                          Contact details have
+                          not been added yet.
                         </div>
+
                       `
                     }
 
@@ -924,14 +2000,21 @@
 
                 </div>
 
+
               </div>
 
+
             </div>
+
 
           </div>
 
         `;
 
+
+        /* =========================
+           PAGE TITLE
+        ========================== */
 
         document.title =
           business.business_name +
@@ -979,8 +2062,76 @@
     }
 
 
+    /* =========================
+       MOBILE MENU
+    ========================== */
+
+    const mobileMenuButton =
+      document.getElementById(
+        "mobileMenuButton"
+      );
+
+
+    const mobileNav =
+      document.getElementById(
+        "mobileNav"
+      );
+
+
+    mobileMenuButton.addEventListener(
+      "click",
+      function() {
+
+        const isOpen =
+          mobileNav.classList.toggle(
+            "open"
+          );
+
+
+        mobileMenuButton.setAttribute(
+          "aria-expanded",
+          isOpen
+            ? "true"
+            : "false"
+        );
+
+      }
+    );
+
+
+    mobileNav
+      .querySelectorAll("a")
+      .forEach(
+        function(link) {
+
+          link.addEventListener(
+            "click",
+            function() {
+
+              mobileNav.classList.remove(
+                "open"
+              );
+
+
+              mobileMenuButton.setAttribute(
+                "aria-expanded",
+                "false"
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+    /* =========================
+       START
+    ========================== */
+
     loadBusiness();
 
-    </script>
-    </body>
-</html>
+  </script>
+
+</body>
+  </html>
