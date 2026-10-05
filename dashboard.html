@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Business Owner Dashboard | LumaRise Local</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f3f8;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(135deg, #24103f, #5b2485);
+      color: white;
+      padding: 22px 20px;
+    }
+
+    .header-inner {
+      max-width: 1000px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .brand span {
+      color: #d8b4fe;
+    }
+
+    .logout-btn {
+      background: white;
+      color: #4b1d70;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .welcome {
+      margin-bottom: 25px;
+    }
+
+    .welcome h1 {
+      margin: 0 0 8px;
+      color: #321052;
+    }
+
+    .welcome p {
+      margin: 0;
+      color: #666;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #321052;
+    }
+
+    .business-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .business-info {
+      color: #666;
+      line-height: 1.7;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #eee;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    .status.verified {
+      background: #dff6e5;
+      color: #16733a;
+    }
+
+    .status.pending {
+      background: #fff1cc;
+      color: #8a5b00;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 25px 10px;
+    }
+
+    .empty h3 {
+      color: #321052;
+      margin-bottom: 8px;
+    }
+
+    .primary-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #6d28a8, #4b176f);
+      color: white;
+      text-decoration: none;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .secondary-btn {
+      display: inline-block;
+      background: #f0e8f7;
+      color: #4b176f;
+      text-decoration: none;
+      border: none;
+      padding: 11px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 12px;
+      margin-right: 8px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px 10px;
+      color: #666;
+    }
+
+    .error {
+      background: #ffe5e5;
+      color: #a30000;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      color: #777;
+      padding: 30px 20px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .logout-btn {
+        width: 100%;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      LumaRise <span>Local</span>
+    </div>
+
+    <button class="logout-btn" id="logoutBtn">
+      Log Out
+    </button>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="welcome">
+    <h1 id="welcomeTitle">Business Owner Dashboard</h1>
+    <p>Manage your business presence on LumaRise Local.</p>
+  </div>
+
+  <div id="errorMessage" class="error"></div>
+
+  <div id="loading" class="loading">
+    Loading your business information...
+  </div>
+
+  <div id="dashboardContent" style="display:none;">
+
+    <div class="card">
+      <h2>Your Account</h2>
+
+      <p>
+        <strong>Name:</strong>
+        <span id="ownerName">-</span>
+      </p>
+
+      <p>
+        <strong>Email:</strong>
+        <span id="ownerEmail">-</span>
+      </p>
+    </div>
+
+    <div class="card" id="businessCard">
+
+      <h2>Your Business</h2>
+
+      <div id="businessContent"></div>
+
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  © 2026 LumaRise Local. All rights reserved.
+</footer>
+
+
+<script>
+
+  const SUPABASE_URL = "https://lpbamlwezrkyrjnwgpcp.supabase.co";
+
+  const SUPABASE_KEY = "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
+
+  const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+  const loading = document.getElementById("loading");
+  const dashboardContent = document.getElementById("dashboardContent");
+  const errorMessage = document.getElementById("errorMessage");
+  const ownerName = document.getElementById("ownerName");
+  const ownerEmail = document.getElementById("ownerEmail");
+  const welcomeTitle = document.getElementById("welcomeTitle");
+  const businessContent = document.getElementById("businessContent");
+
+
+  function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = "block";
+  }
+
+
+  async function loadDashboard() {
+
+    loading.style.display = "block";
+    dashboardContent.style.display = "none";
+    errorMessage.style.display = "none";
+
+    try {
+
+      const {
+        data: { user },
+        error: userError
+      } = await db.auth.getUser();
+
+
+      if (userError) {
+        throw userError;
+      }
+
+
+      if (!user) {
+
+        window.location.href = "login.html";
+
+        return;
+      }
+
+
+      const name =
+        user.user_metadata?.full_name ||
+        user.email?.split("@")[0] ||
+        "Business Owner";
+
+
+      ownerName.textContent = name;
+      ownerEmail.textContent = user.email || "-";
+
+      welcomeTitle.textContent =
+        "Welcome, " + name + "!";
+
+
+      /*
+        Load the business belonging to this logged-in owner.
+      */
+
+      const {
+        data: businesses,
+        error: businessError
+      } = await db
+        .from("businesses")
+        .select("*")
+        .eq("owner_id", user.id);
+
+
+      if (businessError) {
+        throw businessError;
+      }
+
+
+      loading.style.display = "none";
+      dashboardContent.style.display = "block";
+
+
+      if (!businesses || businesses.length === 0) {
+
+        businessContent.innerHTML = `
+          <div class="empty">
+
+            <h3>You haven't added a business yet.</h3>
+
+            <p>
+              Once your business is connected to your account,
+              you will be able to manage your listing here.
+            </p>
+
+            <a href="list.html" class="primary-btn">
+              Add My Business
+            </a>
+
+          </div>
+        `;
+
+        return;
+      }
+
+
+      const business = businesses[0];
+
+
+      const verificationStatus =
+        business.is_verified
+          ? `<span class="status verified">✓ Verified Business</span>`
+          : `<span class="status pending">Pending Verification</span>`;
+
+
+      businessContent.innerHTML = `
+
+        <div class="business-name">
+          ${escapeHtml(business.business_name || "Your Business")}
+        </div>
+
+        <div class="business-info">
+
+          ${business.category
+            ? `<strong>Category:</strong> ${escapeHtml(business.category)}<br>`
+            : ""
+          }
+
+          ${business.city
+            ? `<strong>City:</strong> ${escapeHtml(business.city)}<br>`
+            : ""
+          }
+
+          ${business.area
+            ? `<strong>Area:</strong> ${escapeHtml(business.area)}<br>`
+            : ""
+          }
+
+          ${business.phone
+            ? `<strong>Phone:</strong> ${escapeHtml(business.phone)}<br>`
+            : ""
+          }
+
+          ${business.email
+            ? `<strong>Email:</strong> ${escapeHtml(business.email)}<br>`
+            : ""
+          }
+
+        </div>
+
+        ${verificationStatus}
+
+        <br>
+
+        <a
+          href="business.html?id=${encodeURIComponent(business.id)}"
+          class="secondary-btn"
+        >
+          View My Listing
+        </a>
+
+        <button
+          class="primary-btn"
+          onclick="editBusiness()"
+        >
+          Edit My Business
+        </button>
+
+      `;
+
+    } catch (error) {
+
+      console.error(error);
+
+      loading.style.display = "none";
+
+      showError(
+        error.message ||
+        "Something went wrong while loading your dashboard."
+      );
+
+      dashboardContent.style.display = "block";
+    }
+
+  }
+
+
+  function editBusiness() {
+
+    alert(
+      "The business editing section will be added next."
+    );
+
+  }
+
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  document
+    .getElementById("logoutBtn")
+    .addEventListener("click", async () => {
+
+      await db.auth.signOut();
+
+      window.location.href = "login.html";
+
+    });
+
+
+  loadDashboard();
+
+</script>
+
+</body>
+  </html>
