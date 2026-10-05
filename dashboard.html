@@ -12,779 +12,1980 @@
 
   <title>Business Owner Dashboard | LumaRise Local</title>
 
+  <meta
+    name="description"
+    content="Manage your business presence on LumaRise Local."
+  >
+
+  <meta name="theme-color" content="#08080c">
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
 
+    :root {
+      --black: #08080c;
+      --black-soft: #111117;
+      --purple: #7c3aed;
+      --purple-dark: #5b21b6;
+      --purple-light: #a855f7;
+      --gold: #d4af37;
+      --gold-light: #f4d878;
+      --white: #ffffff;
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+      --border: rgba(255,255,255,0.10);
+      --card: #15151d;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --max-width: 1180px;
+      --radius: 18px;
+      --shadow: 0 15px 40px rgba(0,0,0,0.30);
+    }
+
+
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
+
+
+    html {
+      scroll-behavior: smooth;
+    }
+
 
     body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f3f8;
-      color: #222;
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at top left,
+          rgba(124,58,237,0.10),
+          transparent 35%
+        ),
+        var(--black);
+
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      line-height: 1.6;
+
+      overflow-x: hidden;
     }
 
-    header {
-      background: linear-gradient(
-        135deg,
-        #24103f,
-        #5b2485
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+
+    button,
+    input {
+      font: inherit;
+    }
+
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+
+    .container {
+      width: min(
+        100% - 32px,
+        var(--max-width)
       );
 
-      color: white;
-      padding: 22px 20px;
+      margin: 0 auto;
     }
 
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      background:
+        rgba(8,8,12,0.96);
+
+      border-bottom:
+        1px solid var(--border);
+
+      backdrop-filter:
+        blur(14px);
+    }
+
+
     .header-inner {
-      max-width: 1000px;
-      margin: auto;
+      min-height: 78px;
 
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+
+      gap: 24px;
+    }
+
+
+    .brand {
+      display: flex;
+      align-items: center;
+
+      flex-shrink: 0;
+    }
+
+
+    .brand-logo {
+      width: 175px;
+      height: auto;
+
+      max-height: 58px;
+
+      object-fit: contain;
+      object-position: left center;
+    }
+
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      gap: 6px;
+
+      flex-wrap: nowrap;
+    }
+
+
+    .desktop-nav a {
+      padding: 10px 13px;
+
+      border-radius: 10px;
+
+      color: #d4d4d8;
+
+      font-size: 14px;
+      font-weight: 600;
+
+      white-space: nowrap;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+
+    .desktop-nav a:hover {
+      background:
+        rgba(124,58,237,0.14);
+
+      color: var(--white);
+    }
+
+
+    .desktop-nav .nav-login {
+      border:
+        1px solid rgba(124,58,237,0.55);
+
+      color: #ddd6fe;
+    }
+
+
+    .desktop-nav .nav-signup {
+      background:
+        var(--purple);
+
+      color:
+        var(--white);
+    }
+
+
+    .desktop-nav .nav-signup:hover {
+      background:
+        var(--purple-light);
+    }
+
+
+    .desktop-nav .nav-list {
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      color: #17120a;
+
+      font-weight: 800;
+    }
+
+
+    .desktop-nav .nav-list:hover {
+      background:
+        var(--gold-light);
+
+      color: #17120a;
+    }
+
+
+    /* =========================
+       MOBILE MENU
+    ========================== */
+
+    .mobile-menu-button {
+      display: none;
+
+      width: 44px;
+      height: 44px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 12px;
+
+      background:
+        var(--black-soft);
+
+      color:
+        var(--white);
+
+      cursor: pointer;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-direction: column;
+
+      gap: 5px;
+    }
+
+
+    .mobile-menu-button span {
+      width: 20px;
+      height: 2px;
+
+      background:
+        var(--white);
+
+      border-radius: 2px;
+    }
+
+
+    .mobile-nav {
+      display: none;
+
+      padding:
+        0 0 18px;
+    }
+
+
+    .mobile-nav-inner {
+      display: grid;
+
+      gap: 7px;
+
+      padding-top: 8px;
+    }
+
+
+    .mobile-nav a {
+      display: block;
+
+      padding:
+        13px 15px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 11px;
+
+      background:
+        rgba(255,255,255,0.03);
+
+      color:
+        #e4e4e7;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+
+    .mobile-nav a.login {
+      border-color:
+        rgba(124,58,237,0.5);
+
+      color:
+        #ddd6fe;
+    }
+
+
+    .mobile-nav a.signup {
+      background:
+        var(--purple);
+
+      border-color:
+        var(--purple);
+
+      color:
+        var(--white);
+
+      text-align:
+        center;
+    }
+
+
+    .mobile-nav a.list-business {
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      border-color:
+        var(--gold);
+
+      color:
+        #17120a;
+
+      text-align:
+        center;
+
+      font-weight:
+        800;
+    }
+        /* =========================
+       DASHBOARD
+    ========================== */
+
+    .dashboard-page {
+      min-height: calc(100vh - 78px);
+      padding: 55px 0 70px;
+    }
+
+
+    .welcome {
+      margin-bottom: 30px;
+    }
+
+
+    .welcome h1 {
+      margin: 0 0 8px;
+
+      color:
+        var(--white);
+
+      font-size:
+        clamp(28px, 5vw, 40px);
+
+      line-height: 1.15;
+
+      letter-spacing:
+        -0.5px;
+    }
+
+
+    .welcome p {
+      margin: 0;
+
+      color:
+        var(--muted);
+
+      font-size: 16px;
+    }
+
+
+    /* =========================
+       CARDS
+    ========================== */
+
+    .card {
+      background:
+        var(--card);
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        var(--radius);
+
+      padding:
+        28px;
+
+      margin-bottom:
+        22px;
+
+      box-shadow:
+        var(--shadow);
+    }
+
+
+    .card h2 {
+      margin:
+        0 0 22px;
+
+      color:
+        var(--white);
+
+      font-size:
+        21px;
+    }
+
+
+    .card h2::after {
+      content: "";
+
+      display: block;
+
+      width: 42px;
+      height: 3px;
+
+      margin-top: 9px;
+
+      border-radius: 5px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--purple),
+          var(--gold)
+        );
+    }
+
+
+    /* =========================
+       ACCOUNT INFORMATION
+    ========================== */
+
+    .account-details {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
       gap: 15px;
     }
 
-    .brand {
-      font-size: 24px;
-      font-weight: bold;
+
+    .account-item {
+      padding:
+        16px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        12px;
+
+      background:
+        rgba(255,255,255,0.025);
     }
 
-    .brand span {
-      color: #d8b4fe;
+
+    .account-label {
+      display: block;
+
+      margin-bottom:
+        4px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        12px;
+
+      font-weight:
+        700;
+
+      text-transform:
+        uppercase;
+
+      letter-spacing:
+        0.5px;
     }
 
-    .logout-btn {
-      background: white;
-      color: #4b1d70;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
+
+    .account-value {
+      color:
+        var(--text);
+
+      font-size:
+        15px;
+
+      font-weight:
+        600;
+
+      word-break:
+        break-word;
     }
 
-    .container {
-      max-width: 1000px;
-      margin: 35px auto;
-      padding: 0 20px;
-    }
 
-    .welcome {
-      margin-bottom: 25px;
-    }
-
-    .welcome h1 {
-      margin: 0 0 8px;
-      color: #321052;
-    }
-
-    .welcome p {
-      margin: 0;
-      color: #666;
-    }
-
-    .card {
-      background: white;
-      border-radius: 14px;
-      padding: 25px;
-      margin-bottom: 20px;
-
-      box-shadow:
-        0 4px 18px rgba(0,0,0,0.07);
-    }
-
-    .card h2 {
-      margin-top: 0;
-      color: #321052;
-    }
+    /* =========================
+       BUSINESS
+    ========================== */
 
     .business-name {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 10px;
+      color:
+        var(--white);
+
+      font-size:
+        26px;
+
+      font-weight:
+        800;
+
+      line-height:
+        1.25;
+
+      margin-bottom:
+        14px;
     }
+
 
     .business-info {
-      color: #666;
-      line-height: 1.8;
+      color:
+        #c4c4cc;
+
+      line-height:
+        1.8;
+
+      font-size:
+        15px;
     }
+
+
+    .business-info strong {
+      color:
+        #f4f4f5;
+    }
+
+
+    /* =========================
+       STATUS
+    ========================== */
 
     .status {
-      display: inline-block;
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: bold;
-      margin-top: 15px;
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      padding:
+        8px 14px;
+
+      border-radius:
+        999px;
+
+      font-size:
+        13px;
+
+      font-weight:
+        800;
+
+      margin-top:
+        18px;
     }
+
 
     .status.pending {
-      background: #fff1cc;
-      color: #8a5b00;
+      background:
+        rgba(212,175,55,0.12);
+
+      border:
+        1px solid rgba(212,175,55,0.30);
+
+      color:
+        var(--gold-light);
     }
+
 
     .status.approved {
-      background: #dff6e5;
-      color: #16733a;
+      background:
+        rgba(34,197,94,0.10);
+
+      border:
+        1px solid rgba(34,197,94,0.25);
+
+      color:
+        #86efac;
     }
+
 
     .status.rejected {
-      background: #ffe0e0;
-      color: #a30000;
+      background:
+        rgba(239,68,68,0.10);
+
+      border:
+        1px solid rgba(239,68,68,0.25);
+
+      color:
+        #fca5a5;
     }
+
 
     .status.verified {
-      background: #dff6e5;
-      color: #16733a;
+      background:
+        rgba(34,197,94,0.10);
+
+      border:
+        1px solid rgba(34,197,94,0.25);
+
+      color:
+        #86efac;
     }
 
-    .empty {
-      text-align: center;
-      padding: 25px 10px;
+
+    /* =========================
+       INFORMATION BOXES
+    ========================== */
+
+    .info-box {
+      background:
+        rgba(124,58,237,0.08);
+
+      border-left:
+        4px solid var(--purple);
+
+      padding:
+        15px 16px;
+
+      margin-top:
+        20px;
+
+      border-radius:
+        8px;
+
+      color:
+        #cfc8df;
+
+      line-height:
+        1.7;
+
+      font-size:
+        14px;
     }
 
-    .empty h3 {
-      color: #321052;
-      margin-bottom: 8px;
+
+    .rejected-box {
+      background:
+        rgba(239,68,68,0.08);
+
+      border-left:
+        4px solid var(--danger);
+
+      padding:
+        15px 16px;
+
+      margin-top:
+        20px;
+
+      border-radius:
+        8px;
+
+      color:
+        #fecaca;
+
+      line-height:
+        1.7;
+
+      font-size:
+        14px;
     }
 
-    .empty p {
-      color: #666;
-      line-height: 1.6;
+
+    /* =========================
+       BUTTONS
+    ========================== */
+
+    .primary-btn,
+    .secondary-btn {
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      min-height:
+        46px;
+
+      padding:
+        11px 20px;
+
+      border-radius:
+        11px;
+
+      font-size:
+        14px;
+
+      font-weight:
+        800;
+
+      cursor:
+        pointer;
+
+      margin-top:
+        20px;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
     }
+
 
     .primary-btn {
-      display: inline-block;
-
       background:
         linear-gradient(
           135deg,
-          #6d28a8,
-          #4b176f
+          var(--purple),
+          var(--purple-light)
         );
 
-      color: white;
-      text-decoration: none;
-      border: none;
-      padding: 12px 22px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 15px;
+      color:
+        var(--white);
+
+      border:
+        1px solid transparent;
+
+      box-shadow:
+        0 8px 22px
+        rgba(124,58,237,0.20);
     }
+
+
+    .primary-btn:hover {
+      transform:
+        translateY(-1px);
+
+      box-shadow:
+        0 12px 28px
+        rgba(124,58,237,0.30);
+    }
+
 
     .secondary-btn {
-      display: inline-block;
+      background:
+        rgba(255,255,255,0.04);
 
-      background: #f0e8f7;
-      color: #4b176f;
-      text-decoration: none;
-      border: none;
-      padding: 11px 20px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 15px;
-      margin-right: 8px;
+      color:
+        #ddd6fe;
+
+      border:
+        1px solid
+        rgba(124,58,237,0.45);
+
+      margin-right:
+        8px;
     }
+
+
+    .secondary-btn:hover {
+      background:
+        rgba(124,58,237,0.12);
+
+      transform:
+        translateY(-1px);
+    }
+
+
+    /* =========================
+       EMPTY / LOADING / ERROR
+    ========================== */
+
+    .empty {
+      text-align:
+        center;
+
+      padding:
+        28px 10px;
+    }
+
+
+    .empty h3 {
+      color:
+        var(--white);
+
+      margin:
+        0 0 9px;
+
+      font-size:
+        20px;
+    }
+
+
+    .empty p {
+      color:
+        var(--muted);
+
+      line-height:
+        1.7;
+
+      max-width:
+        520px;
+
+      margin:
+        0 auto;
+    }
+
 
     .loading {
-      text-align: center;
-      padding: 40px 10px;
-      color: #666;
+      text-align:
+        center;
+
+      padding:
+        55px 10px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        15px;
     }
+
 
     .error {
-      background: #ffe5e5;
-      color: #a30000;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      display: none;
-      line-height: 1.6;
+      background:
+        rgba(239,68,68,0.08);
+
+      color:
+        #fecaca;
+
+      border:
+        1px solid
+        rgba(239,68,68,0.25);
+
+      padding:
+        15px 16px;
+
+      border-radius:
+        10px;
+
+      margin-bottom:
+        20px;
+
+      display:
+        none;
+
+      line-height:
+        1.6;
     }
 
-    .info-box {
-      background: #f3edf8;
-      border-left: 4px solid #6d28a8;
-      padding: 14px;
-      margin-top: 18px;
-      border-radius: 5px;
-      color: #555;
-      line-height: 1.6;
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    .site-footer {
+      border-top:
+        1px solid var(--border);
+
+      background:
+        #050507;
+
+      padding:
+        28px 0;
     }
 
-    .rejected-box {
-      background: #fff0f0;
-      border-left: 4px solid #c62828;
-      padding: 14px;
-      margin-top: 18px;
-      border-radius: 5px;
-      color: #7a1c1c;
-      line-height: 1.6;
+
+    .footer-inner {
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        20px;
     }
 
-    footer {
-      text-align: center;
-      color: #777;
-      padding: 30px 20px;
-      font-size: 14px;
+
+    .footer-brand {
+      color:
+        var(--white);
+
+      font-weight:
+        800;
+
+      font-size:
+        15px;
     }
+
+
+    .footer-copy {
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 1050px) {
+
+      .desktop-nav {
+        gap: 2px;
+      }
+
+      .desktop-nav a {
+        padding:
+          9px 9px;
+
+        font-size:
+          13px;
+      }
+
+      .brand-logo {
+        width:
+          155px;
+      }
+
+    }
+
+
+    @media (max-width: 800px) {
+
+      .container {
+        width:
+          min(
+            100% - 24px,
+            var(--max-width)
+          );
+      }
+
+
+      .header-inner {
+        min-height:
+          70px;
+      }
+
+
+      .brand-logo {
+        width:
+          150px;
+
+        max-height:
+          52px;
+      }
+
+
+      .desktop-nav {
+        display:
+          none;
+      }
+
+
+      .mobile-menu-button {
+        display:
+          flex;
+      }
+
+
+      .mobile-nav.open {
+        display:
+          block;
+      }
+
+
+      .dashboard-page {
+        min-height:
+          calc(100vh - 70px);
+
+        padding:
+          40px 0 55px;
+      }
+
+
+      .account-details {
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .card {
+        padding:
+          23px;
+      }
+
+
+      .footer-inner {
+        flex-direction:
+          column;
+
+        text-align:
+          center;
+      }
+
+    }
+
 
     @media (max-width: 600px) {
 
-      .header-inner {
-        flex-direction: column;
-        align-items: flex-start;
+      .welcome h1 {
+        font-size:
+          29px;
       }
 
-      .logout-btn {
-        width: 100%;
+
+      .welcome p {
+        font-size:
+          14px;
       }
+
+
+      .business-name {
+        font-size:
+          23px;
+      }
+
 
       .card {
-        padding: 20px;
+        border-radius:
+          15px;
+
+        padding:
+          20px;
+      }
+
+
+      .primary-btn,
+      .secondary-btn {
+        width:
+          100%;
+
+        margin-right:
+          0;
+      }
+
+    }
+
+
+    @media (max-width: 430px) {
+
+      .container {
+        width:
+          min(
+            100% - 20px,
+            var(--max-width)
+          );
+      }
+
+
+      .brand-logo {
+        width:
+          138px;
       }
 
     }
 
   </style>
-
-</head>
+  </head>
 
 <body>
 
-<header>
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-  <div class="header-inner">
+  <header class="site-header">
 
-    <div class="brand">
-      LumaRise <span>Local</span>
+    <div class="container header-inner">
+
+      <a
+        href="index.html"
+        class="brand"
+        aria-label="LumaRise Local home"
+      >
+        <img
+          src="IMG-20260919-WA0037.jpg"
+          alt="LumaRise Marketing"
+          class="brand-logo"
+        >
+      </a>
+
+
+      <nav
+        class="desktop-nav"
+        aria-label="Main navigation"
+      >
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore
+        </a>
+
+        <a href="categories.html">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a
+          href="login.html"
+          class="nav-login"
+        >
+          Business Login
+        </a>
+
+        <a
+          href="signup.html"
+          class="nav-signup"
+        >
+          Sign Up
+        </a>
+
+        <a
+          href="list.html"
+          class="nav-list"
+        >
+          List Your Business
+        </a>
+
+      </nav>
+
+
+      <button
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </button>
+
     </div>
 
-    <button
-      class="logout-btn"
-      id="logoutBtn"
+
+    <!-- MOBILE NAV -->
+
+    <div
+      class="mobile-nav"
+      id="mobileNav"
     >
-      Log Out
-    </button>
 
-  </div>
+      <div class="container mobile-nav-inner">
 
-</header>
+        <a href="index.html">
+          Home
+        </a>
 
-<main class="container">
+        <a href="explore.html">
+          Explore Businesses
+        </a>
 
-  <div class="welcome">
+        <a href="categories.html">
+          Categories
+        </a>
 
-    <h1 id="welcomeTitle">
-      Business Owner Dashboard
-    </h1>
+        <a href="about.html">
+          About LumaRise Local
+        </a>
 
-    <p>
-      Manage your business presence on
-      LumaRise Local.
-    </p>
+        <a
+          href="login.html"
+          class="login"
+        >
+          Business Login
+        </a>
 
-  </div>
+        <a
+          href="signup.html"
+          class="signup"
+        >
+          Create Business Account
+        </a>
 
-  <div
-    id="errorMessage"
-    class="error"
-  ></div>
+        <a
+          href="list.html"
+          class="list-business"
+        >
+          + List Your Business
+        </a>
 
-  <div
-    id="loading"
-    class="loading"
-  >
-    Checking your account...
-  </div>
-
-  <div
-    id="dashboardContent"
-    style="display:none;"
-  >
-
-    <div class="card">
-
-      <h2>
-        Your Account
-      </h2>
-
-      <p>
-        <strong>Name:</strong>
-        <span id="ownerName">-</span>
-      </p>
-
-      <p>
-        <strong>Email:</strong>
-        <span id="ownerEmail">-</span>
-      </p>
+      </div>
 
     </div>
 
-    <div class="card">
+  </header>
 
-      <h2>
-        Your Business
-      </h2>
 
-      <div id="businessContent"></div>
+  <!-- =========================
+       DASHBOARD CONTENT
+  ========================== -->
+
+  <main class="dashboard-page">
+
+    <div class="container">
+
+
+      <div class="welcome">
+
+        <h1 id="welcomeTitle">
+          Business Owner Dashboard
+        </h1>
+
+        <p>
+          Manage your business presence on
+          LumaRise Local.
+        </p>
+
+      </div>
+
+
+      <div
+        id="errorMessage"
+        class="error"
+      ></div>
+
+
+      <div
+        id="loading"
+        class="loading"
+      >
+        Checking your account...
+      </div>
+
+
+      <div
+        id="dashboardContent"
+        style="display:none;"
+      >
+
+
+        <!-- ACCOUNT CARD -->
+
+        <div class="card">
+
+          <h2>
+            Your Account
+          </h2>
+
+
+          <div class="account-details">
+
+
+            <div class="account-item">
+
+              <span class="account-label">
+                Name
+              </span>
+
+              <span
+                class="account-value"
+                id="ownerName"
+              >
+                -
+              </span>
+
+            </div>
+
+
+            <div class="account-item">
+
+              <span class="account-label">
+                Email
+              </span>
+
+              <span
+                class="account-value"
+                id="ownerEmail"
+              >
+                -
+              </span>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+        <!-- BUSINESS CARD -->
+
+        <div class="card">
+
+          <h2>
+            Your Business
+          </h2>
+
+
+          <div
+            id="businessContent"
+          ></div>
+
+
+        </div>
+
+
+      </div>
 
     </div>
 
-  </div>
+  </main>
+    <!-- =========================
+       FOOTER
+  ========================== -->
 
-</main>
+  <footer class="site-footer">
 
-<footer>
+    <div class="container footer-inner">
 
-  © 2026 LumaRise Local.
-  All rights reserved.
+      <div class="footer-brand">
+        LumaRise Local
+      </div>
 
-</footer>
+      <div class="footer-copy">
+        © 2026 LumaRise Local. All rights reserved.
+      </div>
 
-<script>
+    </div>
 
-  const SUPABASE_URL =
-    "https://lpbamlwezrkyrjnwgpcp.supabase.co";
+  </footer>
 
-  const SUPABASE_KEY =
-    "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
 
-  const db =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+  <!-- =========================
+       DASHBOARD JAVASCRIPT
+  ========================== -->
 
-  const loading =
-    document.getElementById("loading");
+  <script>
 
-  const dashboardContent =
-    document.getElementById("dashboardContent");
+    const SUPABASE_URL =
+      "https://lpbamlwezrkyrjnwgpcp.supabase.co";
 
-  const errorMessage =
-    document.getElementById("errorMessage");
 
-  const ownerName =
-    document.getElementById("ownerName");
+    const SUPABASE_KEY =
+      "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
 
-  const ownerEmail =
-    document.getElementById("ownerEmail");
 
-  const welcomeTitle =
-    document.getElementById("welcomeTitle");
+    const db =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-  const businessContent =
-    document.getElementById("businessContent");
 
-  function escapeHtml(value) {
+    const loading =
+      document.getElementById(
+        "loading"
+      );
 
-    return String(value || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
 
-  }
+    const dashboardContent =
+      document.getElementById(
+        "dashboardContent"
+      );
 
-  function showError(message) {
 
-    errorMessage.textContent = message;
+    const errorMessage =
+      document.getElementById(
+        "errorMessage"
+      );
 
-    errorMessage.style.display = "block";
 
-  }
+    const ownerName =
+      document.getElementById(
+        "ownerName"
+      );
 
-  function getStatusHTML(business) {
 
-    const status =
-      business.approval_status || "pending";
+    const ownerEmail =
+      document.getElementById(
+        "ownerEmail"
+      );
 
-    if (status === "approved") {
+
+    const welcomeTitle =
+      document.getElementById(
+        "welcomeTitle"
+      );
+
+
+    const businessContent =
+      document.getElementById(
+        "businessContent"
+      );
+
+
+    function escapeHtml(value) {
+
+      return String(value || "")
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    function showError(message) {
+
+      errorMessage.textContent =
+        message;
+
+      errorMessage.style.display =
+        "block";
+
+    }
+
+
+    function getStatusHTML(
+      business
+    ) {
+
+      const status =
+        business.approval_status ||
+        "pending";
+
+
+      if (status === "approved") {
+
+        return `
+          <span class="status approved">
+            ✓ Approved
+          </span>
+        `;
+
+      }
+
+
+      if (status === "rejected") {
+
+        return `
+          <span class="status rejected">
+            ✕ Rejected
+          </span>
+        `;
+
+      }
+
 
       return `
-        <span class="status approved">
-          ✓ Approved
+        <span class="status pending">
+          Pending Review
         </span>
       `;
 
     }
 
-    if (status === "rejected") {
 
-      return `
-        <span class="status rejected">
-          ✕ Rejected
-        </span>
-      `;
+    function getStatusMessage(
+      business
+    ) {
 
-    }
+      const status =
+        business.approval_status ||
+        "pending";
 
-    return `
-      <span class="status pending">
-        Pending Review
-      </span>
-    `;
 
-  }
+      if (status === "approved") {
 
-  function getStatusMessage(business) {
+        return `
+          <div class="info-box">
 
-    const status =
-      business.approval_status || "pending";
+            Your business listing has been
+            approved by LumaRise Local.
 
-    if (status === "approved") {
+            Your listing can now be displayed
+            as an approved business.
+
+          </div>
+        `;
+
+      }
+
+
+      if (status === "rejected") {
+
+        return `
+          <div class="rejected-box">
+
+            Your business listing has been
+            rejected by LumaRise Local.
+
+            Please contact LumaRise Local if
+            you need assistance with your listing.
+
+          </div>
+        `;
+
+      }
+
 
       return `
         <div class="info-box">
 
-          Your business listing has been
-          approved by LumaRise Local.
+          Your business listing is connected
+          to your owner account.
 
-          Your listing can now be displayed
-          as an approved business.
-
-        </div>
-      `;
-
-    }
-
-    if (status === "rejected") {
-
-      return `
-        <div class="rejected-box">
-
-          Your business listing has been
-          rejected by LumaRise Local.
-
-          Please contact LumaRise Local if
-          you need assistance with your listing.
+          Your listing is currently waiting
+          for review by LumaRise Local.
 
         </div>
       `;
 
     }
 
-    return `
-      <div class="info-box">
 
-        Your business listing is connected
-        to your owner account.
+    async function loadDashboard() {
 
-        Your listing is currently waiting
-        for review by LumaRise Local.
+      try {
 
-      </div>
-    `;
+        const {
+          data,
+          error
+        } = await db.auth.getUser();
 
-  }
 
-  async function loadDashboard() {
+        if (error) {
+          throw error;
+        }
 
-    try {
 
-      const {
-        data,
-        error
-      } = await db.auth.getUser();
+        const user =
+          data.user;
 
-      if (error) {
-        throw error;
-      }
 
-      const user = data.user;
+        if (!user) {
 
-      if (!user) {
+          window.location.replace(
+            "login.html"
+          );
 
-        window.location.replace("login.html");
+          return;
 
-        return;
+        }
 
-      }
 
-      const name =
-        user.user_metadata &&
-        user.user_metadata.full_name
-          ? user.user_metadata.full_name
-          : (
-              user.email
-                ? user.email.split("@")[0]
-                : "Business Owner"
-            );
+        const name =
+          user.user_metadata &&
+          user.user_metadata.full_name
+            ? user.user_metadata.full_name
+            : (
+                user.email
+                  ? user.email.split("@")[0]
+                  : "Business Owner"
+              );
 
-      ownerName.textContent = name;
 
-      ownerEmail.textContent =
-        user.email || "-";
+        ownerName.textContent =
+          name;
 
-      welcomeTitle.textContent =
-        "Welcome, " + name + "!";
 
-      const {
-        data: businesses,
-        error: businessError
-      } = await db
-        .from("businesses")
-        .select("*")
-        .eq("owner_id", user.id);
+        ownerEmail.textContent =
+          user.email || "-";
 
-      if (businessError) {
-        throw businessError;
-      }
 
-      loading.style.display = "none";
+        welcomeTitle.textContent =
+          "Welcome, " + name + "!";
 
-      dashboardContent.style.display =
-        "block";
 
-      if (
-        !businesses ||
-        businesses.length === 0
-      ) {
+        const {
+          data: businesses,
+          error: businessError
+        } = await db
+          .from("businesses")
+          .select("*")
+          .eq(
+            "owner_id",
+            user.id
+          );
+
+
+        if (businessError) {
+          throw businessError;
+        }
+
+
+        loading.style.display =
+          "none";
+
+
+        dashboardContent.style.display =
+          "block";
+
+
+        if (
+          !businesses ||
+          businesses.length === 0
+        ) {
+
+          businessContent.innerHTML = `
+
+            <div class="empty">
+
+              <h3>
+                You haven't added a business yet.
+              </h3>
+
+              <p>
+                Add your business to create
+                your LumaRise Local listing.
+              </p>
+
+              <a
+                href="owner-business.html"
+                class="primary-btn"
+              >
+                Add My Business
+              </a>
+
+            </div>
+
+          `;
+
+          return;
+
+        }
+
+
+        const business =
+          businesses[0];
+
 
         businessContent.innerHTML = `
 
-          <div class="empty">
+          <div class="business-name">
 
-            <h3>
-              You haven't added a business yet.
-            </h3>
+            ${escapeHtml(
+              business.business_name ||
+              "Your Business"
+            )}
 
-            <p>
-              Add your business to create
-              your LumaRise Local listing.
-            </p>
+          </div>
+
+
+          <div class="business-info">
+
+            ${
+              business.description
+                ? `
+                  <strong>Description:</strong><br>
+                  ${escapeHtml(
+                    business.description
+                  )}
+                  <br><br>
+                `
+                : ""
+            }
+
+
+            ${
+              business.category
+                ? `
+                  <strong>Category:</strong>
+                  ${escapeHtml(
+                    business.category
+                  )}
+                  <br>
+                `
+                : ""
+            }
+
+
+            ${
+              business.province
+                ? `
+                  <strong>Province:</strong>
+                  ${escapeHtml(
+                    business.province
+                  )}
+                  <br>
+                `
+                : ""
+            }
+
+
+            ${
+              business.city
+                ? `
+                  <strong>City:</strong>
+                  ${escapeHtml(
+                    business.city
+                  )}
+                  <br>
+                `
+                : ""
+            }
+
+
+            ${
+              business.area
+                ? `
+                  <strong>Area:</strong>
+                  ${escapeHtml(
+                    business.area
+                  )}
+                  <br>
+                `
+                : ""
+            }
+
+
+            ${
+              business.address
+                ? `
+                  <strong>Address:</strong>
+                  ${escapeHtml(
+                    business.address
+                  )}
+                  <br>
+                `
+                : ""
+            }
+
+
+            ${
+              business.phone
+                ? `
+                  <strong>Phone:</strong>
+                  ${escapeHtml(
+                    business.phone
+                  )}
+                  <br>
+                `
+                : ""
+            }
+
+
+            ${
+              business.whatsapp
+                ? `
+                  <strong>WhatsApp:</strong>
+                  ${escapeHtml(
+                    business.whatsapp
+                  )}
+                  <br>
+                `
+                : ""
+            }
+
+
+            ${
+              business.email
+                ? `
+                  <strong>Email:</strong>
+                  ${escapeHtml(
+                    business.email
+                  )}
+                  <br>
+                `
+                : ""
+            }
+
+
+            ${
+              business.website
+                ? `
+                  <strong>Website:</strong>
+                  ${escapeHtml(
+                    business.website
+                  )}
+                  <br>
+                `
+                : ""
+            }
+
+          </div>
+
+
+          ${getStatusHTML(business)}
+
+
+          ${getStatusMessage(business)}
+
+
+          <div>
 
             <a
-              href="owner-business.html"
+              href="business.html?id=${encodeURIComponent(
+                business.id
+              )}"
+              class="secondary-btn"
+            >
+              View My Listing
+            </a>
+
+
+            <a
+              href="owner-edit.html"
               class="primary-btn"
             >
-              Add My Business
+              Edit My Business
             </a>
 
           </div>
 
         `;
 
-        return;
+      } catch (error) {
+
+        console.error(
+          "Dashboard error:",
+          error
+        );
+
+
+        loading.style.display =
+          "none";
+
+
+        dashboardContent.style.display =
+          "block";
+
+
+        showError(
+          "We could not load your business information. " +
+          (
+            error.message ||
+            "Please try again."
+          )
+        );
 
       }
 
-      const business =
-        businesses[0];
-
-      businessContent.innerHTML = `
-
-        <div class="business-name">
-
-          ${escapeHtml(
-            business.business_name ||
-            "Your Business"
-          )}
-
-        </div>
-
-        <div class="business-info">
-
-          ${
-            business.description
-              ? `
-                <strong>Description:</strong><br>
-                ${escapeHtml(
-                  business.description
-                )}
-                <br><br>
-              `
-              : ""
-          }
-
-          ${
-            business.category
-              ? `
-                <strong>Category:</strong>
-                ${escapeHtml(
-                  business.category
-                )}
-                <br>
-              `
-              : ""
-          }
-
-          ${
-            business.province
-              ? `
-                <strong>Province:</strong>
-                ${escapeHtml(
-                  business.province
-                )}
-                <br>
-              `
-              : ""
-          }
-
-          ${
-            business.city
-              ? `
-                <strong>City:</strong>
-                ${escapeHtml(
-                  business.city
-                )}
-                <br>
-              `
-              : ""
-          }
-
-          ${
-            business.area
-              ? `
-                <strong>Area:</strong>
-                ${escapeHtml(
-                  business.area
-                )}
-                <br>
-              `
-              : ""
-          }
-
-          ${
-            business.address
-              ? `
-                <strong>Address:</strong>
-                ${escapeHtml(
-                  business.address
-                )}
-                <br>
-              `
-              : ""
-          }
-
-          ${
-            business.phone
-              ? `
-                <strong>Phone:</strong>
-                ${escapeHtml(
-                  business.phone
-                )}
-                <br>
-              `
-              : ""
-          }
-
-          ${
-            business.whatsapp
-              ? `
-                <strong>WhatsApp:</strong>
-                ${escapeHtml(
-                  business.whatsapp
-                )}
-                <br>
-              `
-              : ""
-          }
-
-          ${
-            business.email
-              ? `
-                <strong>Email:</strong>
-                ${escapeHtml(
-                  business.email
-                )}
-                <br>
-              `
-              : ""
-          }
-
-          ${
-            business.website
-              ? `
-                <strong>Website:</strong>
-                ${escapeHtml(
-                  business.website
-                )}
-                <br>
-              `
-              : ""
-          }
-
-        </div>
-
-        ${getStatusHTML(business)}
-
-        ${getStatusMessage(business)}
-
-        <div>
-
-          <a
-            href="business.html?id=${encodeURIComponent(
-              business.id
-            )}"
-            class="secondary-btn"
-          >
-            View My Listing
-          </a>
-
-          <a
-            href="owner-edit.html"
-            class="primary-btn"
-          >
-            Edit My Business
-          </a>
-
-        </div>
-
-      `;
-
-    } catch (error) {
-
-      console.error(
-        "Dashboard error:",
-        error
-      );
-
-      loading.style.display = "none";
-
-      dashboardContent.style.display =
-        "block";
-
-      showError(
-        "We could not load your business information. " +
-        (
-          error.message ||
-          "Please try again."
-        )
-      );
-
     }
 
-  }
 
-  document
-    .getElementById("logoutBtn")
-    .addEventListener(
+    /* =========================
+       LOG OUT
+    ========================== */
+
+    document
+      .getElementById("logoutBtn")
+      .addEventListener(
+        "click",
+        async function() {
+
+          await db.auth.signOut();
+
+
+          window.location.replace(
+            "login.html"
+          );
+
+        }
+      );
+
+
+    /* =========================
+       MOBILE MENU
+    ========================== */
+
+    const mobileMenuButton =
+      document.getElementById(
+        "mobileMenuButton"
+      );
+
+
+    const mobileNav =
+      document.getElementById(
+        "mobileNav"
+      );
+
+
+    mobileMenuButton.addEventListener(
       "click",
-      async function() {
+      function() {
 
-        await db.auth.signOut();
+        const isOpen =
+          mobileNav.classList.toggle(
+            "open"
+          );
 
-        window.location.replace(
-          "login.html"
+
+        mobileMenuButton.setAttribute(
+          "aria-expanded",
+          isOpen
+            ? "true"
+            : "false"
         );
 
       }
     );
 
-  loadDashboard();
 
-</script>
+    mobileNav
+      .querySelectorAll("a")
+      .forEach(
+        function(link) {
+
+          link.addEventListener(
+            "click",
+            function() {
+
+              mobileNav.classList.remove(
+                "open"
+              );
+
+
+              mobileMenuButton.setAttribute(
+                "aria-expanded",
+                "false"
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+    loadDashboard();
+
+  </script>
 
 </body>
 
-</html>
+  </html>
