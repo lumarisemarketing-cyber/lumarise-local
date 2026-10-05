@@ -1,539 +1,2462 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Edit My Business | LumaRise Local</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+
+    /* =========================
+       LUMARISE LOCAL BRAND
+    ========================== */
+
+    :root {
+
+      --black: #08080c;
+      --black-soft: #111117;
+
+      --purple: #7c3aed;
+      --purple-dark: #5b21b6;
+      --purple-light: #a855f7;
+
+      --gold: #d4af37;
+      --gold-light: #f4d878;
+
+      --white: #ffffff;
+
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+
+      --border: rgba(255,255,255,0.10);
+
+      --card: #15151d;
+
+      --success: #22c55e;
+      --danger: #ef4444;
+
+      --max-width: 1180px;
+
+      --radius: 18px;
+
+      --shadow:
+        0 15px 40px rgba(0,0,0,0.30);
+
+    }
+
+
+    /* =========================
+       RESET
+    ========================== */
+
     * {
       box-sizing: border-box;
     }
 
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
     body {
+
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f7;
-      color: #222;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      background: var(--black);
+
+      color: var(--text);
+
+      line-height: 1.6;
+
+      overflow-x: hidden;
+
     }
 
-    header {
-      background: linear-gradient(135deg, #5b21b6, #7c3aed);
-      color: white;
-      padding: 25px 20px;
-      text-align: center;
+
+    img {
+
+      max-width: 100%;
+
+      display: block;
+
     }
 
-    header h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
+
+    a {
+
+      color: inherit;
+
+      text-decoration: none;
+
     }
 
-    header p {
-      margin: 0;
-      opacity: 0.9;
+
+    button,
+    input,
+    textarea,
+    select {
+
+      font: inherit;
+
     }
+
 
     .container {
-      max-width: 800px;
-      margin: 30px auto;
-      padding: 0 18px 40px;
+
+      width:
+        min(
+          100% - 32px,
+          var(--max-width)
+        );
+
+      margin: 0 auto;
+
     }
+
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    .site-header {
+
+      position: sticky;
+
+      top: 0;
+
+      z-index: 1000;
+
+      background:
+        rgba(8,8,12,0.96);
+
+      border-bottom:
+        1px solid var(--border);
+
+      backdrop-filter:
+        blur(14px);
+
+    }
+
+
+    .header-inner {
+
+      min-height: 78px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 24px;
+
+    }
+
+
+    .brand {
+
+      display: flex;
+
+      align-items: center;
+
+      flex-shrink: 0;
+
+    }
+
+
+    .brand-logo {
+
+      width: 175px;
+
+      height: auto;
+
+      max-height: 58px;
+
+      object-fit: contain;
+
+      object-position: left center;
+
+    }
+
+
+    .desktop-nav {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: flex-end;
+
+      gap: 6px;
+
+      flex-wrap: nowrap;
+
+    }
+
+
+    .desktop-nav a {
+
+      padding: 10px 13px;
+
+      border-radius: 10px;
+
+      color: #d4d4d8;
+
+      font-size: 14px;
+
+      font-weight: 600;
+
+      white-space: nowrap;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+
+    }
+
+
+    .desktop-nav a:hover {
+
+      background:
+        rgba(124,58,237,0.14);
+
+      color: var(--white);
+
+    }
+
+
+    .desktop-nav .nav-login {
+
+      border:
+        1px solid rgba(124,58,237,0.55);
+
+      color: #ddd6fe;
+
+    }
+
+
+    .desktop-nav .nav-signup {
+
+      background: var(--purple);
+
+      color: var(--white);
+
+    }
+
+
+    .desktop-nav .nav-signup:hover {
+
+      background:
+        var(--purple-light);
+
+    }
+
+
+    .desktop-nav .nav-list {
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      color: #17120a;
+
+      font-weight: 800;
+
+    }
+
+
+    .desktop-nav .nav-list:hover {
+
+      background:
+        var(--gold-light);
+
+      color: #17120a;
+
+    }
+
+
+    /* =========================
+       MOBILE MENU BUTTON
+    ========================== */
+
+    .mobile-menu-button {
+
+      display: none;
+
+      width: 44px;
+
+      height: 44px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 12px;
+
+      background:
+        var(--black-soft);
+
+      color: var(--white);
+
+      cursor: pointer;
+
+      align-items: center;
+
+      justify-content: center;
+
+      flex-direction: column;
+
+      gap: 5px;
+
+    }
+
+
+    .mobile-menu-button span {
+
+      width: 20px;
+
+      height: 2px;
+
+      background: var(--white);
+
+      border-radius: 2px;
+
+    }
+
+
+    /* =========================
+       MOBILE NAV
+    ========================== */
+
+    .mobile-nav {
+
+      display: none;
+
+      padding:
+        0 0 18px;
+
+    }
+
+
+    .mobile-nav-inner {
+
+      display: grid;
+
+      gap: 7px;
+
+      padding-top: 8px;
+
+    }
+
+
+    .mobile-nav a {
+
+      display: block;
+
+      padding: 13px 15px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 11px;
+
+      background:
+        rgba(255,255,255,0.03);
+
+      color: #e4e4e7;
+
+      font-size: 15px;
+
+      font-weight: 600;
+
+    }
+
+
+    .mobile-nav a.login {
+
+      border-color:
+        rgba(124,58,237,0.5);
+
+      color: #ddd6fe;
+
+    }
+
+
+    .mobile-nav a.signup {
+
+      background:
+        var(--purple);
+
+      border-color:
+        var(--purple);
+
+      color: var(--white);
+
+      text-align: center;
+
+    }
+
+
+    .mobile-nav a.list-business {
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      border-color:
+        var(--gold);
+
+      color: #17120a;
+
+      text-align: center;
+
+      font-weight: 800;
+
+    }
+
+
+    /* =========================
+       MOBILE LOGOUT
+    ========================== */
+
+    .mobile-nav button {
+
+      display: block;
+
+      width: 100%;
+
+      padding: 13px 15px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 11px;
+
+      background:
+        rgba(255,255,255,0.03);
+
+      color: #e4e4e7;
+
+      font-size: 15px;
+
+      font-weight: 600;
+
+      text-align: center;
+
+      cursor: pointer;
+
+    }
+
+
+    .mobile-nav .mobile-logout {
+
+      background:
+        rgba(239,68,68,0.08);
+
+      border-color:
+        rgba(239,68,68,0.35);
+
+      color: #fca5a5;
+
+      font-weight: 700;
+
+    }
+
+
+    .mobile-nav .mobile-logout:hover {
+
+      background:
+        rgba(239,68,68,0.16);
+
+      color: var(--white);
+
+    }
+
+
+    .mobile-nav .mobile-logout:disabled {
+
+      opacity: 0.6;
+
+      cursor: not-allowed;
+
+    }
+
+
+    /* =========================
+       EDIT PAGE
+    ========================== */
+
+    .edit-page {
+
+      padding:
+        54px 0 80px;
+
+      min-height:
+        calc(100vh - 78px);
+
+    }
+
+
+    .page-heading {
+
+      text-align: center;
+
+      max-width: 760px;
+
+      margin:
+        0 auto 35px;
+
+    }
+
+
+    .page-heading h1 {
+
+      margin: 0 0 10px;
+
+      font-size: clamp(30px, 5vw, 44px);
+
+      line-height: 1.15;
+
+      font-weight: 800;
+
+      letter-spacing: -0.8px;
+
+    }
+
+
+    .page-heading h1 span {
+
+      color: var(--purple-light);
+
+    }
+
+
+    .page-heading p {
+
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 16px;
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+    <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header class="site-header">
+
+    <div class="container header-inner">
+
+      <a
+        href="index.html"
+        class="brand"
+        aria-label="LumaRise Local home"
+      >
+
+        <img
+          src="IMG-20260919-WA0037.jpg"
+          alt="LumaRise Marketing"
+          class="brand-logo"
+        >
+
+      </a>
+
+
+      <nav
+        class="desktop-nav"
+        aria-label="Main navigation"
+      >
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore
+        </a>
+
+        <a href="categories.html">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a
+          href="login.html"
+          class="nav-login"
+        >
+          Business Login
+        </a>
+
+        <a
+          href="signup.html"
+          class="nav-signup"
+        >
+          Sign Up
+        </a>
+
+        <a
+          href="list.html"
+          class="nav-list"
+        >
+          List Your Business
+        </a>
+
+      </nav>
+
+
+      <button
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </button>
+
+    </div>
+
+
+    <!-- MOBILE NAVIGATION -->
+
+    <div
+      class="mobile-nav"
+      id="mobileNav"
+    >
+
+      <div class="container mobile-nav-inner">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore Businesses
+        </a>
+
+        <a href="categories.html">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About LumaRise Local
+        </a>
+
+        <a
+          href="login.html"
+          class="login"
+        >
+          Business Login
+        </a>
+
+        <a
+          href="signup.html"
+          class="signup"
+        >
+          Create Business Account
+        </a>
+
+        <a
+          href="list.html"
+          class="list-business"
+        >
+          + List Your Business
+        </a>
+
+        <button
+          type="button"
+          class="mobile-logout"
+          id="mobileLogoutBtn"
+        >
+          Log Out
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       MAIN EDIT PAGE
+  ========================== -->
+
+  <main class="edit-page">
+
+    <div class="container">
+
+      <div class="page-heading">
+
+        <h1>
+          Edit <span>My Business</span>
+        </h1>
+
+        <p>
+          Keep your LumaRise Local business
+          information accurate and up to date.
+        </p>
+
+      </div>
+
+
+      <!-- =========================
+           MAIN CARD
+      ========================== -->
+
+      <div class="card">
+
+        <div
+          id="loading"
+          class="loading"
+        >
+          Loading your business information...
+        </div>
+
+
+        <div
+          id="content"
+          style="display:none;"
+        >
+
+          <h2>
+            Business Information
+          </h2>
+
+          <p class="intro">
+
+            Update your business information
+            below. Your changes will be saved
+            to your LumaRise Local listing.
+
+          </p>
+
+
+          <div
+            id="message"
+            class="message"
+          ></div>
+
+
+          <form id="businessForm">
+
+
+            <!-- BUSINESS NAME -->
+
+            <div class="form-group">
+
+              <label for="business_name">
+
+                Business Name
+                <span class="required">*</span>
+
+              </label>
+
+              <input
+                type="text"
+                id="business_name"
+                required
+              >
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+              <label for="description">
+
+                Business Description
+
+              </label>
+
+              <textarea
+                id="description"
+                placeholder="Tell customers about your business..."
+              ></textarea>
+
+            </div>
+
+
+            <!-- CATEGORY -->
+
+            <div class="form-group">
+
+              <label for="category">
+
+                Category
+
+              </label>
+
+              <input
+                type="text"
+                id="category"
+              >
+
+            </div>
+
+
+            <!-- PROVINCE -->
+
+            <div class="form-group">
+
+              <label for="province">
+
+                Province
+
+              </label>
+
+              <input
+                type="text"
+                id="province"
+              >
+
+            </div>
+
+
+            <!-- CITY -->
+
+            <div class="form-group">
+
+              <label for="city">
+
+                City
+
+              </label>
+
+              <input
+                type="text"
+                id="city"
+              >
+
+            </div>
+
+
+            <!-- AREA -->
+
+            <div class="form-group">
+
+              <label for="area">
+
+                Area
+
+              </label>
+
+              <input
+                type="text"
+                id="area"
+              >
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="form-group">
+
+              <label for="address">
+
+                Business Address
+
+              </label>
+
+              <input
+                type="text"
+                id="address"
+              >
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="form-group">
+
+              <label for="phone">
+
+                Phone Number
+
+              </label>
+
+              <input
+                type="text"
+                id="phone"
+              >
+
+            </div>
+
+
+            <!-- WHATSAPP -->
+
+            <div class="form-group">
+
+              <label for="whatsapp">
+
+                WhatsApp Number
+
+              </label>
+
+              <input
+                type="text"
+                id="whatsapp"
+              >
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+              <label for="email">
+
+                Business Email
+
+              </label>
+
+              <input
+                type="email"
+                id="email"
+              >
+
+            </div>
+
+
+            <!-- WEBSITE -->
+
+            <div class="form-group">
+
+              <label for="website">
+
+                Website
+
+              </label>
+
+              <input
+                type="text"
+                id="website"
+              >
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="button-row">
+
+              <button
+                type="submit"
+                class="save-btn"
+                id="saveButton"
+              >
+                Save Changes
+              </button>
+
+
+              <a
+                href="dashboard.html"
+                class="back-btn"
+              >
+                Back to Dashboard
+              </a>
+
+            </div>
+
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+    <!-- =========================
+       EDIT PAGE STYLING
+  ========================== -->
+
+  <style>
 
     .card {
-      background: white;
-      border-radius: 16px;
-      padding: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
+      background:
+        linear-gradient(
+          145deg,
+          #17171f,
+          #111117
+        );
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        var(--radius);
+
+      padding: 32px;
+
+      box-shadow:
+        var(--shadow);
+
+      max-width: 900px;
+
+      margin: 0 auto;
+
     }
+
 
     .card h2 {
-      margin-top: 0;
-      color: #5b21b6;
+
+      margin:
+        0 0 8px;
+
+      color:
+        var(--white);
+
+      font-size: 25px;
+
+      line-height: 1.3;
+
     }
+
 
     .intro {
-      color: #666;
-      line-height: 1.6;
-      margin-bottom: 25px;
+
+      color:
+        var(--muted);
+
+      line-height: 1.7;
+
+      margin:
+        0 0 28px;
+
     }
+
+
+    /* =========================
+       FORM
+    ========================== */
 
     .form-group {
-      margin-bottom: 18px;
+
+      margin-bottom: 20px;
+
     }
 
+
     label {
+
       display: block;
-      font-weight: bold;
-      margin-bottom: 7px;
-      color: #333;
+
+      margin-bottom: 8px;
+
+      color:
+        #e4e4e7;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
     }
+
+
+    .required {
+
+      color:
+        #f87171;
+
+    }
+
 
     input,
     textarea,
     select {
+
       width: 100%;
-      padding: 13px;
-      border: 1px solid #d5d5d5;
-      border-radius: 9px;
+
+      padding:
+        13px 14px;
+
+      border:
+        1px solid rgba(255,255,255,0.12);
+
+      border-radius:
+        11px;
+
+      background:
+        #0f0f15;
+
+      color:
+        var(--white);
+
       font-size: 15px;
-      font-family: inherit;
-      background: white;
+
+      font-family:
+        inherit;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
     }
 
-    textarea {
-      min-height: 120px;
-      resize: vertical;
+
+    input::placeholder,
+    textarea::placeholder {
+
+      color:
+        #71717a;
+
     }
+
+
+    input:hover,
+    textarea:hover,
+    select:hover {
+
+      border-color:
+        rgba(124,58,237,0.35);
+
+    }
+
 
     input:focus,
     textarea:focus,
     select:focus {
+
       outline: none;
-      border-color: #7c3aed;
-      box-shadow: 0 0 0 2px rgba(124,58,237,0.12);
+
+      border-color:
+        var(--purple);
+
+      background:
+        #11111a;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(124,58,237,0.14);
+
     }
 
-    .button-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 25px;
+
+    textarea {
+
+      min-height:
+        140px;
+
+      resize:
+        vertical;
+
     }
+
+
+    /* =========================
+       BUTTONS
+    ========================== */
+
+    .button-row {
+
+      display: flex;
+
+      gap: 12px;
+
+      flex-wrap: wrap;
+
+      margin-top: 30px;
+
+      padding-top: 24px;
+
+      border-top:
+        1px solid var(--border);
+
+    }
+
 
     button,
     .back-btn {
+
       border: none;
-      border-radius: 9px;
-      padding: 13px 20px;
+
+      border-radius: 11px;
+
+      padding:
+        13px 21px;
+
       font-size: 15px;
-      font-weight: bold;
+
+      font-weight: 700;
+
       cursor: pointer;
+
       text-decoration: none;
-      display: inline-block;
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      min-height: 48px;
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        opacity 0.2s ease;
+
     }
+
 
     .save-btn {
-      background: #5b21b6;
-      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--purple),
+          var(--purple-light)
+        );
+
+      color:
+        var(--white);
+
+      box-shadow:
+        0 8px 20px
+        rgba(124,58,237,0.22);
+
     }
+
 
     .save-btn:hover {
-      background: #4c1d95;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--purple-light),
+          #c084fc
+        );
+
+      transform:
+        translateY(-1px);
+
     }
+
+
+    .save-btn:disabled {
+
+      opacity:
+        0.65;
+
+      cursor:
+        not-allowed;
+
+      transform:
+        none;
+
+    }
+
 
     .back-btn {
-      background: #e5e7eb;
-      color: #333;
+
+      background:
+        rgba(255,255,255,0.05);
+
+      border:
+        1px solid
+        var(--border);
+
+      color:
+        #e4e4e7;
+
     }
+
+
+    .back-btn:hover {
+
+      background:
+        rgba(255,255,255,0.09);
+
+      color:
+        var(--white);
+
+    }
+
+
+    /* =========================
+       MESSAGES
+    ========================== */
 
     .message {
+
       display: none;
-      padding: 14px;
-      border-radius: 9px;
-      margin-bottom: 20px;
-      line-height: 1.5;
+
+      padding:
+        14px 16px;
+
+      border-radius:
+        11px;
+
+      margin-bottom:
+        22px;
+
+      line-height:
+        1.5;
+
+      border:
+        1px solid transparent;
+
     }
+
 
     .success {
-      background: #dcfce7;
-      color: #166534;
+
+      background:
+        rgba(34,197,94,0.10);
+
+      color:
+        #86efac;
+
+      border-color:
+        rgba(34,197,94,0.25);
+
     }
+
 
     .error {
-      background: #fee2e2;
-      color: #991b1b;
+
+      background:
+        rgba(239,68,68,0.10);
+
+      color:
+        #fca5a5;
+
+      border-color:
+        rgba(239,68,68,0.25);
+
     }
+
+
+    /* =========================
+       LOADING
+    ========================== */
 
     .loading {
-      text-align: center;
-      padding: 30px;
-      color: #666;
+
+      text-align:
+        center;
+
+      padding:
+        55px 20px;
+
+      color:
+        var(--muted);
+
     }
 
-    .required {
-      color: #dc2626;
+
+    .loading::before {
+
+      content: "";
+
+      display: block;
+
+      width: 30px;
+
+      height: 30px;
+
+      margin:
+        0 auto 15px;
+
+      border:
+        3px solid
+        rgba(124,58,237,0.20);
+
+      border-top-color:
+        var(--purple-light);
+
+      border-radius:
+        50%;
+
+      animation:
+        editSpin 0.8s linear infinite;
+
     }
+
+
+    @keyframes editSpin {
+
+      to {
+        transform:
+          rotate(360deg);
+      }
+
+    }
+
+
+    /* =========================
+       LOADING LINKS
+    ========================== */
+
+    .loading a {
+
+      display: inline-block;
+
+      margin-top: 5px;
+
+      color:
+        var(--purple-light);
+
+      font-weight: 700;
+
+      text-decoration:
+        none;
+
+    }
+
+
+    .loading a:hover {
+
+      color:
+        var(--gold-light);
+
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    .site-footer {
+
+      border-top:
+        1px solid var(--border);
+
+      background:
+        #09090d;
+
+      padding:
+        28px 0;
+
+    }
+
+
+    .footer-inner {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 20px;
+
+    }
+
+
+    .footer-brand {
+
+      color:
+        var(--white);
+
+      font-weight:
+        800;
+
+      font-size:
+        16px;
+
+    }
+
+
+    .footer-brand::first-letter {
+
+      color:
+        var(--purple-light);
+
+    }
+
+
+    .footer-copy {
+
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
+
+      text-align:
+        right;
+
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 1050px) {
+
+      .desktop-nav {
+
+        gap: 2px;
+
+      }
+
+
+      .desktop-nav a {
+
+        padding:
+          9px 9px;
+
+        font-size:
+          13px;
+
+      }
+
+
+      .brand-logo {
+
+        width:
+          155px;
+
+      }
+
+    }
+
+
+    @media (max-width: 800px) {
+
+      .container {
+
+        width:
+          min(
+            100% - 24px,
+            var(--max-width)
+          );
+
+      }
+
+
+      .header-inner {
+
+        min-height:
+          70px;
+
+      }
+
+
+      .brand-logo {
+
+        width:
+          150px;
+
+        max-height:
+          52px;
+
+      }
+
+
+      .desktop-nav {
+
+        display:
+          none;
+
+      }
+
+
+      .mobile-menu-button {
+
+        display:
+          flex;
+
+      }
+
+
+      .mobile-nav.open {
+
+        display:
+          block;
+
+      }
+
+
+      .edit-page {
+
+        padding:
+          40px 0 60px;
+
+      }
+
+
+      .page-heading {
+
+        margin-bottom:
+          26px;
+
+      }
+
+
+      .card {
+
+        padding:
+          24px;
+
+      }
+
+    }
+
 
     @media (max-width: 600px) {
-      .card {
-        padding: 20px;
+
+      .page-heading {
+
+        text-align:
+          left;
+
       }
 
-      header h1 {
-        font-size: 24px;
+
+      .page-heading h1 {
+
+        font-size:
+          31px;
+
       }
+
+
+      .page-heading p {
+
+        font-size:
+          15px;
+
+      }
+
+
+      .card {
+
+        padding:
+          20px;
+
+        border-radius:
+          15px;
+
+      }
+
+
+      .card h2 {
+
+        font-size:
+          22px;
+
+      }
+
+
+      .button-row {
+
+        display:
+          grid;
+
+        gap:
+          10px;
+
+      }
+
 
       .button-row button,
       .button-row a {
-        width: 100%;
-        text-align: center;
+
+        width:
+          100%;
+
       }
+
+
+      .footer-inner {
+
+        flex-direction:
+          column;
+
+        align-items:
+          flex-start;
+
+      }
+
+
+      .footer-copy {
+
+        text-align:
+          left;
+
+      }
+
     }
+
+
+    @media (max-width: 430px) {
+
+      .container {
+
+        width:
+          min(
+            100% - 20px,
+            var(--max-width)
+          );
+
+      }
+
+
+      .brand-logo {
+
+        width:
+          138px;
+
+      }
+
+
+      .edit-page {
+
+        padding-top:
+          32px;
+
+      }
+
+
+      .page-heading h1 {
+
+        font-size:
+          28px;
+
+      }
+
+
+      .card {
+
+        padding:
+          18px;
+
+      }
+
+
+      input,
+      textarea,
+      select {
+
+        font-size:
+          16px;
+
+      }
+
+    }
+
   </style>
-</head>
+    <!-- =========================
+       FOOTER
+  ========================== -->
 
-<body>
+  <footer class="site-footer">
 
-<header>
-  <h1>Edit My Business</h1>
-  <p>Manage your LumaRise Local business listing</p>
-</header>
+    <div class="container footer-inner">
 
-<div class="container">
+      <div class="footer-brand">
+        LumaRise Local
+      </div>
 
-  <div class="card">
-
-    <div id="loading" class="loading">
-      Loading your business information...
-    </div>
-
-    <div id="content" style="display:none;">
-
-      <h2>Business Information</h2>
-
-      <p class="intro">
-        Update your business information below. Your changes will be saved
-        to your LumaRise Local listing.
-      </p>
-
-      <div id="message" class="message"></div>
-
-      <form id="businessForm">
-
-        <div class="form-group">
-          <label for="business_name">
-            Business Name <span class="required">*</span>
-          </label>
-          <input type="text" id="business_name" required>
-        </div>
-
-        <div class="form-group">
-          <label for="description">
-            Business Description
-          </label>
-          <textarea id="description"
-            placeholder="Tell customers about your business..."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="category">
-            Category
-          </label>
-          <input type="text" id="category">
-        </div>
-
-        <div class="form-group">
-          <label for="province">
-            Province
-          </label>
-          <input type="text" id="province">
-        </div>
-
-        <div class="form-group">
-          <label for="city">
-            City
-          </label>
-          <input type="text" id="city">
-        </div>
-
-        <div class="form-group">
-          <label for="area">
-            Area
-          </label>
-          <input type="text" id="area">
-        </div>
-
-        <div class="form-group">
-          <label for="address">
-            Business Address
-          </label>
-          <input type="text" id="address">
-        </div>
-
-        <div class="form-group">
-          <label for="phone">
-            Phone Number
-          </label>
-          <input type="text" id="phone">
-        </div>
-
-        <div class="form-group">
-          <label for="whatsapp">
-            WhatsApp Number
-          </label>
-          <input type="text" id="whatsapp">
-        </div>
-
-        <div class="form-group">
-          <label for="email">
-            Business Email
-          </label>
-          <input type="email" id="email">
-        </div>
-
-        <div class="form-group">
-          <label for="website">
-            Website
-          </label>
-          <input type="text" id="website">
-        </div>
-
-        <div class="button-row">
-
-          <button type="submit" class="save-btn" id="saveButton">
-            Save Changes
-          </button>
-
-          <a href="dashboard.html" class="back-btn">
-            Back to Dashboard
-          </a>
-
-        </div>
-
-      </form>
+      <div class="footer-copy">
+        © 2026 LumaRise Local. All rights reserved.
+      </div>
 
     </div>
 
-  </div>
+  </footer>
 
-</div>
 
-<script>
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
 
-  const SUPABASE_URL = "https://lpbamlwezrkyrjnwgpcp.supabase.co";
+  <script>
 
-  const SUPABASE_KEY =
-    "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
+    /* =========================
+       SUPABASE
+    ========================== */
 
-  const db = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+    const SUPABASE_URL =
+      "https://lpbamlwezrkyrjnwgpcp.supabase.co";
 
-  let currentUser = null;
-  let businessId = null;
 
-  const loading = document.getElementById("loading");
-  const content = document.getElementById("content");
-  const message = document.getElementById("message");
-  const form = document.getElementById("businessForm");
-  const saveButton = document.getElementById("saveButton");
+    const SUPABASE_KEY =
+      "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
 
-  function showMessage(text, type) {
-    message.textContent = text;
-    message.className = "message " + type;
-    message.style.display = "block";
-  }
 
-  async function loadBusiness() {
-
-    try {
-
-      const {
-        data: {
-          user
-        },
-        error: sessionError
-      } = await db.auth.getUser();
-
-      if (sessionError || !user) {
-        window.location.replace("login.html");
-        return;
-      }
-
-      currentUser = user;
-
-      const {
-        data,
-        error
-      } = await db
-        .from("businesses")
-        .select("*")
-        .eq("owner_id", user.id)
-        .limit(1)
-        .maybeSingle();
-
-      if (error) {
-        console.error(error);
-
-        loading.innerHTML =
-          "Unable to load your business information.<br><br>" +
-          "Please try again.";
-
-        return;
-      }
-
-      if (!data) {
-
-        loading.innerHTML =
-          "You haven't added a business yet.<br><br>" +
-          '<a href="owner-business.html">Add My Business</a>';
-
-        return;
-      }
-
-      businessId = data.id;
-
-      document.getElementById("business_name").value =
-        data.business_name || "";
-
-      document.getElementById("description").value =
-        data.description || "";
-
-      document.getElementById("category").value =
-        data.category || "";
-
-      document.getElementById("province").value =
-        data.province || "";
-
-      document.getElementById("city").value =
-        data.city || "";
-
-      document.getElementById("area").value =
-        data.area || "";
-
-      document.getElementById("address").value =
-        data.address || "";
-
-      document.getElementById("phone").value =
-        data.phone || "";
-
-      document.getElementById("whatsapp").value =
-        data.whatsapp || "";
-
-      document.getElementById("email").value =
-        data.email || "";
-
-      document.getElementById("website").value =
-        data.website || "";
-
-      loading.style.display = "none";
-      content.style.display = "block";
-
-    } catch (error) {
-
-      console.error(error);
-
-      loading.innerHTML =
-        "Something went wrong while loading your business.";
-
-    }
-
-  }
-
-  form.addEventListener("submit", async function(event) {
-
-    event.preventDefault();
-
-    if (!currentUser || !businessId) {
-      showMessage(
-        "Your business could not be identified. Please return to your dashboard.",
-        "error"
+    const db =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
       );
-      return;
+
+
+    /* =========================
+       VARIABLES
+    ========================== */
+
+    let currentUser = null;
+
+    let businessId = null;
+
+
+    const loading =
+      document.getElementById(
+        "loading"
+      );
+
+
+    const content =
+      document.getElementById(
+        "content"
+      );
+
+
+    const message =
+      document.getElementById(
+        "message"
+      );
+
+
+    const form =
+      document.getElementById(
+        "businessForm"
+      );
+
+
+    const saveButton =
+      document.getElementById(
+        "saveButton"
+      );
+
+
+    /* =========================
+       MESSAGE
+    ========================== */
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      message.textContent =
+        text;
+
+      message.className =
+        "message " + type;
+
+      message.style.display =
+        "block";
+
     }
 
-    saveButton.disabled = true;
-    saveButton.textContent = "Saving...";
 
-    message.style.display = "none";
+    /* =========================
+       LOAD BUSINESS
+    ========================== */
 
-    const updates = {
+    async function loadBusiness() {
 
-      business_name:
-        document.getElementById("business_name").value.trim(),
+      try {
 
-      description:
-        document.getElementById("description").value.trim(),
+        const {
+          data: {
+            user
+          },
+          error: sessionError
+        } = await db.auth.getUser();
 
-      category:
-        document.getElementById("category").value.trim(),
 
-      province:
-        document.getElementById("province").value.trim(),
+        /*
+         * User is not logged in.
+         */
 
-      city:
-        document.getElementById("city").value.trim(),
+        if (
+          sessionError ||
+          !user
+        ) {
 
-      area:
-        document.getElementById("area").value.trim(),
+          window.location.replace(
+            "login.html"
+          );
 
-      address:
-        document.getElementById("address").value.trim(),
+          return;
 
-      phone:
-        document.getElementById("phone").value.trim(),
+        }
 
-      whatsapp:
-        document.getElementById("whatsapp").value.trim(),
 
-      email:
-        document.getElementById("email").value.trim(),
+        currentUser =
+          user;
 
-      website:
-        document.getElementById("website").value.trim()
 
-    };
+        /*
+         * Find the business
+         * belonging to this owner.
+         */
 
-    try {
+        const {
+          data,
+          error
+        } = await db
+          .from("businesses")
+          .select("*")
+          .eq(
+            "owner_id",
+            user.id
+          )
+          .limit(1)
+          .maybeSingle();
 
-      const {
-        error
-      } = await db
-        .from("businesses")
-        .update(updates)
-        .eq("id", businessId)
-        .eq("owner_id", currentUser.id);
 
-      if (error) {
+        if (error) {
+
+          console.error(error);
+
+
+          loading.innerHTML =
+            "Unable to load your business information.<br><br>" +
+            "Please try again.";
+
+          return;
+
+        }
+
+
+        /*
+         * No business found.
+         */
+
+        if (!data) {
+
+          loading.innerHTML =
+            "You haven't added a business yet.<br><br>" +
+            '<a href="owner-business.html">Add My Business</a>';
+
+          return;
+
+        }
+
+
+        businessId =
+          data.id;
+
+
+        /* =========================
+           FILL FORM
+        ========================== */
+
+        document.getElementById(
+          "business_name"
+        ).value =
+          data.business_name || "";
+
+
+        document.getElementById(
+          "description"
+        ).value =
+          data.description || "";
+
+
+        document.getElementById(
+          "category"
+        ).value =
+          data.category || "";
+
+
+        document.getElementById(
+          "province"
+        ).value =
+          data.province || "";
+
+
+        document.getElementById(
+          "city"
+        ).value =
+          data.city || "";
+
+
+        document.getElementById(
+          "area"
+        ).value =
+          data.area || "";
+
+
+        document.getElementById(
+          "address"
+        ).value =
+          data.address || "";
+
+
+        document.getElementById(
+          "phone"
+        ).value =
+          data.phone || "";
+
+
+        document.getElementById(
+          "whatsapp"
+        ).value =
+          data.whatsapp || "";
+
+
+        document.getElementById(
+          "email"
+        ).value =
+          data.email || "";
+
+
+        document.getElementById(
+          "website"
+        ).value =
+          data.website || "";
+
+
+        /*
+         * Show the form.
+         */
+
+        loading.style.display =
+          "none";
+
+        content.style.display =
+          "block";
+
+      } catch (error) {
 
         console.error(error);
 
-        showMessage(
-          "We couldn't save your changes. Please try again.",
-          "error"
+
+        loading.innerHTML =
+          "Something went wrong while loading your business.";
+
+      }
+
+    }
+
+
+    /* =========================
+       SAVE CHANGES
+    ========================== */
+
+    form.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+
+        if (
+          !currentUser ||
+          !businessId
+        ) {
+
+          showMessage(
+            "Your business could not be identified. Please return to your dashboard.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        saveButton.disabled =
+          true;
+
+
+        saveButton.textContent =
+          "Saving...";
+
+
+        message.style.display =
+          "none";
+
+
+        /* =========================
+           COLLECT FORM DATA
+        ========================== */
+
+        const updates = {
+
+          business_name:
+            document
+              .getElementById(
+                "business_name"
+              )
+              .value
+              .trim(),
+
+
+          description:
+            document
+              .getElementById(
+                "description"
+              )
+              .value
+              .trim(),
+
+
+          category:
+            document
+              .getElementById(
+                "category"
+              )
+              .value
+              .trim(),
+
+
+          province:
+            document
+              .getElementById(
+                "province"
+              )
+              .value
+              .trim(),
+
+
+          city:
+            document
+              .getElementById(
+                "city"
+              )
+              .value
+              .trim(),
+
+
+          area:
+            document
+              .getElementById(
+                "area"
+              )
+              .value
+              .trim(),
+
+
+          address:
+            document
+              .getElementById(
+                "address"
+              )
+              .value
+              .trim(),
+
+
+          phone:
+            document
+              .getElementById(
+                "phone"
+              )
+              .value
+              .trim(),
+
+
+          whatsapp:
+            document
+              .getElementById(
+                "whatsapp"
+              )
+              .value
+              .trim(),
+
+
+          email:
+            document
+              .getElementById(
+                "email"
+              )
+              .value
+              .trim(),
+
+
+          website:
+            document
+              .getElementById(
+                "website"
+              )
+              .value
+              .trim()
+
+        };
+
+
+        /* =========================
+           UPDATE SUPABASE
+        ========================== */
+
+        try {
+
+          const {
+            error
+          } = await db
+            .from("businesses")
+            .update(updates)
+            .eq(
+              "id",
+              businessId
+            )
+            .eq(
+              "owner_id",
+              currentUser.id
+            );
+
+
+          if (error) {
+
+            console.error(error);
+
+
+            showMessage(
+              "We couldn't save your changes. Please try again.",
+              "error"
+            );
+
+
+            saveButton.disabled =
+              false;
+
+
+            saveButton.textContent =
+              "Save Changes";
+
+
+            return;
+
+          }
+
+
+          /*
+           * Successfully saved.
+           */
+
+          showMessage(
+            "Your business information has been updated successfully!",
+            "success"
+          );
+
+
+          saveButton.textContent =
+            "Saved ✓";
+
+
+          /*
+           * Return to dashboard.
+           */
+
+          setTimeout(
+            function() {
+
+              window.location.replace(
+                "dashboard.html"
+              );
+
+            },
+            1500
+          );
+
+
+        } catch (error) {
+
+          console.error(error);
+
+
+          showMessage(
+            "Something went wrong while saving your changes.",
+            "error"
+          );
+
+
+          saveButton.disabled =
+            false;
+
+
+          saveButton.textContent =
+            "Save Changes";
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       MOBILE MENU
+    ========================== */
+
+    const mobileMenuButton =
+      document.getElementById(
+        "mobileMenuButton"
+      );
+
+
+    const mobileNav =
+      document.getElementById(
+        "mobileNav"
+      );
+
+
+    mobileMenuButton.addEventListener(
+      "click",
+      function() {
+
+        const isOpen =
+          mobileNav.classList.toggle(
+            "open"
+          );
+
+
+        mobileMenuButton.setAttribute(
+          "aria-expanded",
+          isOpen
+            ? "true"
+            : "false"
         );
 
-        saveButton.disabled = false;
-        saveButton.textContent = "Save Changes";
-
-        return;
       }
+    );
 
-      showMessage(
-        "Your business information has been updated successfully!",
-        "success"
+
+    /*
+     * Close mobile menu after
+     * clicking a navigation link.
+     */
+
+    mobileNav
+      .querySelectorAll("a")
+      .forEach(
+        function(link) {
+
+          link.addEventListener(
+            "click",
+            function() {
+
+              mobileNav.classList.remove(
+                "open"
+              );
+
+
+              mobileMenuButton.setAttribute(
+                "aria-expanded",
+                "false"
+              );
+
+            }
+          );
+
+        }
       );
 
-      saveButton.textContent = "Saved ✓";
 
-      setTimeout(function() {
-        window.location.replace("dashboard.html");
-      }, 1500);
+    /* =========================
+       MOBILE LOGOUT
+    ========================== */
 
-    } catch (error) {
-
-      console.error(error);
-
-      showMessage(
-        "Something went wrong while saving your changes.",
-        "error"
+    const mobileLogoutBtn =
+      document.getElementById(
+        "mobileLogoutBtn"
       );
 
-      saveButton.disabled = false;
-      saveButton.textContent = "Save Changes";
 
-    }
+    mobileLogoutBtn.addEventListener(
+      "click",
+      async function() {
 
-  });
+        mobileLogoutBtn.disabled =
+          true;
 
-  loadBusiness();
 
-</script>
+        mobileLogoutBtn.textContent =
+          "Logging out...";
+
+
+        try {
+
+          const {
+            error
+          } = await db.auth.signOut();
+
+
+          if (error) {
+
+            throw error;
+
+          }
+
+
+          window.location.replace(
+            "login.html"
+          );
+
+        } catch (error) {
+
+          console.error(
+            "Logout error:",
+            error
+          );
+
+
+          mobileLogoutBtn.disabled =
+            false;
+
+
+          mobileLogoutBtn.textContent =
+            "Log Out";
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       START PAGE
+    ========================== */
+
+    loadBusiness();
+
+  </script>
+
 
 </body>
-  </html>
+
+</html>
