@@ -728,6 +728,8 @@ message.textContent=text;
 
 message.className="message "+type;
 
+message.style.display="block";
+
 }
 
 
@@ -933,10 +935,10 @@ window.location.href=
 
 }catch(error){
 
-console.error(error);
+console.error("LumaRise Local submission error:",error);
 
 showMessage(
-"Something went wrong while submitting your business. Please check your information and try again.",
+"Submission failed: " + (error.message || "Unknown error"),
 "error"
 );
 
