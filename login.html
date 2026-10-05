@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Business Login | LumaRise Local</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f5fb;
+      color: #222;
+    }
+
+    .header {
+      background: #111;
+      padding: 18px 20px;
+      text-align: center;
+    }
+
+    .logo {
+      color: #d4af37;
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      text-align: center;
+      color: #111;
+    }
+
+    .intro {
+      text-align: center;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 18px 0 7px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #d4af37;
+    }
+
+    .btn {
+      width: 100%;
+      margin-top: 25px;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #d4af37;
+      color: #111;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      padding: 14px;
+      margin-top: 20px;
+      border-radius: 8px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .error {
+      background: #fdeaea;
+      color: #9b1c1c;
+    }
+
+    .success {
+      background: #e9f8ee;
+      color: #176b35;
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 24px;
+      line-height: 2;
+    }
+
+    .links a {
+      color: #9a7b00;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      color: #555;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 25px auto;
+      }
+
+      .card {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="index.html" class="logo">
+      LumaRise Local
+    </a>
+  </header>
+
+  <main class="container">
+
+    <div class="card">
+
+      <h1>Business Login</h1>
+
+      <p class="intro">
+        Log in to manage your LumaRise Local business listing.
+      </p>
+
+      <form id="loginForm">
+
+        <label for="email">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="you@example.com"
+          required
+        >
+
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Your password"
+          required
+        >
+
+        <button
+          type="submit"
+          class="btn"
+          id="loginButton"
+        >
+          Log In
+        </button>
+
+      </form>
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+      <div class="links">
+
+        <div>
+          Don't have a business account?
+          <a href="signup.html">
+            Sign Up
+          </a>
+        </div>
+
+      </div>
+
+      <a
+        href="index.html"
+        class="back"
+      >
+        ← Back to LumaRise Local
+      </a>
+
+    </div>
+
+  </main>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://lpbamlwezrkyrjnwgpcp.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
+
+    const db = supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const form =
+      document.getElementById("loginForm");
+
+    const button =
+      document.getElementById("loginButton");
+
+    const message =
+      document.getElementById("message");
+
+    function showMessage(text, type) {
+
+      message.textContent = text;
+
+      message.className =
+        "message " + type;
+
+      message.style.display = "block";
+    }
+
+    form.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+        button.disabled = true;
+
+        button.textContent =
+          "Logging In...";
+
+        message.style.display = "none";
+
+        try {
+
+          const {
+            data,
+            error
+          } = await db.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+          });
+
+          if (error) {
+            throw error;
+          }
+
+          if (!data.user) {
+            throw new Error(
+              "Unable to log in. Please try again."
+            );
+          }
+
+          showMessage(
+            "Login successful. Redirecting...",
+            "success"
+          );
+
+          setTimeout(
+            function() {
+              window.location.href =
+                "dashboard.html";
+            },
+            800
+          );
+
+        } catch (error) {
+
+          console.error(
+            "Login error:",
+            error
+          );
+
+          showMessage(
+            error.message ||
+            "Unable to log in. Please check your email and password.",
+            "error"
+          );
+
+        } finally {
+
+          button.disabled = false;
+
+          button.textContent =
+            "Log In";
+
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+  </html>
