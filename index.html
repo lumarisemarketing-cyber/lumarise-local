@@ -443,8 +443,7 @@
       border-color: #d4af37;
       color: #d4af37;
     }
-
-    /* FOOTER */
+        /* FOOTER */
 
     footer {
       background: #050f1b;
@@ -892,6 +891,7 @@
       const imageHTML = image
         ? `
           <div class="business-image">
+
             <img
               src="${escapeHtml(image)}"
               alt="${escapeHtml(b.business_name)}"
@@ -899,6 +899,7 @@
             >
 
             <div class="badges">
+
               ${
                 b.is_featured
                   ? '<span class="badge featured-badge">⭐ FEATURED</span>'
@@ -910,13 +911,16 @@
                   ? '<span class="badge verified-badge">✓ VERIFIED</span>'
                   : ''
               }
+
             </div>
+
           </div>
         `
         : `
           <div class="business-image no-image">
 
             <div class="badges">
+
               ${
                 b.is_featured
                   ? '<span class="badge featured-badge">⭐ FEATURED</span>'
@@ -928,6 +932,7 @@
                   ? '<span class="badge verified-badge">✓ VERIFIED</span>'
                   : ''
               }
+
             </div>
 
             No image available
@@ -958,7 +963,7 @@
             </div>
 
             <h3>
-              ${escapeHtml(b.business_name)}
+              ${escapeHtml(b.business_name || "Local Business")}
             </h3>
 
             ${
@@ -968,7 +973,144 @@
                     📍 ${escapeHtml(locationParts.join(", "))}
                   </div>
                 `
-          }
+                : ''
+            }
+
+            ${
+              b.description
+                ? `
+                  <div class="description">
+                    ${escapeHtml(b.description)}
+                  </div>
+                `
+                : ''
+            }
+
+            <div class="view-business">
+              View Business →
+            </div>
+
+          </div>
+
+        </a>
+      `;
+
+    }
+
+
+    async function loadBusinesses() {
+
+      const featuredContainer =
+        document.getElementById("featuredBusinesses");
+
+      const latestContainer =
+        document.getElementById("latestBusinesses");
+
+
+      /* FEATURED BUSINESSES */
+
+      try {
+
+        const { data: featuredBusinesses, error: featuredError } =
+          await db
+            .from("businesses")
+            .select("*")
+            .eq("is_featured", true)
+            .order("created_at", {
+              ascending: false
+            });
+
+
+        if (featuredError) {
+          throw featuredError;
+        }
+
+
+        if (!featuredBusinesses || featuredBusinesses.length === 0) {
+
+          featuredContainer.innerHTML = `
+            <div class="empty">
+              No featured businesses yet.
+            </div>
+          `;
+
+        } else {
+
+          featuredContainer.innerHTML =
+            featuredBusinesses
+              .map(createBusinessCard)
+              .join("");
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Featured businesses error:",
+          error
+        );
+
+        featuredContainer.innerHTML = `
+          <div class="empty">
+            Unable to load featured businesses.
+          </div>
+        `;
+
+      }
+
+
+      /* LATEST BUSINESSES */
+
+      try {
+
+        const { data: latestBusinesses, error: latestError } =
+          await db
+            .from("businesses")
+            .select("*")
+            .order("created_at", {
+              ascending: false
+            })
+            .limit(6);
+
+
+        if (latestError) {
+          throw latestError;
+        }
+
+
+        if (!latestBusinesses || latestBusinesses.length === 0) {
+
+          latestContainer.innerHTML = `
+            <div class="empty">
+              No businesses have been listed yet.
+            </div>
+          `;
+
+        } else {
+
+          latestContainer.innerHTML =
+            latestBusinesses
+              .map(createBusinessCard)
+              .join("");
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Latest businesses error:",
+          error
+        );
+
+        latestContainer.innerHTML = `
+          <div class="empty">
+            Unable to load local businesses.
+          </div>
+        `;
+
+      }
+
+    }
 
 
     function searchBusinesses() {
