@@ -1,835 +1,1896 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Add Your Business | LumaRise Local</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+
+    /* =========================
+       LUMARISE LOCAL BRAND
+    ========================== */
+
+    :root {
+
+      --black: #08080c;
+      --black-soft: #111117;
+
+      --purple: #7c3aed;
+      --purple-dark: #5b21b6;
+      --purple-light: #a855f7;
+
+      --gold: #d4af37;
+      --gold-light: #f4d878;
+
+      --white: #ffffff;
+
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+
+      --border: rgba(255,255,255,0.10);
+
+      --card: #15151d;
+
+      --success: #22c55e;
+      --danger: #ef4444;
+
+      --max-width: 1180px;
+
+      --radius: 18px;
+
+      --shadow:
+        0 15px 40px rgba(0,0,0,0.30);
+
+    }
+
+
+    /* =========================
+       RESET
+    ========================== */
+
     * {
       box-sizing: border-box;
     }
 
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
     body {
+
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f3f8;
-      color: #222;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      background:
+        var(--black);
+
+      color:
+        var(--text);
+
+      line-height:
+        1.6;
+
+      overflow-x:
+        hidden;
+
     }
 
-    header {
-      background: linear-gradient(135deg, #24103f, #5b2485);
-      color: white;
-      padding: 22px 20px;
+
+    img {
+
+      max-width:
+        100%;
+
+      display:
+        block;
+
     }
 
-    .header-inner {
-      max-width: 900px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
+
+    a {
+
+      color:
+        inherit;
+
+      text-decoration:
+        none;
+
     }
 
-    .brand {
-      font-size: 24px;
-      font-weight: bold;
-    }
 
-    .brand span {
-      color: #d8b4fe;
-    }
-
-    .back-btn {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 35px auto;
-      padding: 0 20px;
-    }
-
-    .intro {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .intro h1 {
-      color: #321052;
-      margin-bottom: 8px;
-    }
-
-    .intro p {
-      color: #666;
-      line-height: 1.6;
-    }
-
-    .form-card {
-      background: white;
-      border-radius: 15px;
-      padding: 28px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-
-    .section-title {
-      color: #321052;
-      font-size: 19px;
-      font-weight: bold;
-      margin: 25px 0 15px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .section-title:first-child {
-      margin-top: 0;
-    }
-
-    .form-group {
-      margin-bottom: 17px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 7px;
-      color: #333;
-    }
-
-    .required {
-      color: #a00000;
-    }
-
+    button,
     input,
     textarea,
     select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 15px;
-      font-family: inherit;
-      background: white;
+
+      font:
+        inherit;
+
     }
 
-    textarea {
-      min-height: 120px;
-      resize: vertical;
+
+    .container {
+
+      width:
+        min(
+          100% - 32px,
+          var(--max-width)
+        );
+
+      margin:
+        0 auto;
+
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
-      outline: none;
-      border-color: #6d28a8;
-      box-shadow: 0 0 0 2px rgba(109,40,168,0.12);
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    .site-header {
+
+      position:
+        sticky;
+
+      top:
+        0;
+
+      z-index:
+        1000;
+
+      background:
+        rgba(8,8,12,0.96);
+
+      border-bottom:
+        1px solid var(--border);
+
+      backdrop-filter:
+        blur(14px);
+
     }
 
-    .help-text {
-      font-size: 13px;
-      color: #777;
-      margin-top: 5px;
+
+    .header-inner {
+
+      min-height:
+        78px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        24px;
+
     }
+
+
+    .brand {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      flex-shrink:
+        0;
+
+    }
+
+
+    .brand-logo {
+
+      width:
+        175px;
+
+      height:
+        auto;
+
+      max-height:
+        58px;
+
+      object-fit:
+        contain;
+
+      object-position:
+        left center;
+
+    }
+
+
+    .desktop-nav {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        flex-end;
+
+      gap:
+        6px;
+
+      flex-wrap:
+        nowrap;
+
+    }
+
+
+    .desktop-nav a {
+
+      padding:
+        10px 13px;
+
+      border-radius:
+        10px;
+
+      color:
+        #d4d4d8;
+
+      font-size:
+        14px;
+
+      font-weight:
+        600;
+
+      white-space:
+        nowrap;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+
+    }
+
+
+    .desktop-nav a:hover {
+
+      background:
+        rgba(124,58,237,0.14);
+
+      color:
+        var(--white);
+
+    }
+
+
+    .desktop-nav .nav-login {
+
+      border:
+        1px solid
+        rgba(124,58,237,0.55);
+
+      color:
+        #ddd6fe;
+
+    }
+
+
+    .desktop-nav .nav-signup {
+
+      background:
+        var(--purple);
+
+      color:
+        var(--white);
+
+    }
+
+
+    .desktop-nav .nav-signup:hover {
+
+      background:
+        var(--purple-light);
+
+    }
+
+
+    .desktop-nav .nav-list {
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      color:
+        #17120a;
+
+      font-weight:
+        800;
+
+    }
+
+
+    .desktop-nav .nav-list:hover {
+
+      background:
+        var(--gold-light);
+
+      color:
+        #17120a;
+
+    }
+
+
+    /* =========================
+       MOBILE MENU BUTTON
+    ========================== */
+
+    .mobile-menu-button {
+
+      display:
+        none;
+
+      width:
+        44px;
+
+      height:
+        44px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        12px;
+
+      background:
+        var(--black-soft);
+
+      color:
+        var(--white);
+
+      cursor:
+        pointer;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      flex-direction:
+        column;
+
+      gap:
+        5px;
+
+    }
+
+
+    .mobile-menu-button span {
+
+      width:
+        20px;
+
+      height:
+        2px;
+
+      background:
+        var(--white);
+
+      border-radius:
+        2px;
+
+    }
+
+
+    /* =========================
+       MOBILE NAV
+    ========================== */
+
+    .mobile-nav {
+
+      display:
+        none;
+
+      padding:
+        0 0 18px;
+
+    }
+
+
+    .mobile-nav-inner {
+
+      display:
+        grid;
+
+      gap:
+        7px;
+
+      padding-top:
+        8px;
+
+    }
+
+
+    .mobile-nav a {
+
+      display:
+        block;
+
+      padding:
+        13px 15px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        11px;
+
+      background:
+        rgba(255,255,255,0.03);
+
+      color:
+        #e4e4e7;
+
+      font-size:
+        15px;
+
+      font-weight:
+        600;
+
+    }
+
+
+    .mobile-nav a.login {
+
+      border-color:
+        rgba(124,58,237,0.5);
+
+      color:
+        #ddd6fe;
+
+    }
+
+
+    .mobile-nav a.signup {
+
+      background:
+        var(--purple);
+
+      border-color:
+        var(--purple);
+
+      color:
+        var(--white);
+
+      text-align:
+        center;
+
+    }
+
+
+    .mobile-nav a.list-business {
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      border-color:
+        var(--gold);
+
+      color:
+        #17120a;
+
+      text-align:
+        center;
+
+      font-weight:
+        800;
+
+    }
+
+
+    /* =========================
+       MOBILE LOGOUT
+    ========================== */
+
+    .mobile-nav button {
+
+      display:
+        block;
+
+      width:
+        100%;
+
+      padding:
+        13px 15px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        11px;
+
+      background:
+        rgba(255,255,255,0.03);
+
+      color:
+        #e4e4e7;
+
+      font-size:
+        15px;
+
+      font-weight:
+        600;
+
+      text-align:
+        center;
+
+      cursor:
+        pointer;
+
+    }
+
+
+    .mobile-nav .mobile-logout {
+
+      background:
+        rgba(239,68,68,0.08);
+
+      border-color:
+        rgba(239,68,68,0.35);
+
+      color:
+        #fca5a5;
+
+      font-weight:
+        700;
+
+    }
+
+
+    /* =========================
+       ADD BUSINESS PAGE
+    ========================== */
+
+    .add-business-page {
+
+      padding:
+        54px 0 80px;
+
+      min-height:
+        calc(100vh - 78px);
+
+    }
+
+
+    .page-heading {
+
+      text-align:
+        center;
+
+      max-width:
+        760px;
+
+      margin:
+        0 auto 35px;
+
+    }
+
+
+    .page-heading h1 {
+
+      margin:
+        0 0 10px;
+
+      font-size:
+        clamp(30px, 5vw, 44px);
+
+      line-height:
+        1.15;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        -0.8px;
+
+    }
+
+
+    .page-heading h1 span {
+
+      color:
+        var(--purple-light);
+
+    }
+
+
+    .page-heading p {
+
+      margin:
+        0;
+
+      color:
+        var(--muted);
+
+      font-size:
+        16px;
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+    <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header class="site-header">
+
+    <div class="container header-inner">
+
+      <a
+        href="index.html"
+        class="brand"
+        aria-label="LumaRise Local home"
+      >
+
+        <img
+          src="IMG-20260919-WA0037.jpg"
+          alt="LumaRise Marketing"
+          class="brand-logo"
+        >
+
+      </a>
+
+
+      <nav
+        class="desktop-nav"
+        aria-label="Main navigation"
+      >
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore
+        </a>
+
+        <a href="categories.html">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a
+          href="login.html"
+          class="nav-login"
+        >
+          Business Login
+        </a>
+
+        <a
+          href="signup.html"
+          class="nav-signup"
+        >
+          Sign Up
+        </a>
+
+        <a
+          href="list.html"
+          class="nav-list"
+        >
+          List Your Business
+        </a>
+
+      </nav>
+
+
+      <button
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </button>
+
+    </div>
+
+
+    <!-- MOBILE NAVIGATION -->
+
+    <div
+      class="mobile-nav"
+      id="mobileNav"
+    >
+
+      <div class="container mobile-nav-inner">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore Businesses
+        </a>
+
+        <a href="categories.html">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About LumaRise Local
+        </a>
+
+        <a
+          href="login.html"
+          class="login"
+        >
+          Business Login
+        </a>
+
+        <a
+          href="signup.html"
+          class="signup"
+        >
+          Create Business Account
+        </a>
+
+        <a
+          href="list.html"
+          class="list-business"
+        >
+          + List Your Business
+        </a>
+
+        <button
+          type="button"
+          class="mobile-logout"
+          id="mobileLogoutBtn"
+        >
+          Log Out
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+
+  <main class="add-business-page">
+
+    <div class="container">
+
+      <div class="page-heading">
+
+        <h1>
+          Add <span>Your Business</span>
+        </h1>
+
+        <p>
+          Create your business listing on
+          LumaRise Local and help customers
+          discover your business.
+        </p>
+
+      </div>
+
+
+      <!-- =========================
+           FORM CARD
+      ========================== -->
+
+      <div class="form-card">
+
+        <div
+          id="errorMessage"
+          class="message error"
+        ></div>
+
+
+        <div
+          id="successMessage"
+          class="message success"
+        ></div>
+
+
+        <form id="businessForm">
+
+
+          <!-- =========================
+               BUSINESS INFORMATION
+          ========================== -->
+
+          <div class="section-title">
+
+            <span class="section-number">
+              01
+            </span>
+
+            Business Information
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="business_name">
+
+              Business Name
+              <span class="required">*</span>
+
+            </label>
+
+            <input
+              type="text"
+              id="business_name"
+              required
+              placeholder="Enter your business name"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="description">
+
+              Business Description
+
+            </label>
+
+            <textarea
+              id="description"
+              placeholder="Tell customers about your business..."
+            ></textarea>
+
+            <div class="help-text">
+
+              Give customers a short introduction
+              to what your business offers.
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="category">
+
+              Category
+              <span class="required">*</span>
+
+            </label>
+
+            <input
+              type="text"
+              id="category"
+              required
+              placeholder="Example: Restaurant, Construction, Beauty"
+            >
+
+          </div>
+
+
+          <!-- =========================
+               LOCATION
+          ========================== -->
+
+          <div class="section-title">
+
+            <span class="section-number">
+              02
+            </span>
+
+            Location
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="province">
+
+              Province
+              <span class="required">*</span>
+
+            </label>
+
+            <select
+              id="province"
+              required
+            >
+
+              <option value="">
+                Select Province
+              </option>
+
+              <option value="Eastern Cape">
+                Eastern Cape
+              </option>
+
+              <option value="Free State">
+                Free State
+              </option>
+
+              <option value="Gauteng">
+                Gauteng
+              </option>
+
+              <option value="KwaZulu-Natal">
+                KwaZulu-Natal
+              </option>
+
+              <option value="Limpopo">
+                Limpopo
+              </option>
+
+              <option value="Mpumalanga">
+                Mpumalanga
+              </option>
+
+              <option value="Northern Cape">
+                Northern Cape
+              </option>
+
+              <option value="North West">
+                North West
+              </option>
+
+              <option value="Western Cape">
+                Western Cape
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="city">
+
+              City / Town
+              <span class="required">*</span>
+
+            </label>
+
+            <input
+              type="text"
+              id="city"
+              required
+              placeholder="Example: Johannesburg"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="area">
+
+              Area / Suburb
+
+            </label>
+
+            <input
+              type="text"
+              id="area"
+              placeholder="Example: Randhart"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="address">
+
+              Business Address
+
+            </label>
+
+            <textarea
+              id="address"
+              placeholder="Enter your business address"
+            ></textarea>
+
+          </div>
+
+
+          <!-- =========================
+               CONTACT DETAILS
+          ========================== -->
+
+          <div class="section-title">
+
+            <span class="section-number">
+              03
+            </span>
+
+            Contact Details
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="phone">
+
+              Phone Number
+
+            </label>
+
+            <input
+              type="tel"
+              id="phone"
+              placeholder="Example: 011 123 4567"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="whatsapp">
+
+              WhatsApp Number
+
+            </label>
+
+            <input
+              type="tel"
+              id="whatsapp"
+              placeholder="Example: 082 123 4567"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="email">
+
+              Business Email
+
+            </label>
+
+            <input
+              type="email"
+              id="email"
+              placeholder="business@example.com"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="website">
+
+              Website
+
+            </label>
+
+            <input
+              type="url"
+              id="website"
+              placeholder="https://example.com"
+            >
+
+            <div class="help-text">
+
+              Include https:// if possible.
+
+            </div>
+
+          </div>
+
+
+          <!-- =========================
+               SUBMIT
+          ========================== -->
+
+          <button
+            type="submit"
+            class="submit-btn"
+            id="submitBtn"
+          >
+            Submit My Business
+          </button>
+
+
+          <a
+            href="dashboard.html"
+            class="cancel-btn"
+          >
+            Cancel and return to dashboard
+          </a>
+
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </main>
+    <style>
+
+    /* =========================
+       FORM CARD
+    ========================== */
+
+    .form-card {
+      width: min(100%, 850px);
+      margin: 0 auto;
+      padding: 34px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(21,21,29,0.98),
+          rgba(17,17,23,0.98)
+        );
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+
+    /* =========================
+       MESSAGES
+    ========================== */
 
     .message {
       display: none;
-      padding: 14px;
-      border-radius: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 14px;
       line-height: 1.5;
     }
 
-    .error {
-      background: #ffe5e5;
-      color: #a00000;
+    .message.error {
+      background: rgba(239,68,68,0.10);
+      border: 1px solid rgba(239,68,68,0.35);
+      color: #fca5a5;
     }
 
-    .success {
-      background: #e3f7e8;
-      color: #176b32;
+    .message.success {
+      background: rgba(34,197,94,0.10);
+      border: 1px solid rgba(34,197,94,0.35);
+      color: #86efac;
     }
+
+
+    /* =========================
+       SECTION TITLES
+    ========================== */
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 10px 0 24px;
+      padding-bottom: 13px;
+      border-bottom: 1px solid var(--border);
+      color: var(--white);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 30px;
+      border-radius: 9px;
+      background: rgba(124,58,237,0.14);
+      border: 1px solid rgba(168,85,247,0.35);
+      color: var(--purple-light);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+
+    /* =========================
+       FORM GROUPS
+    ========================== */
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #e4e4e7;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .required {
+      color: var(--gold-light);
+    }
+
+
+    /* =========================
+       INPUTS
+    ========================== */
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px 15px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 11px;
+      background: #0d0d13;
+      color: var(--white);
+      font: inherit;
+      font-size: 14px;
+      outline: none;
+      transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #71717a;
+    }
+
+    .form-group textarea {
+      min-height: 115px;
+      resize: vertical;
+    }
+
+    .form-group select {
+      cursor: pointer;
+      appearance: auto;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--purple);
+      background: #101017;
+      box-shadow:
+        0 0 0 3px rgba(124,58,237,0.12);
+    }
+
+
+    /* =========================
+       HELP TEXT
+    ========================== */
+
+    .help-text {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+
+    /* =========================
+       BUTTONS
+    ========================== */
 
     .submit-btn {
       width: 100%;
-      border: none;
-      background: linear-gradient(135deg, #6d28a8, #4b176f);
-      color: white;
-      padding: 14px;
-      border-radius: 9px;
-      font-size: 16px;
-      font-weight: bold;
+      margin-top: 8px;
+      padding: 14px 20px;
+      border: 0;
+      border-radius: 12px;
+      background:
+        linear-gradient(
+          135deg,
+          var(--purple),
+          var(--purple-light)
+        );
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 800;
       cursor: pointer;
-      margin-top: 10px;
+      box-shadow:
+        0 10px 24px rgba(124,58,237,0.22);
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        opacity .2s ease;
     }
 
     .submit-btn:hover {
-      opacity: 0.95;
+      transform: translateY(-1px);
+      box-shadow:
+        0 14px 30px rgba(124,58,237,0.30);
     }
 
     .submit-btn:disabled {
-      opacity: 0.6;
+      opacity: 0.65;
       cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
 
     .cancel-btn {
       display: block;
+      width: fit-content;
+      margin: 15px auto 0;
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: #c4b5fd;
+      font-size: 13px;
+      font-weight: 700;
       text-align: center;
-      margin-top: 15px;
-      color: #5b2485;
-      text-decoration: none;
-      font-weight: bold;
+      transition:
+        background .2s ease,
+        color .2s ease;
     }
 
-    footer {
-      text-align: center;
-      color: #777;
-      padding: 30px 20px;
-      font-size: 14px;
+    .cancel-btn:hover {
+      background: rgba(124,58,237,0.10);
+      color: var(--white);
     }
 
-    @media (max-width: 600px) {
 
-      .header-inner {
-        flex-direction: column;
-        align-items: flex-start;
+    /* =========================
+       FOOTER
+    ========================== */
+
+    .site-footer {
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+      background: #050509;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .site-footer strong {
+      color: var(--white);
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 800px) {
+
+      .add-business-page {
+        padding: 40px 0 60px;
+        min-height: calc(100vh - 70px);
+      }
+
+      .page-heading {
+        margin-bottom: 28px;
+      }
+
+      .page-heading p {
+        font-size: 14px;
       }
 
       .form-card {
-        padding: 20px;
+        padding: 24px 18px;
+        border-radius: 15px;
+      }
+
+      .section-title {
+        font-size: 17px;
       }
 
     }
+
+
+    @media (max-width: 430px) {
+
+      .add-business-page {
+        padding-top: 32px;
+      }
+
+      .page-heading h1 {
+        font-size: 30px;
+      }
+
+      .page-heading p {
+        font-size: 13px;
+      }
+
+      .form-card {
+        padding: 22px 15px;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        padding: 12px 13px;
+        font-size: 14px;
+      }
+
+      .section-title {
+        gap: 9px;
+        font-size: 16px;
+      }
+
+      .section-number {
+        width: 33px;
+        height: 28px;
+      }
+
+    }
+
   </style>
-</head>
 
-<body>
 
-<header>
+  <!-- =========================
+       FOOTER
+  ========================== -->
 
-  <div class="header-inner">
+  <footer class="site-footer">
 
-    <div class="brand">
-      LumaRise <span>Local</span>
+    <div class="container">
+
+      © 2026
+      <strong>LumaRise Local</strong>.
+      All rights reserved.
+
     </div>
 
-    <a href="dashboard.html" class="back-btn">
-      ← Dashboard
-    </a>
+  </footer>
+    <script>
 
-  </div>
+    /* =========================
+       SUPABASE
+    ========================== */
 
-</header>
+    const SUPABASE_URL =
+      "https://lpbamlwezrkyrjnwgpcp.supabase.co";
 
+    const SUPABASE_KEY =
+      "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
 
-<main class="container">
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-  <div class="intro">
 
-    <h1>Add Your Business</h1>
+    /* =========================
+       ELEMENTS
+    ========================== */
 
-    <p>
-      Create your business listing on LumaRise Local and
-      help customers discover your business.
-    </p>
+    const businessForm =
+      document.getElementById("businessForm");
 
-  </div>
+    const submitBtn =
+      document.getElementById("submitBtn");
 
+    const errorMessage =
+      document.getElementById("errorMessage");
 
-  <div class="form-card">
+    const successMessage =
+      document.getElementById("successMessage");
 
-    <div id="errorMessage" class="message error"></div>
+    const mobileMenuButton =
+      document.getElementById("mobileMenuButton");
 
-    <div id="successMessage" class="message success"></div>
+    const mobileNav =
+      document.getElementById("mobileNav");
 
+    const mobileLogoutBtn =
+      document.getElementById("mobileLogoutBtn");
 
-    <form id="businessForm">
 
-      <div class="section-title">
-        Business Information
-      </div>
+    /* =========================
+       MESSAGE HELPERS
+    ========================== */
 
+    function showError(message) {
 
-      <div class="form-group">
-
-        <label for="business_name">
-          Business Name <span class="required">*</span>
-        </label>
-
-        <input
-          type="text"
-          id="business_name"
-          required
-          placeholder="Enter your business name"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="description">
-          Business Description
-        </label>
-
-        <textarea
-          id="description"
-          placeholder="Tell customers about your business..."
-        ></textarea>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="category">
-          Category <span class="required">*</span>
-        </label>
-
-        <input
-          type="text"
-          id="category"
-          required
-          placeholder="Example: Restaurant, Construction, Beauty"
-        >
-
-      </div>
-
-
-      <div class="section-title">
-        Location
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="province">
-          Province <span class="required">*</span>
-        </label>
-
-        <select id="province" required>
-
-          <option value="">
-            Select Province
-          </option>
-
-          <option value="Eastern Cape">
-            Eastern Cape
-          </option>
-
-          <option value="Free State">
-            Free State
-          </option>
-
-          <option value="Gauteng">
-            Gauteng
-          </option>
-
-          <option value="KwaZulu-Natal">
-            KwaZulu-Natal
-          </option>
-
-          <option value="Limpopo">
-            Limpopo
-          </option>
-
-          <option value="Mpumalanga">
-            Mpumalanga
-          </option>
-
-          <option value="Northern Cape">
-            Northern Cape
-          </option>
-
-          <option value="North West">
-            North West
-          </option>
-
-          <option value="Western Cape">
-            Western Cape
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="city">
-          City / Town <span class="required">*</span>
-        </label>
-
-        <input
-          type="text"
-          id="city"
-          required
-          placeholder="Example: Johannesburg"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="area">
-          Area / Suburb
-        </label>
-
-        <input
-          type="text"
-          id="area"
-          placeholder="Example: Randhart"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="address">
-          Business Address
-        </label>
-
-        <textarea
-          id="address"
-          placeholder="Enter your business address"
-        ></textarea>
-
-      </div>
-
-
-      <div class="section-title">
-        Contact Details
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="phone">
-          Phone Number
-        </label>
-
-        <input
-          type="tel"
-          id="phone"
-          placeholder="Example: 011 123 4567"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="whatsapp">
-          WhatsApp Number
-        </label>
-
-        <input
-          type="tel"
-          id="whatsapp"
-          placeholder="Example: 082 123 4567"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="email">
-          Business Email
-        </label>
-
-        <input
-          type="email"
-          id="email"
-          placeholder="business@example.com"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="website">
-          Website
-        </label>
-
-        <input
-          type="url"
-          id="website"
-          placeholder="https://example.com"
-        >
-
-        <div class="help-text">
-          Include https:// if possible.
-        </div>
-
-      </div>
-
-
-      <button
-        type="submit"
-        class="submit-btn"
-        id="submitBtn"
-      >
-        Submit My Business
-      </button>
-
-
-      <a
-        href="dashboard.html"
-        class="cancel-btn"
-      >
-        Cancel and return to dashboard
-      </a>
-
-    </form>
-
-  </div>
-
-</main>
-
-
-<footer>
-  © 2026 LumaRise Local. All rights reserved.
-</footer>
-
-
-<script>
-
-  const SUPABASE_URL =
-    "https://lpbamlwezrkyrjnwgpcp.supabase.co";
-
-  const SUPABASE_KEY =
-    "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
-
-
-  const db =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
-
-  const form =
-    document.getElementById("businessForm");
-
-  const submitBtn =
-    document.getElementById("submitBtn");
-
-  const errorMessage =
-    document.getElementById("errorMessage");
-
-  const successMessage =
-    document.getElementById("successMessage");
-
-
-  function showError(message) {
-
-    errorMessage.textContent = message;
-
-    errorMessage.style.display = "block";
-
-    successMessage.style.display = "none";
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  }
-
-
-  function showSuccess(message) {
-
-    successMessage.textContent = message;
-
-    successMessage.style.display = "block";
-
-    errorMessage.style.display = "none";
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  }
-
-
-  async function getLoggedInUser() {
-
-    const {
-      data,
-      error
-    } = await db.auth.getUser();
-
-
-    if (error) {
-
-      throw error;
-
-    }
-
-
-    if (!data || !data.user) {
-
-      window.location.replace("login.html");
-
-      return null;
-
-    }
-
-
-    return data.user;
-
-  }
-
-
-  async function checkExistingBusiness(user) {
-
-    const {
-      data,
-      error
-    } = await db
-      .from("businesses")
-      .select("id")
-      .eq("owner_id", user.id)
-      .limit(1);
-
-
-    if (error) {
-
-      throw error;
-
-    }
-
-
-    return data && data.length > 0;
-
-  }
-
-
-  form.addEventListener(
-    "submit",
-    async function(event) {
-
-      event.preventDefault();
-
-
-      errorMessage.style.display = "none";
+      errorMessage.textContent = message;
+      errorMessage.style.display = "block";
 
       successMessage.style.display = "none";
 
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
 
-      submitBtn.disabled = true;
-
-      submitBtn.textContent =
-        "Submitting...";
-
-
-      try {
-
-        const user =
-          await getLoggedInUser();
+    }
 
 
-        if (!user) {
+    function showSuccess(message) {
 
-          return;
+      successMessage.textContent = message;
+      successMessage.style.display = "block";
 
-        }
+      errorMessage.style.display = "none";
 
-
-        const alreadyHasBusiness =
-          await checkExistingBusiness(user);
-
-
-        if (alreadyHasBusiness) {
-
-          showError(
-            "This account already has a business listing. Please return to your dashboard to manage it."
-          );
+    }
 
 
-          submitBtn.disabled = false;
+    /* =========================
+       CHECK LOGIN
+    ========================== */
 
-          submitBtn.textContent =
-            "Submit My Business";
+    async function checkUser() {
+
+      const {
+        data: {
+          user
+        },
+        error
+      } = await supabaseClient.auth.getUser();
 
 
-          return;
+      if (error || !user) {
 
-        }
+        window.location.href =
+          "login.html";
+
+        return null;
+
+      }
 
 
-        const businessData = {
+      return user;
 
-          business_name:
-            document
-              .getElementById("business_name")
-              .value
-              .trim(),
+    }
 
-          description:
-            document
-              .getElementById("description")
-              .value
-              .trim(),
 
-          category:
-            document
-              .getElementById("category")
-              .value
-              .trim(),
+    /* =========================
+       MOBILE MENU
+    ========================== */
 
-          province:
-            document
-              .getElementById("province")
-              .value,
+    mobileMenuButton.addEventListener(
+      "click",
+      function () {
 
-          city:
-            document
-              .getElementById("city")
-              .value
-              .trim(),
+        const isOpen =
+          mobileNav.classList.toggle("open");
 
-          area:
-            document
-              .getElementById("area")
-              .value
-              .trim(),
+        mobileMenuButton.setAttribute(
+          "aria-expanded",
+          isOpen ? "true" : "false"
+        );
 
-          address:
-            document
-              .getElementById("address")
-              .value
-              .trim(),
+      }
+    );
 
-          phone:
-            document
-              .getElementById("phone")
-              .value
-              .trim(),
 
-          whatsapp:
-            document
-              .getElementById("whatsapp")
-              .value
-              .trim(),
+    mobileNav
+      .querySelectorAll("a")
+      .forEach(function(link) {
 
-          email:
-            document
-              .getElementById("email")
-              .value
-              .trim(),
+        link.addEventListener(
+          "click",
+          function() {
 
-          website:
-            document
-              .getElementById("website")
-              .value
-              .trim(),
+            mobileNav.classList.remove("open");
 
-          owner_id:
-            user.id,
+            mobileMenuButton.setAttribute(
+              "aria-expanded",
+              "false"
+            );
 
-          is_verified:
-            false,
+          }
+        );
 
-          is_featured:
-            false
+      });
 
-        };
 
+    /* =========================
+       LOGOUT
+    ========================== */
+
+    mobileLogoutBtn.addEventListener(
+      "click",
+      async function () {
+
+        mobileLogoutBtn.disabled = true;
 
         const {
           error
-        } = await db
-          .from("businesses")
-          .insert([businessData]);
+        } = await supabaseClient.auth.signOut();
 
 
         if (error) {
 
-          throw error;
+          mobileLogoutBtn.disabled = false;
+
+          showError(
+            "Unable to log out. Please try again."
+          );
+
+          return;
 
         }
 
 
-        showSuccess(
-          "Your business has been submitted successfully! Taking you back to your dashboard..."
-        );
-
-
-        form.reset();
-
-
-        /*
-          Wait briefly so the success message
-          can be seen, then return to dashboard.
-        */
-
-        setTimeout(
-          function() {
-
-            window.location.replace(
-              "dashboard.html"
-            );
-
-          },
-          2000
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "Business submission error:",
-          error
-        );
-
-
-        showError(
-          error.message ||
-          "Something went wrong while submitting your business."
-        );
-
-
-        submitBtn.disabled = false;
-
-        submitBtn.textContent =
-          "Submit My Business";
+        window.location.href =
+          "login.html";
 
       }
-
-    }
-  );
+    );
 
 
-  /*
-    Check login when the page loads.
-  */
+    /* =========================
+       FORM SUBMISSION
+    ========================== */
 
-  getLoggedInUser()
-    .catch(function(error) {
+    businessForm.addEventListener(
+      "submit",
+      async function(event) {
 
-      console.error(
-        "Login check error:",
-        error
-      );
+        event.preventDefault();
 
-      window.location.replace(
-        "login.html"
-      );
+        errorMessage.style.display = "none";
+        successMessage.style.display = "none";
 
-    });
 
-</script>
+        submitBtn.disabled = true;
+        submitBtn.textContent =
+          "Submitting...";
+
+
+        try {
+
+          const user =
+            await checkUser();
+
+
+          if (!user) {
+            return;
+          }
+
+
+          /* =========================
+             CHECK EXISTING BUSINESS
+          ========================== */
+
+          const {
+            data: existingBusiness,
+            error: existingError
+          } = await supabaseClient
+            .from("businesses")
+            .select("id")
+            .eq("owner_id", user.id)
+            .limit(1);
+
+
+          if (existingError) {
+
+            throw existingError;
+
+          }
+
+
+          if (
+            existingBusiness &&
+            existingBusiness.length > 0
+          ) {
+
+            showError(
+              "You already have a business listing. Please use the dashboard to manage your existing business."
+            );
+
+            submitBtn.disabled = false;
+            submitBtn.textContent =
+              "Submit My Business";
+
+            return;
+
+          }
+
+
+          /* =========================
+             BUSINESS DATA
+          ========================== */
+
+          const businessData = {
+
+            business_name:
+              document
+                .getElementById("business_name")
+                .value
+                .trim(),
+
+            description:
+              document
+                .getElementById("description")
+                .value
+                .trim(),
+
+            category:
+              document
+                .getElementById("category")
+                .value
+                .trim(),
+
+            province:
+              document
+                .getElementById("province")
+                .value,
+
+            city:
+              document
+                .getElementById("city")
+                .value
+                .trim(),
+
+            area:
+              document
+                .getElementById("area")
+                .value
+                .trim(),
+
+            address:
+              document
+                .getElementById("address")
+                .value
+                .trim(),
+
+            phone:
+              document
+                .getElementById("phone")
+                .value
+                .trim(),
+
+            whatsapp:
+              document
+                .getElementById("whatsapp")
+                .value
+                .trim(),
+
+            email:
+              document
+                .getElementById("email")
+                .value
+                .trim(),
+
+            website:
+              document
+                .getElementById("website")
+                .value
+                .trim(),
+
+            owner_id:
+              user.id,
+
+            is_verified:
+              false,
+
+            is_featured:
+              false
+
+          };
+
+
+          /* =========================
+             INSERT BUSINESS
+          ========================== */
+
+          const {
+            error: insertError
+          } = await supabaseClient
+            .from("businesses")
+            .insert([businessData]);
+
+
+          if (insertError) {
+
+            throw insertError;
+
+          }
+
+
+          /* =========================
+             SUCCESS
+          ========================== */
+
+          showSuccess(
+            "Your business has been submitted successfully! Redirecting to your dashboard..."
+          );
+
+
+          businessForm.reset();
+
+          submitBtn.disabled = true;
+          submitBtn.textContent =
+            "Business Submitted";
+
+
+          setTimeout(
+            function() {
+
+              window.location.href =
+                "dashboard.html";
+
+            },
+            2000
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Business submission error:",
+            error
+          );
+
+
+          showError(
+            error.message ||
+            "Something went wrong while submitting your business. Please try again."
+          );
+
+
+          submitBtn.disabled = false;
+          submitBtn.textContent =
+            "Submit My Business";
+
+        }
+
+      });
+
+
+    /* =========================
+       INITIAL CHECK
+    ========================== */
+
+    checkUser();
+
+  </script>
 
 </body>
-  </html>
+</html>
