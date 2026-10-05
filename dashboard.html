@@ -14,13 +14,11 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
   <style>
 
     * {
       box-sizing: border-box;
     }
-
 
     body {
       margin: 0;
@@ -28,7 +26,6 @@
       background: #f5f3f8;
       color: #222;
     }
-
 
     header {
       background: linear-gradient(
@@ -41,7 +38,6 @@
       padding: 22px 20px;
     }
 
-
     .header-inner {
       max-width: 1000px;
       margin: auto;
@@ -53,17 +49,14 @@
       gap: 15px;
     }
 
-
     .brand {
       font-size: 24px;
       font-weight: bold;
     }
 
-
     .brand span {
       color: #d8b4fe;
     }
-
 
     .logout-btn {
       background: white;
@@ -80,7 +73,6 @@
       cursor: pointer;
     }
 
-
     .container {
       max-width: 1000px;
 
@@ -89,11 +81,9 @@
       padding: 0 20px;
     }
 
-
     .welcome {
       margin-bottom: 25px;
     }
-
 
     .welcome h1 {
       margin: 0 0 8px;
@@ -101,13 +91,11 @@
       color: #321052;
     }
 
-
     .welcome p {
       margin: 0;
 
       color: #666;
     }
-
 
     .card {
       background: white;
@@ -122,13 +110,11 @@
         0 4px 18px rgba(0,0,0,0.07);
     }
 
-
     .card h2 {
       margin-top: 0;
 
       color: #321052;
     }
-
 
     .business-name {
       font-size: 24px;
@@ -138,13 +124,11 @@
       margin-bottom: 10px;
     }
 
-
     .business-info {
       color: #666;
 
       line-height: 1.8;
     }
-
 
     .status {
       display: inline-block;
@@ -160,13 +144,11 @@
       margin-top: 15px;
     }
 
-
     .status.verified {
       background: #dff6e5;
 
       color: #16733a;
     }
-
 
     .status.pending {
       background: #fff1cc;
@@ -174,13 +156,11 @@
       color: #8a5b00;
     }
 
-
     .empty {
       text-align: center;
 
       padding: 25px 10px;
     }
-
 
     .empty h3 {
       color: #321052;
@@ -188,13 +168,11 @@
       margin-bottom: 8px;
     }
 
-
     .empty p {
       color: #666;
 
       line-height: 1.6;
     }
-
 
     .primary-btn {
       display: inline-block;
@@ -223,7 +201,6 @@
       margin-top: 15px;
     }
 
-
     .secondary-btn {
       display: inline-block;
 
@@ -248,7 +225,6 @@
       margin-right: 8px;
     }
 
-
     .loading {
       text-align: center;
 
@@ -256,7 +232,6 @@
 
       color: #666;
     }
-
 
     .error {
       background: #ffe5e5;
@@ -274,7 +249,6 @@
       line-height: 1.6;
     }
 
-
     .info-box {
       background: #f3edf8;
 
@@ -291,7 +265,6 @@
       line-height: 1.6;
     }
 
-
     footer {
       text-align: center;
 
@@ -302,7 +275,6 @@
       font-size: 14px;
     }
 
-
     @media (max-width: 600px) {
 
       .header-inner {
@@ -311,11 +283,9 @@
         align-items: flex-start;
       }
 
-
       .logout-btn {
         width: 100%;
       }
-
 
       .card {
         padding: 20px;
@@ -327,9 +297,7 @@
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -338,7 +306,6 @@
     <div class="brand">
       LumaRise <span>Local</span>
     </div>
-
 
     <button
       class="logout-btn"
@@ -351,9 +318,7 @@
 
 </header>
 
-
 <main class="container">
-
 
   <div class="welcome">
 
@@ -368,12 +333,10 @@
 
   </div>
 
-
   <div
     id="errorMessage"
     class="error"
   ></div>
-
 
   <div
     id="loading"
@@ -382,12 +345,10 @@
     Checking your account...
   </div>
 
-
   <div
     id="dashboardContent"
     style="display:none;"
   >
-
 
     <div class="card">
 
@@ -395,12 +356,10 @@
         Your Account
       </h2>
 
-
       <p>
         <strong>Name:</strong>
         <span id="ownerName">-</span>
       </p>
-
 
       <p>
         <strong>Email:</strong>
@@ -409,26 +368,19 @@
 
     </div>
 
-
     <div class="card">
 
       <h2>
         Your Business
       </h2>
 
-
-      <div id="businessContent">
-
-      </div>
+      <div id="businessContent"></div>
 
     </div>
 
-
   </div>
 
-
 </main>
-
 
 <footer>
 
@@ -437,18 +389,13 @@
 
 </footer>
 
-
-
 <script>
-
 
   const SUPABASE_URL =
     "https://lpbamlwezrkyrjnwgpcp.supabase.co";
 
-
   const SUPABASE_KEY =
     "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
-
 
   const db =
     window.supabase.createClient(
@@ -456,134 +403,68 @@
       SUPABASE_KEY
     );
 
-
   const loading =
-    document.getElementById(
-      "loading"
-    );
-
+    document.getElementById("loading");
 
   const dashboardContent =
-    document.getElementById(
-      "dashboardContent"
-    );
-
+    document.getElementById("dashboardContent");
 
   const errorMessage =
-    document.getElementById(
-      "errorMessage"
-    );
-
+    document.getElementById("errorMessage");
 
   const ownerName =
-    document.getElementById(
-      "ownerName"
-    );
-
+    document.getElementById("ownerName");
 
   const ownerEmail =
-    document.getElementById(
-      "ownerEmail"
-    );
-
+    document.getElementById("ownerEmail");
 
   const welcomeTitle =
-    document.getElementById(
-      "welcomeTitle"
-    );
-
+    document.getElementById("welcomeTitle");
 
   const businessContent =
-    document.getElementById(
-      "businessContent"
-    );
-
+    document.getElementById("businessContent");
 
   function escapeHtml(value) {
 
     return String(value || "")
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
   }
-
 
   function showError(message) {
 
-    errorMessage.textContent =
-      message;
+    errorMessage.textContent = message;
 
-    errorMessage.style.display =
-      "block";
+    errorMessage.style.display = "block";
 
   }
 
-
   async function loadDashboard() {
 
-
     try {
-
-
-      /*
-        Get the currently logged-in
-        Supabase user.
-      */
 
       const {
         data,
         error
       } = await db.auth.getUser();
 
-
       if (error) {
-
         throw error;
-
       }
 
-
-      const user =
-        data.user;
-
-
-      /*
-        If there is no logged-in user,
-        send them back to login.
-      */
+      const user = data.user;
 
       if (!user) {
 
-        window.location.replace(
-          "login.html"
-        );
+        window.location.replace("login.html");
 
         return;
 
       }
-
-
-      /*
-        Display account information.
-      */
 
       const name =
         user.user_metadata &&
@@ -595,26 +476,13 @@
                 : "Business Owner"
             );
 
-
-      ownerName.textContent =
-        name;
-
+      ownerName.textContent = name;
 
       ownerEmail.textContent =
         user.email || "-";
 
-
       welcomeTitle.textContent =
-        "Welcome, " +
-        name +
-        "!";
-
-
-      /*
-        IMPORTANT:
-        Find businesses using the
-        owner_id of the logged-in user.
-      */
+        "Welcome, " + name + "!";
 
       const {
         data: businesses,
@@ -622,40 +490,20 @@
       } = await db
         .from("businesses")
         .select("*")
-        .eq(
-          "owner_id",
-          user.id
-        );
-
+        .eq("owner_id", user.id);
 
       if (businessError) {
-
         throw businessError;
-
       }
 
+      loading.style.display = "none";
 
-      /*
-        Stop loading.
-      */
-
-      loading.style.display =
-        "none";
-
-
-      dashboardContent.style.display =
-        "block";
-
-
-      /*
-        No business found.
-      */
+      dashboardContent.style.display = "block";
 
       if (
         !businesses ||
         businesses.length === 0
       ) {
-
 
         businessContent.innerHTML = `
 
@@ -670,7 +518,6 @@
               your LumaRise Local listing.
             </p>
 
-
             <a
               href="owner-business.html"
               class="primary-btn"
@@ -682,19 +529,12 @@
 
         `;
 
-
         return;
 
       }
 
-
-      /*
-        A business was found.
-      */
-
       const business =
         businesses[0];
-
 
       const verificationStatus =
         business.is_verified
@@ -709,7 +549,6 @@
             </span>
           `;
 
-
       businessContent.innerHTML = `
 
         <div class="business-name">
@@ -721,9 +560,7 @@
 
         </div>
 
-
         <div class="business-info">
-
 
           ${
             business.description
@@ -737,7 +574,6 @@
               : ""
           }
 
-
           ${
             business.category
               ? `
@@ -749,7 +585,6 @@
               `
               : ""
           }
-
 
           ${
             business.province
@@ -763,7 +598,6 @@
               : ""
           }
 
-
           ${
             business.city
               ? `
@@ -775,7 +609,6 @@
               `
               : ""
           }
-
 
           ${
             business.area
@@ -789,7 +622,6 @@
               : ""
           }
 
-
           ${
             business.address
               ? `
@@ -801,7 +633,6 @@
               `
               : ""
           }
-
 
           ${
             business.phone
@@ -815,7 +646,6 @@
               : ""
           }
 
-
           ${
             business.whatsapp
               ? `
@@ -827,7 +657,6 @@
               `
               : ""
           }
-
 
           ${
             business.email
@@ -841,7 +670,6 @@
               : ""
           }
 
-
           ${
             business.website
               ? `
@@ -854,12 +682,9 @@
               : ""
           }
 
-
         </div>
 
-
         ${verificationStatus}
-
 
         <div class="info-box">
 
@@ -874,7 +699,6 @@
 
         </div>
 
-
         <div>
 
           <a
@@ -886,36 +710,28 @@
             View My Listing
           </a>
 
-
-          <button
-            type="button"
+          <a
+            href="owner-edit.html"
             class="primary-btn"
-            onclick="editBusiness()"
           >
             Edit My Business
-          </button>
+          </a>
 
         </div>
 
       `;
 
-
     } catch (error) {
-
 
       console.error(
         "Dashboard error:",
         error
       );
 
-
-      loading.style.display =
-        "none";
-
+      loading.style.display = "none";
 
       dashboardContent.style.display =
         "block";
-
 
       showError(
         "We could not load your business information. " +
@@ -925,52 +741,29 @@
         )
       );
 
-
     }
 
   }
 
-
-  function editBusiness() {
-
-    alert(
-      "The business editing section will be added next."
-    );
-
-  }
-
-
   document
-    .getElementById(
-      "logoutBtn"
-    )
+    .getElementById("logoutBtn")
     .addEventListener(
       "click",
       async function() {
 
-
         await db.auth.signOut();
-
 
         window.location.replace(
           "login.html"
         );
 
-
       }
     );
 
-
-  /*
-    Start dashboard.
-  */
-
   loadDashboard();
-
 
 </script>
 
-
 </body>
 
-  </html>
+</html>
