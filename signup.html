@@ -1,251 +1,930 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Business Sign Up | LumaRise Local</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+
+    :root {
+      --black: #08080c;
+      --black-soft: #111117;
+      --purple: #7c3aed;
+      --purple-dark: #5b21b6;
+      --purple-light: #a855f7;
+      --gold: #d4af37;
+      --gold-light: #f4d878;
+      --white: #ffffff;
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+      --border: rgba(255,255,255,0.10);
+      --card: #15151d;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --max-width: 1180px;
+      --radius: 18px;
+      --shadow: 0 15px 40px rgba(0,0,0,0.30);
+    }
+
+
+    /* =========================
+       RESET
+    ========================== */
+
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f5fb;
-      color: #222;
+      min-height: 100vh;
+      background: var(--black);
+      color: var(--text);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    .header {
-      background: #111;
-      padding: 18px 20px;
-      text-align: center;
-    }
-
-    .logo {
-      color: #d4af37;
-      font-size: 24px;
-      font-weight: bold;
+    a {
+      color: inherit;
       text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
     }
 
     .container {
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 0 20px;
+      width: min(
+        100% - 32px,
+        var(--max-width)
+      );
+      margin: 0 auto;
     }
 
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(8,8,12,0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(14px);
     }
 
-    h1 {
-      margin-top: 0;
-      color: #111;
-      text-align: center;
+    .header-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
     }
 
-    .intro {
-      text-align: center;
-      color: #666;
-      line-height: 1.6;
-      margin-bottom: 28px;
+    .brand {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
     }
 
-    label {
-      display: block;
-      font-weight: bold;
-      margin: 18px 0 7px;
+    .brand-logo {
+      width: 175px;
+      height: auto;
+      max-height: 58px;
+      object-fit: contain;
+      object-position: left center;
     }
 
-    input {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
+
+    /* =========================
+       DESKTOP NAVIGATION
+    ========================== */
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      flex-wrap: nowrap;
     }
 
-    input:focus {
-      outline: none;
-      border-color: #d4af37;
+    .desktop-nav a {
+      padding: 10px 13px;
+      border-radius: 10px;
+      color: #d4d4d8;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition:
+        background .2s ease,
+        color .2s ease;
     }
 
-    .btn {
-      width: 100%;
-      margin-top: 25px;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      background: #111;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
+    .desktop-nav a:hover {
+      background: rgba(124,58,237,0.14);
+      color: var(--white);
     }
 
-    .btn:hover {
-      background: #d4af37;
-      color: #111;
+    .desktop-nav .nav-login {
+      border: 1px solid rgba(124,58,237,0.55);
+      color: #ddd6fe;
     }
 
-    .message {
+    .desktop-nav .nav-signup {
+      background: var(--purple);
+      color: var(--white);
+    }
+
+    .desktop-nav .nav-signup:hover {
+      background: var(--purple-light);
+    }
+
+    .desktop-nav .nav-list {
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      color: #17120a;
+      font-weight: 800;
+    }
+
+    .desktop-nav .nav-list:hover {
+      background: var(--gold-light);
+      color: #17120a;
+    }
+
+
+    /* =========================
+       MOBILE MENU BUTTON
+    ========================== */
+
+    .mobile-menu-button {
       display: none;
-      padding: 14px;
-      margin-top: 20px;
-      border-radius: 8px;
-      text-align: center;
-      line-height: 1.5;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--black-soft);
+      color: var(--white);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
     }
 
-    .success {
-      background: #e9f8ee;
-      color: #176b35;
+    .mobile-menu-button span {
+      width: 20px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
     }
 
-    .error {
-      background: #fdeaea;
-      color: #9b1c1c;
+
+    /* =========================
+       MOBILE NAV
+    ========================== */
+
+    .mobile-nav {
+      display: none;
+      padding: 0 0 18px;
     }
 
-    .login-link {
-      text-align: center;
-      margin-top: 22px;
-      color: #666;
+    .mobile-nav-inner {
+      display: grid;
+      gap: 7px;
+      padding-top: 8px;
     }
 
-    .login-link a {
-      color: #9a7b00;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    .back {
+    .mobile-nav a {
       display: block;
+      padding: 13px 15px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: rgba(255,255,255,0.03);
+      color: #e4e4e7;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .mobile-nav a.login {
+      border-color: rgba(124,58,237,0.5);
+      color: #ddd6fe;
+    }
+
+    .mobile-nav a.signup {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: var(--white);
       text-align: center;
-      margin-top: 25px;
-      color: #555;
-      text-decoration: none;
     }
 
-    @media (max-width: 600px) {
-      .container {
-        margin: 25px auto;
-      }
-
-      .card {
-        padding: 22px;
-      }
+    .mobile-nav a.list-business {
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+      border-color: var(--gold);
+      color: #17120a;
+      text-align: center;
+      font-weight: 800;
     }
+
+
+    /* =========================
+       SIGNUP PAGE
+    ========================== */
+
+    .signup-page {
+      min-height: calc(100vh - 78px);
+      padding: 54px 0 80px;
+    }
+
+    .page-heading {
+      max-width: 700px;
+      margin: 0 auto 34px;
+      text-align: center;
+    }
+
+    .page-heading h1 {
+      margin: 0 0 10px;
+      color: var(--white);
+      font-size: clamp(30px, 5vw, 44px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+    }
+
+    .page-heading h1 span {
+      color: var(--purple-light);
+    }
+
+    .page-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
   </style>
+
 </head>
 
 <body>
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-  <header class="header">
-    <a href="index.html" class="logo">
-      LumaRise Local
-    </a>
-  </header>
+  <header class="site-header">
 
-  <main class="container">
-
-    <div class="card">
-
-      <h1>Join LumaRise Local</h1>
-
-      <p class="intro">
-        Create your business owner account and take control of your
-        business listing on LumaRise Local.
-      </p>
-
-      <form id="signupForm">
-
-        <label for="fullName">
-          Full Name
-        </label>
-
-        <input
-          type="text"
-          id="fullName"
-          placeholder="Your full name"
-          required
-        >
-
-        <label for="email">
-          Email Address
-        </label>
-
-        <input
-          type="email"
-          id="email"
-          placeholder="you@example.com"
-          required
-        >
-
-        <label for="password">
-          Password
-        </label>
-
-        <input
-          type="password"
-          id="password"
-          placeholder="Create a password"
-          minlength="6"
-          required
-        >
-
-        <label for="confirmPassword">
-          Confirm Password
-        </label>
-
-        <input
-          type="password"
-          id="confirmPassword"
-          placeholder="Enter your password again"
-          minlength="6"
-          required
-        >
-
-        <button
-          type="submit"
-          class="btn"
-          id="signupButton"
-        >
-          Create Business Account
-        </button>
-
-      </form>
-
-      <div
-        id="message"
-        class="message"
-      ></div>
-
-      <div class="login-link">
-        Already have an account?
-        <a href="login.html">Business Login</a>
-      </div>
+    <div class="container header-inner">
 
       <a
         href="index.html"
-        class="back"
+        class="brand"
+        aria-label="LumaRise Local home"
       >
-        ← Back to LumaRise Local
+
+        <img
+          src="IMG-20260919-WA0037.jpg"
+          alt="LumaRise Marketing"
+          class="brand-logo"
+        >
+
       </a>
+
+
+      <nav
+        class="desktop-nav"
+        aria-label="Main navigation"
+      >
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore
+        </a>
+
+        <a href="categories.html">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a
+          href="login.html"
+          class="nav-login"
+        >
+          Business Login
+        </a>
+
+        <a
+          href="signup.html"
+          class="nav-signup"
+        >
+          Sign Up
+        </a>
+
+        <a
+          href="list.html"
+          class="nav-list"
+        >
+          List Your Business
+        </a>
+
+      </nav>
+
+
+      <button
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </button>
+
+    </div>
+
+
+    <!-- MOBILE NAVIGATION -->
+
+    <div
+      class="mobile-nav"
+      id="mobileNav"
+    >
+
+      <div class="container mobile-nav-inner">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore Businesses
+        </a>
+
+        <a href="categories.html">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About LumaRise Local
+        </a>
+
+        <a
+          href="login.html"
+          class="login"
+        >
+          Business Login
+        </a>
+
+        <a
+          href="signup.html"
+          class="signup"
+        >
+          Create Business Account
+        </a>
+
+        <a
+          href="list.html"
+          class="list-business"
+        >
+          + List Your Business
+        </a>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+
+  <main class="signup-page">
+
+    <div class="container">
+
+      <div class="page-heading">
+
+        <h1>
+          Join <span>LumaRise Local</span>
+        </h1>
+
+        <p>
+          Create your business owner account
+          and take control of your business
+          listing on LumaRise Local.
+        </p>
+
+      </div>
+
+
+      <!-- =========================
+           SIGNUP CARD
+      ========================== -->
+
+      <div class="signup-card">
+
+        <form id="signupForm">
+
+
+          <div class="form-group">
+
+            <label for="fullName">
+              Full Name
+            </label>
+
+            <input
+              type="text"
+              id="fullName"
+              placeholder="Your full name"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="email">
+              Email Address
+            </label>
+
+            <input
+              type="email"
+              id="email"
+              placeholder="you@example.com"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="password">
+              Password
+            </label>
+
+            <input
+              type="password"
+              id="password"
+              placeholder="Create a password"
+              minlength="6"
+              required
+            >
+
+            <div class="help-text">
+              Password must contain at least 6 characters.
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="confirmPassword">
+              Confirm Password
+            </label>
+
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Enter your password again"
+              minlength="6"
+              required
+            >
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="signup-btn"
+            id="signupButton"
+          >
+            Create Business Account
+          </button>
+
+
+        </form>
+
+
+        <div
+          id="message"
+          class="message"
+        ></div>
+
+
+        <div class="login-link">
+
+          Already have an account?
+
+          <a href="login.html">
+            Business Login
+          </a>
+
+        </div>
+
+
+        <a
+          href="index.html"
+          class="back"
+        >
+          ← Back to LumaRise Local
+        </a>
+
+      </div>
 
     </div>
 
   </main>
+  <style>
 
+    /* =========================
+       SIGNUP CARD
+    ========================== */
+
+    .signup-card {
+      width: min(100%, 680px);
+      margin: 0 auto;
+      padding: 34px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(21,21,29,0.98),
+          rgba(17,17,23,0.98)
+        );
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+
+    /* =========================
+       FORM GROUPS
+    ========================== */
+
+    .form-group {
+      margin-bottom: 21px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #e4e4e7;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+
+    /* =========================
+       INPUTS
+    ========================== */
+
+    .form-group input {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 11px;
+      background: #0d0d13;
+      color: var(--white);
+      font-size: 14px;
+      outline: none;
+      transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+    }
+
+    .form-group input::placeholder {
+      color: #71717a;
+    }
+
+    .form-group input:focus {
+      border-color: var(--purple);
+      background: #101017;
+      box-shadow:
+        0 0 0 3px rgba(124,58,237,0.12);
+    }
+
+
+    /* =========================
+       HELP TEXT
+    ========================== */
+
+    .help-text {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+
+    /* =========================
+       SIGNUP BUTTON
+    ========================== */
+
+    .signup-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 14px 20px;
+      border: 0;
+      border-radius: 12px;
+      background:
+        linear-gradient(
+          135deg,
+          var(--purple),
+          var(--purple-light)
+        );
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow:
+        0 10px 24px rgba(124,58,237,0.22);
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        opacity .2s ease;
+    }
+
+    .signup-btn:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 14px 30px rgba(124,58,237,0.30);
+    }
+
+    .signup-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+
+    /* =========================
+       MESSAGES
+    ========================== */
+
+    .message {
+      display: none;
+      margin-top: 20px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .message.success {
+      background: rgba(34,197,94,0.10);
+      border: 1px solid rgba(34,197,94,0.35);
+      color: #86efac;
+    }
+
+    .message.error {
+      background: rgba(239,68,68,0.10);
+      border: 1px solid rgba(239,68,68,0.35);
+      color: #fca5a5;
+    }
+
+
+    /* =========================
+       LOGIN LINK
+    ========================== */
+
+    .login-link {
+      margin-top: 24px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: var(--purple-light);
+      font-weight: 700;
+    }
+
+    .login-link a:hover {
+      color: var(--gold-light);
+    }
+
+
+    /* =========================
+       BACK LINK
+    ========================== */
+
+    .back {
+      display: block;
+      width: fit-content;
+      margin: 20px auto 0;
+      color: #a1a1aa;
+      font-size: 13px;
+      font-weight: 600;
+      transition: color .2s ease;
+    }
+
+    .back:hover {
+      color: var(--white);
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    .site-footer {
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+      background: #050509;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .site-footer strong {
+      color: var(--white);
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 1050px) {
+
+      .desktop-nav {
+        gap: 2px;
+      }
+
+      .desktop-nav a {
+        padding: 9px 9px;
+        font-size: 13px;
+      }
+
+      .brand-logo {
+        width: 155px;
+      }
+
+    }
+
+
+    @media (max-width: 800px) {
+
+      .container {
+        width: min(
+          100% - 24px,
+          var(--max-width)
+        );
+      }
+
+      .header-inner {
+        min-height: 70px;
+      }
+
+      .brand-logo {
+        width: 150px;
+        max-height: 52px;
+      }
+
+      .desktop-nav {
+        display: none;
+      }
+
+      .mobile-menu-button {
+        display: flex;
+      }
+
+      .mobile-nav.open {
+        display: block;
+      }
+
+      .signup-page {
+        min-height: calc(100vh - 70px);
+        padding: 40px 0 60px;
+      }
+
+      .page-heading {
+        margin-bottom: 28px;
+      }
+
+      .page-heading p {
+        font-size: 14px;
+      }
+
+      .signup-card {
+        padding: 24px 18px;
+        border-radius: 15px;
+      }
+
+    }
+
+
+    @media (max-width: 430px) {
+
+      .container {
+        width: min(
+          100% - 20px,
+          var(--max-width)
+        );
+      }
+
+      .brand-logo {
+        width: 138px;
+      }
+
+      .signup-page {
+        padding-top: 32px;
+      }
+
+      .page-heading h1 {
+        font-size: 30px;
+      }
+
+      .page-heading p {
+        font-size: 13px;
+      }
+
+      .signup-card {
+        padding: 22px 15px;
+      }
+
+      .form-group input {
+        padding: 12px 13px;
+        font-size: 14px;
+      }
+
+    }
+
+  </style>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer class="site-footer">
+
+    <div class="container">
+
+      © 2026
+      <strong>LumaRise Local</strong>.
+      All rights reserved.
+
+    </div>
+
+  </footer>
   <script>
+
+    /* =========================
+       SUPABASE
+    ========================== */
 
     const SUPABASE_URL =
       "https://lpbamlwezrkyrjnwgpcp.supabase.co";
@@ -253,10 +932,16 @@
     const SUPABASE_KEY =
       "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
 
-    const db = supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+    const db =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    /* =========================
+       ELEMENTS
+    ========================== */
 
     const form =
       document.getElementById("signupForm");
@@ -267,15 +952,83 @@
     const message =
       document.getElementById("message");
 
-    function showMessage(text, type) {
+    const mobileMenuButton =
+      document.getElementById("mobileMenuButton");
+
+    const mobileNav =
+      document.getElementById("mobileNav");
+
+
+    /* =========================
+       MESSAGE FUNCTION
+    ========================== */
+
+    function showMessage(
+      text,
+      type
+    ) {
 
       message.textContent = text;
 
       message.className =
         "message " + type;
 
-      message.style.display = "block";
+      message.style.display =
+        "block";
+
     }
+
+
+    /* =========================
+       MOBILE MENU
+    ========================== */
+
+    mobileMenuButton.addEventListener(
+      "click",
+      function () {
+
+        const isOpen =
+          mobileNav.classList.toggle("open");
+
+        mobileMenuButton.setAttribute(
+          "aria-expanded",
+          isOpen
+            ? "true"
+            : "false"
+        );
+
+      }
+    );
+
+
+    mobileNav
+      .querySelectorAll("a")
+      .forEach(
+        function(link) {
+
+          link.addEventListener(
+            "click",
+            function() {
+
+              mobileNav.classList.remove(
+                "open"
+              );
+
+              mobileMenuButton.setAttribute(
+                "aria-expanded",
+                "false"
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+    /* =========================
+       SIGNUP
+    ========================== */
 
     form.addEventListener(
       "submit",
@@ -283,11 +1036,13 @@
 
         event.preventDefault();
 
+
         const fullName =
           document
             .getElementById("fullName")
             .value
             .trim();
+
 
         const email =
           document
@@ -295,17 +1050,27 @@
             .value
             .trim();
 
+
         const password =
           document
             .getElementById("password")
             .value;
+
 
         const confirmPassword =
           document
             .getElementById("confirmPassword")
             .value;
 
-        if (password !== confirmPassword) {
+
+        /* =========================
+           PASSWORD CHECK
+        ========================== */
+
+        if (
+          password !==
+          confirmPassword
+        ) {
 
           showMessage(
             "The passwords do not match.",
@@ -313,16 +1078,28 @@
           );
 
           return;
+
         }
+
+
+        /* =========================
+           DISABLE BUTTON
+        ========================== */
 
         button.disabled = true;
 
         button.textContent =
           "Creating Account...";
 
-        message.style.display = "none";
+        message.style.display =
+          "none";
+
 
         try {
+
+          /* =========================
+             CREATE ACCOUNT
+          ========================== */
 
           const {
             data,
@@ -334,16 +1111,26 @@
             password: password,
 
             options: {
+
               data: {
                 full_name: fullName
               }
+
             }
 
           });
 
+
           if (error) {
+
             throw error;
+
           }
+
+
+          /* =========================
+             CREATE PROFILE
+          ========================== */
 
           if (
             data.user &&
@@ -353,15 +1140,26 @@
             const {
               error: profileError
             } = await db
-              .from("business_owner_profiles")
+              .from(
+                "business_owner_profiles"
+              )
               .insert({
-                id: data.user.id,
-                full_name: fullName
+
+                id:
+                  data.user.id,
+
+                full_name:
+                  fullName
+
               });
 
+
             if (profileError) {
+
               throw profileError;
+
             }
+
 
             showMessage(
               "Your account has been created successfully. You can now continue setting up your business listing.",
@@ -377,7 +1175,9 @@
 
           }
 
+
           form.reset();
+
 
         } catch (error) {
 
@@ -386,15 +1186,18 @@
             error
           );
 
+
           showMessage(
             error.message ||
             "Unable to create your account. Please try again.",
             "error"
           );
 
+
         } finally {
 
-          button.disabled = false;
+          button.disabled =
+            false;
 
           button.textContent =
             "Create Business Account";
@@ -407,4 +1210,4 @@
   </script>
 
 </body>
-  </html>
+</html>
