@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Edit My Business | LumaRise Local</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f7;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(135deg, #5b21b6, #7c3aed);
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 18px 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #5b21b6;
+    }
+
+    .intro {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+      color: #333;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #d5d5d5;
+      border-radius: 9px;
+      font-size: 15px;
+      font-family: inherit;
+      background: white;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #7c3aed;
+      box-shadow: 0 0 0 2px rgba(124,58,237,0.12);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+
+    button,
+    .back-btn {
+      border: none;
+      border-radius: 9px;
+      padding: 13px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .save-btn {
+      background: #5b21b6;
+      color: white;
+    }
+
+    .save-btn:hover {
+      background: #4c1d95;
+    }
+
+    .back-btn {
+      background: #e5e7eb;
+      color: #333;
+    }
+
+    .message {
+      display: none;
+      padding: 14px;
+      border-radius: 9px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+    }
+
+    .required {
+      color: #dc2626;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 20px;
+      }
+
+      header h1 {
+        font-size: 24px;
+      }
+
+      .button-row button,
+      .button-row a {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Edit My Business</h1>
+  <p>Manage your LumaRise Local business listing</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+
+    <div id="loading" class="loading">
+      Loading your business information...
+    </div>
+
+    <div id="content" style="display:none;">
+
+      <h2>Business Information</h2>
+
+      <p class="intro">
+        Update your business information below. Your changes will be saved
+        to your LumaRise Local listing.
+      </p>
+
+      <div id="message" class="message"></div>
+
+      <form id="businessForm">
+
+        <div class="form-group">
+          <label for="business_name">
+            Business Name <span class="required">*</span>
+          </label>
+          <input type="text" id="business_name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="description">
+            Business Description
+          </label>
+          <textarea id="description"
+            placeholder="Tell customers about your business..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="category">
+            Category
+          </label>
+          <input type="text" id="category">
+        </div>
+
+        <div class="form-group">
+          <label for="province">
+            Province
+          </label>
+          <input type="text" id="province">
+        </div>
+
+        <div class="form-group">
+          <label for="city">
+            City
+          </label>
+          <input type="text" id="city">
+        </div>
+
+        <div class="form-group">
+          <label for="area">
+            Area
+          </label>
+          <input type="text" id="area">
+        </div>
+
+        <div class="form-group">
+          <label for="address">
+            Business Address
+          </label>
+          <input type="text" id="address">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">
+            Phone Number
+          </label>
+          <input type="text" id="phone">
+        </div>
+
+        <div class="form-group">
+          <label for="whatsapp">
+            WhatsApp Number
+          </label>
+          <input type="text" id="whatsapp">
+        </div>
+
+        <div class="form-group">
+          <label for="email">
+            Business Email
+          </label>
+          <input type="email" id="email">
+        </div>
+
+        <div class="form-group">
+          <label for="website">
+            Website
+          </label>
+          <input type="text" id="website">
+        </div>
+
+        <div class="button-row">
+
+          <button type="submit" class="save-btn" id="saveButton">
+            Save Changes
+          </button>
+
+          <a href="dashboard.html" class="back-btn">
+            Back to Dashboard
+          </a>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+  const SUPABASE_URL = "https://lpbamlwezrkyrjnwgpcp.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
+
+  const db = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  let currentUser = null;
+  let businessId = null;
+
+  const loading = document.getElementById("loading");
+  const content = document.getElementById("content");
+  const message = document.getElementById("message");
+  const form = document.getElementById("businessForm");
+  const saveButton = document.getElementById("saveButton");
+
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className = "message " + type;
+    message.style.display = "block";
+  }
+
+  async function loadBusiness() {
+
+    try {
+
+      const {
+        data: {
+          user
+        },
+        error: sessionError
+      } = await db.auth.getUser();
+
+      if (sessionError || !user) {
+        window.location.replace("login.html");
+        return;
+      }
+
+      currentUser = user;
+
+      const {
+        data,
+        error
+      } = await db
+        .from("businesses")
+        .select("*")
+        .eq("owner_id", user.id)
+        .limit(1)
+        .maybeSingle();
+
+      if (error) {
+        console.error(error);
+
+        loading.innerHTML =
+          "Unable to load your business information.<br><br>" +
+          "Please try again.";
+
+        return;
+      }
+
+      if (!data) {
+
+        loading.innerHTML =
+          "You haven't added a business yet.<br><br>" +
+          '<a href="owner-business.html">Add My Business</a>';
+
+        return;
+      }
+
+      businessId = data.id;
+
+      document.getElementById("business_name").value =
+        data.business_name || "";
+
+      document.getElementById("description").value =
+        data.description || "";
+
+      document.getElementById("category").value =
+        data.category || "";
+
+      document.getElementById("province").value =
+        data.province || "";
+
+      document.getElementById("city").value =
+        data.city || "";
+
+      document.getElementById("area").value =
+        data.area || "";
+
+      document.getElementById("address").value =
+        data.address || "";
+
+      document.getElementById("phone").value =
+        data.phone || "";
+
+      document.getElementById("whatsapp").value =
+        data.whatsapp || "";
+
+      document.getElementById("email").value =
+        data.email || "";
+
+      document.getElementById("website").value =
+        data.website || "";
+
+      loading.style.display = "none";
+      content.style.display = "block";
+
+    } catch (error) {
+
+      console.error(error);
+
+      loading.innerHTML =
+        "Something went wrong while loading your business.";
+
+    }
+
+  }
+
+  form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    if (!currentUser || !businessId) {
+      showMessage(
+        "Your business could not be identified. Please return to your dashboard.",
+        "error"
+      );
+      return;
+    }
+
+    saveButton.disabled = true;
+    saveButton.textContent = "Saving...";
+
+    message.style.display = "none";
+
+    const updates = {
+
+      business_name:
+        document.getElementById("business_name").value.trim(),
+
+      description:
+        document.getElementById("description").value.trim(),
+
+      category:
+        document.getElementById("category").value.trim(),
+
+      province:
+        document.getElementById("province").value.trim(),
+
+      city:
+        document.getElementById("city").value.trim(),
+
+      area:
+        document.getElementById("area").value.trim(),
+
+      address:
+        document.getElementById("address").value.trim(),
+
+      phone:
+        document.getElementById("phone").value.trim(),
+
+      whatsapp:
+        document.getElementById("whatsapp").value.trim(),
+
+      email:
+        document.getElementById("email").value.trim(),
+
+      website:
+        document.getElementById("website").value.trim()
+
+    };
+
+    try {
+
+      const {
+        error
+      } = await db
+        .from("businesses")
+        .update(updates)
+        .eq("id", businessId)
+        .eq("owner_id", currentUser.id);
+
+      if (error) {
+
+        console.error(error);
+
+        showMessage(
+          "We couldn't save your changes. Please try again.",
+          "error"
+        );
+
+        saveButton.disabled = false;
+        saveButton.textContent = "Save Changes";
+
+        return;
+      }
+
+      showMessage(
+        "Your business information has been updated successfully!",
+        "success"
+      );
+
+      saveButton.textContent = "Saved ✓";
+
+      setTimeout(function() {
+        window.location.replace("dashboard.html");
+      }, 1500);
+
+    } catch (error) {
+
+      console.error(error);
+
+      showMessage(
+        "Something went wrong while saving your changes.",
+        "error"
+      );
+
+      saveButton.disabled = false;
+      saveButton.textContent = "Save Changes";
+
+    }
+
+  });
+
+  loadBusiness();
+
+</script>
+
+</body>
+  </html>
