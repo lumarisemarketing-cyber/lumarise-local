@@ -12,6 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -84,7 +85,7 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 22px;
+      gap: 18px;
       flex-wrap: wrap;
       justify-content: flex-end;
     }
@@ -97,6 +98,28 @@
 
     .nav-links a:hover {
       color: #d4af37;
+    }
+
+    .nav-login {
+      padding: 10px 14px;
+      border: 1px solid #31516e;
+      border-radius: 8px;
+    }
+
+    .nav-login:hover {
+      border-color: #d4af37;
+    }
+
+    .nav-signup {
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #00a99d;
+      color: white !important;
+      font-weight: bold;
+    }
+
+    .nav-signup:hover {
+      background: #00b7b0;
     }
 
     .nav-cta {
@@ -231,6 +254,69 @@
       color: #aebdcd;
       max-width: 650px;
       margin: auto;
+    }
+
+    /* BUSINESS OWNERS */
+
+    .owners-section {
+      background: #071525;
+    }
+
+    .owners-box {
+      max-width: 1000px;
+      margin: auto;
+      background:
+        linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(0, 183, 176, 0.08)),
+        #10243a;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 18px;
+      padding: 38px;
+      text-align: center;
+    }
+
+    .owners-box h2 {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .owners-box p {
+      color: #b9c5d4;
+      max-width: 680px;
+      margin: 0 auto 28px;
+    }
+
+    .owner-options {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .owner-btn {
+      display: inline-block;
+      padding: 13px 22px;
+      border-radius: 9px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .owner-login {
+      border: 1px solid #31516e;
+      color: white;
+    }
+
+    .owner-login:hover {
+      border-color: #d4af37;
+      color: #d4af37;
+    }
+
+    .owner-signup {
+      background: #00a99d;
+      color: white;
+    }
+
+    .owner-signup:hover {
+      background: #00b7b0;
     }
 
     /* FEATURED */
@@ -443,7 +529,8 @@
       border-color: #d4af37;
       color: #d4af37;
     }
-        /* FOOTER */
+
+    /* FOOTER */
 
     footer {
       background: #050f1b;
@@ -505,6 +592,7 @@
     /* MOBILE */
 
     @media (max-width: 900px) {
+
       .nav-inner {
         flex-direction: column;
         padding: 15px 0;
@@ -512,7 +600,7 @@
 
       .nav-links {
         justify-content: center;
-        gap: 14px;
+        gap: 10px;
       }
 
       .business-grid {
@@ -530,9 +618,11 @@
       .search-btn {
         width: 100%;
       }
+
     }
 
     @media (max-width: 600px) {
+
       .hero {
         padding: 65px 0 55px;
       }
@@ -561,6 +651,14 @@
         font-size: 29px;
       }
 
+      .owners-box {
+        padding: 28px 20px;
+      }
+
+      .owners-box h2 {
+        font-size: 27px;
+      }
+
       .footer-inner {
         flex-direction: column;
         text-align: center;
@@ -574,17 +672,23 @@
         font-size: 12px;
       }
 
+      .nav-login,
+      .nav-signup,
       .nav-cta {
-        padding: 9px 12px;
+        padding: 9px 11px;
       }
+
     }
+
   </style>
 </head>
 
 <body>
 
   <!-- NAVIGATION -->
+
   <nav>
+
     <div class="container nav-inner">
 
       <a href="index.html" class="brand">
@@ -593,17 +697,43 @@
       </a>
 
       <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="explore.html">Explore</a>
-        <a href="categories.html">Categories</a>
-        <a href="about.html">About</a>
-        <a href="list.html" class="nav-cta">List Your Business</a>
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore
+        </a>
+
+        <a href="categories.html">
+          Categories
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="login.html" class="nav-login">
+          Business Login
+        </a>
+
+        <a href="signup.html" class="nav-signup">
+          Sign Up
+        </a>
+
+        <a href="list.html" class="nav-cta">
+          List Your Business
+        </a>
+
       </div>
 
     </div>
+
   </nav>
 
   <!-- HERO -->
+
   <header class="hero">
 
     <div class="container">
@@ -633,19 +763,53 @@
           >
 
           <select id="provinceInput">
-            <option value="">All Provinces</option>
-            <option value="Gauteng">Gauteng</option>
-            <option value="Western Cape">Western Cape</option>
-            <option value="KwaZulu-Natal">KwaZulu-Natal</option>
-            <option value="Eastern Cape">Eastern Cape</option>
-            <option value="Free State">Free State</option>
-            <option value="Limpopo">Limpopo</option>
-            <option value="Mpumalanga">Mpumalanga</option>
-            <option value="Northern Cape">Northern Cape</option>
-            <option value="North West">North West</option>
+
+            <option value="">
+              All Provinces
+            </option>
+
+            <option value="Gauteng">
+              Gauteng
+            </option>
+
+            <option value="Western Cape">
+              Western Cape
+            </option>
+
+            <option value="KwaZulu-Natal">
+              KwaZulu-Natal
+            </option>
+
+            <option value="Eastern Cape">
+              Eastern Cape
+            </option>
+
+            <option value="Free State">
+              Free State
+            </option>
+
+            <option value="Limpopo">
+              Limpopo
+            </option>
+
+            <option value="Mpumalanga">
+              Mpumalanga
+            </option>
+
+            <option value="Northern Cape">
+              Northern Cape
+            </option>
+
+            <option value="North West">
+              North West
+            </option>
+
           </select>
 
-          <button class="search-btn" onclick="searchBusinesses()">
+          <button
+            class="search-btn"
+            onclick="searchBusinesses()"
+          >
             Search
           </button>
 
@@ -657,22 +821,81 @@
 
   </header>
 
+  <!-- BUSINESS OWNERS -->
+
+  <section class="owners-section">
+
+    <div class="container">
+
+      <div class="owners-box">
+
+        <div class="section-heading" style="margin-bottom: 20px;">
+
+          <div class="eyebrow">
+            For Business Owners
+          </div>
+
+          <h2>
+            Manage Your Business on LumaRise Local
+          </h2>
+
+          <p>
+            Create your free business account to manage your listing,
+            keep your information updated and track your approval status.
+          </p>
+
+        </div>
+
+        <div class="owner-options">
+
+          <a
+            href="signup.html"
+            class="owner-btn owner-signup"
+          >
+            Create Business Account
+          </a>
+
+          <a
+            href="login.html"
+            class="owner-btn owner-login"
+          >
+            Existing Business? Login
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
   <!-- FEATURED BUSINESSES -->
+
   <section class="featured-section">
 
     <div class="container">
 
       <div class="section-heading">
-        <div class="eyebrow">Extra Visibility</div>
 
-        <h2>⭐ Featured Businesses</h2>
+        <div class="eyebrow">
+          Extra Visibility
+        </div>
+
+        <h2>
+          ⭐ Featured Businesses
+        </h2>
 
         <p>
           Discover businesses receiving extra visibility on LumaRise Local.
         </p>
+
       </div>
 
-      <div id="featuredBusinesses" class="business-grid">
+      <div
+        id="featuredBusinesses"
+        class="business-grid"
+      >
 
         <div class="loading">
           Loading featured businesses...
@@ -685,21 +908,31 @@
   </section>
 
   <!-- LATEST BUSINESSES -->
+
   <section class="latest-section">
 
     <div class="container">
 
       <div class="section-heading">
-        <div class="eyebrow">Discover Local</div>
 
-        <h2>Latest Local Businesses</h2>
+        <div class="eyebrow">
+          Discover Local
+        </div>
+
+        <h2>
+          Latest Local Businesses
+        </h2>
 
         <p>
           Explore businesses that have recently joined LumaRise Local.
         </p>
+
       </div>
 
-      <div id="latestBusinesses" class="business-grid">
+      <div
+        id="latestBusinesses"
+        class="business-grid"
+      >
 
         <div class="loading">
           Loading local businesses...
@@ -712,78 +945,121 @@
   </section>
 
   <!-- CATEGORIES -->
+
   <section class="categories-section">
 
     <div class="container">
 
       <div class="section-heading">
-        <div class="eyebrow">Explore</div>
 
-        <h2>Browse by Category</h2>
+        <div class="eyebrow">
+          Explore
+        </div>
+
+        <h2>
+          Browse by Category
+        </h2>
 
         <p>
           Find the type of business or service you need quickly and easily.
         </p>
+
       </div>
 
       <div class="category-grid">
 
-        <a href="explore.html?category=Automotive" class="category-card">
+        <a
+          href="explore.html?category=Automotive"
+          class="category-card"
+        >
           <div class="category-icon">🚗</div>
           <h3>Automotive</h3>
         </a>
 
-        <a href="explore.html?category=Beauty%20%26%20Wellness" class="category-card">
+        <a
+          href="explore.html?category=Beauty%20%26%20Wellness"
+          class="category-card"
+        >
           <div class="category-icon">💆</div>
           <h3>Beauty & Wellness</h3>
         </a>
 
-        <a href="explore.html?category=Business%20Services" class="category-card">
+        <a
+          href="explore.html?category=Business%20Services"
+          class="category-card"
+        >
           <div class="category-icon">💼</div>
           <h3>Business Services</h3>
         </a>
 
-        <a href="explore.html?category=Construction%20%26%20Trades" class="category-card">
+        <a
+          href="explore.html?category=Construction%20%26%20Trades"
+          class="category-card"
+        >
           <div class="category-icon">🏗️</div>
           <h3>Construction & Trades</h3>
         </a>
 
-        <a href="explore.html?category=Education" class="category-card">
+        <a
+          href="explore.html?category=Education"
+          class="category-card"
+        >
           <div class="category-icon">🎓</div>
           <h3>Education</h3>
         </a>
 
-        <a href="explore.html?category=Food%20%26%20Restaurants" class="category-card">
+        <a
+          href="explore.html?category=Food%20%26%20Restaurants"
+          class="category-card"
+        >
           <div class="category-icon">🍽️</div>
           <h3>Food & Restaurants</h3>
         </a>
 
-        <a href="explore.html?category=Health" class="category-card">
+        <a
+          href="explore.html?category=Health"
+          class="category-card"
+        >
           <div class="category-icon">❤️</div>
           <h3>Health</h3>
         </a>
 
-        <a href="explore.html?category=Home%20%26%20Property" class="category-card">
+        <a
+          href="explore.html?category=Home%20%26%20Property"
+          class="category-card"
+        >
           <div class="category-icon">🏠</div>
           <h3>Home & Property</h3>
         </a>
 
-        <a href="explore.html?category=Marketing%20%26%20Technology" class="category-card">
+        <a
+          href="explore.html?category=Marketing%20%26%20Technology"
+          class="category-card"
+        >
           <div class="category-icon">💻</div>
           <h3>Marketing & Technology</h3>
         </a>
 
-        <a href="explore.html?category=Professional%20Services" class="category-card">
+        <a
+          href="explore.html?category=Professional%20Services"
+          class="category-card"
+        >
           <div class="category-icon">📋</div>
           <h3>Professional Services</h3>
         </a>
 
-        <a href="explore.html?category=Retail%20%26%20Shopping" class="category-card">
+        <a
+          href="explore.html?category=Retail%20%26%20Shopping"
+          class="category-card"
+        >
           <div class="category-icon">🛍️</div>
           <h3>Retail & Shopping</h3>
         </a>
 
-        <a href="explore.html?category=Travel%20%26%20Accommodation" class="category-card">
+        <a
+          href="explore.html?category=Travel%20%26%20Accommodation"
+          class="category-card"
+        >
           <div class="category-icon">✈️</div>
           <h3>Travel & Accommodation</h3>
         </a>
@@ -793,380 +1069,460 @@
     </div>
 
   </section>
+  <!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="cta-box">
+    <h2>Ready to Get Your Business Noticed?</h2>
+    <p>
+      Join LumaRise Local and make it easier for local customers to discover
+      your business.
+    </p>
 
-  <!-- CTA -->
-  <section class="cta-section">
+    <div class="cta-buttons">
+      <a href="signup.html" class="cta-btn primary">
+        Create Your Business Account
+      </a>
 
-    <div class="container">
+      <a href="list.html" class="cta-btn secondary">
+        List Your Business
+      </a>
+    </div>
+  </div>
+</section>
 
-      <h2>Ready to Get Your Business Discovered?</h2>
 
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-column">
+      <h3>LumaRise Local</h3>
       <p>
-        Put your business in front of people looking for local products,
-        services and professionals.
+        Helping South African businesses get discovered,
+        connect with customers and grow their local visibility.
       </p>
-
-      <div class="cta-buttons">
-
-        <a href="list.html" class="btn-primary">
-          List Your Business
-        </a>
-
-        <a href="explore.html" class="btn-secondary">
-          Explore Businesses
-        </a>
-
-      </div>
-
     </div>
 
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-
-    <div class="container footer-inner">
-
-      <div>
-        <div class="footer-brand">
-          LumaRise Local
-        </div>
-
-        <div class="footer-text">
-          Find Local. Support Local. Grow Local.
-        </div>
-
-        <div class="footer-text">
-          © 2026 LumaRise Local. All rights reserved.
-        </div>
-      </div>
-
-      <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="explore.html">Explore</a>
-        <a href="categories.html">Categories</a>
-        <a href="about.html">About</a>
-        <a href="list.html">List Your Business</a>
-      </div>
-
+    <div class="footer-column">
+      <h3>Explore</h3>
+      <a href="index.html">Home</a>
+      <a href="explore.html">Explore Businesses</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="index.html#about">About</a>
     </div>
 
-  </footer>
+    <div class="footer-column">
+      <h3>Business Owners</h3>
+      <a href="signup.html">Create Account</a>
+      <a href="login.html">Business Login</a>
+      <a href="list.html">List Your Business</a>
+    </div>
 
-  <script>
+    <div class="footer-column">
+      <h3>LumaRise Marketing</h3>
+      <p>
+        Digital marketing and business visibility solutions
+        for South African businesses.
+      </p>
+      <a href="https://lumarise-marketing.amawebs.com" target="_blank">
+        Visit LumaRise Marketing
+      </a>
+    </div>
 
-    const SUPABASE_URL =
-      "https://lpbamlwezrkyrjnwgpcp.supabase.co";
+  </div>
 
-    const SUPABASE_KEY =
-      "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
-
-    const db = supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+  <div class="footer-bottom">
+    <p>
+      © 2026 LumaRise Local. All rights reserved.
+    </p>
+  </div>
+</footer>
 
 
-    function escapeHtml(value) {
+<script>
+  const SUPABASE_URL = "https://lpbamlwezrkyrjnwgpcp.supabase.co";
+  const SUPABASE_KEY =
+    "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
 
-      if (!value) return "";
+  const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 
+  /* =========================
+     SECURITY / HTML ESCAPING
+     ========================= */
+
+  function escapeHtml(value) {
+    if (value === null || value === undefined) {
+      return "";
     }
 
-
-    function createBusinessCard(b) {
-
-      const image =
-        b.cover_image_url ||
-        b.logo_url ||
-        "";
-
-      const imageHTML = image
-        ? `
-          <div class="business-image">
-
-            <img
-              src="${escapeHtml(image)}"
-              alt="${escapeHtml(b.business_name)}"
-              loading="lazy"
-            >
-
-            <div class="badges">
-
-              ${
-                b.is_featured
-                  ? '<span class="badge featured-badge">⭐ FEATURED</span>'
-                  : ''
-              }
-
-              ${
-                b.is_verified
-                  ? '<span class="badge verified-badge">✓ VERIFIED</span>'
-                  : ''
-              }
-
-            </div>
-
-          </div>
-        `
-        : `
-          <div class="business-image no-image">
-
-            <div class="badges">
-
-              ${
-                b.is_featured
-                  ? '<span class="badge featured-badge">⭐ FEATURED</span>'
-                  : ''
-              }
-
-              ${
-                b.is_verified
-                  ? '<span class="badge verified-badge">✓ VERIFIED</span>'
-                  : ''
-              }
-
-            </div>
-
-            No image available
-
-          </div>
-        `;
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
 
-      const locationParts = [
-        b.area,
-        b.city,
-        b.province
-      ].filter(Boolean);
+  /* =========================
+     BUSINESS CARD
+     ========================= */
 
+  function createBusinessCard(business) {
 
-      return `
-        <a
-          href="business.html?id=${encodeURIComponent(b.id)}"
-          class="business-card"
-        >
+    const locationParts = [
+      business.area,
+      business.city,
+      business.province
+    ].filter(Boolean);
 
-          ${imageHTML}
+    const locationHtml = locationParts.length
+      ? `
+        <div class="location">
+          📍 ${escapeHtml(locationParts.join(", "))}
+        </div>
+      `
+      : "";
 
-          <div class="business-content">
+    const verifiedBadge = business.is_verified
+      ? `<span class="badge verified">✓ Verified</span>`
+      : "";
 
-            <div class="category">
-              ${escapeHtml(b.category || "Local Business")}
-            </div>
+    const featuredBadge = business.is_featured
+      ? `<span class="badge featured">★ Featured</span>`
+      : "";
 
-            <h3>
-              ${escapeHtml(b.business_name || "Local Business")}
-            </h3>
+    return `
+      <div class="business-card">
 
-            ${
-              locationParts.length
-                ? `
-                  <div class="location">
-                    📍 ${escapeHtml(locationParts.join(", "))}
-                  </div>
-                `
-                : ''
-            }
-
-            ${
-              b.description
-                ? `
-                  <div class="description">
-                    ${escapeHtml(b.description)}
-                  </div>
-                `
-                : ''
-            }
-
-            <div class="view-business">
-              View Business →
-            </div>
-
-          </div>
-
-        </a>
-      `;
-
-    }
-
-
-    async function loadBusinesses() {
-
-      const featuredContainer =
-        document.getElementById("featuredBusinesses");
-
-      const latestContainer =
-        document.getElementById("latestBusinesses");
-
-
-      /* FEATURED BUSINESSES */
-
-      try {
-
-        const { data: featuredBusinesses, error: featuredError } =
-          await db
-            .from("businesses")
-            .select("*")
-            .eq("is_featured", true)
-            .order("created_at", {
-              ascending: false
-            });
-
-
-        if (featuredError) {
-          throw featuredError;
+        ${
+          business.cover_image_url
+            ? `
+              <div class="business-image">
+                <img
+                  src="${escapeHtml(business.cover_image_url)}"
+                  alt="${escapeHtml(business.business_name)}"
+                  loading="lazy"
+                >
+              </div>
+            `
+            : `
+              <div class="business-image placeholder-image">
+                <span>🏢</span>
+              </div>
+            `
         }
 
+        <div class="business-card-content">
 
-        if (!featuredBusinesses || featuredBusinesses.length === 0) {
+          ${
+            business.logo_url
+              ? `
+                <img
+                  class="business-logo"
+                  src="${escapeHtml(business.logo_url)}"
+                  alt="${escapeHtml(business.business_name)} logo"
+                  loading="lazy"
+                >
+              `
+              : ""
+          }
 
-          featuredContainer.innerHTML = `
-            <div class="empty">
-              No featured businesses yet.
-            </div>
-          `;
+          <div class="business-badges">
+            ${verifiedBadge}
+            ${featuredBadge}
+          </div>
 
-        } else {
+          <h3>
+            ${escapeHtml(business.business_name)}
+          </h3>
 
-          featuredContainer.innerHTML =
-            featuredBusinesses
-              .map(createBusinessCard)
-              .join("");
+          ${
+            business.category
+              ? `
+                <div class="category">
+                  ${escapeHtml(business.category)}
+                </div>
+              `
+              : ""
+          }
 
-        }
+          ${locationHtml}
 
-      } catch (error) {
+          ${
+            business.description
+              ? `
+                <p>
+                  ${escapeHtml(business.description)}
+                </p>
+              `
+              : ""
+          }
+
+          <a
+            href="business.html?id=${encodeURIComponent(business.id)}"
+            class="view-business"
+          >
+            View Business →
+          </a>
+
+        </div>
+
+      </div>
+    `;
+  }
+
+  /* =========================
+     LOAD BUSINESSES
+     ========================= */
+
+  async function loadBusinesses() {
+
+    const featuredContainer =
+      document.getElementById("featuredBusinesses");
+
+    const latestContainer =
+      document.getElementById("latestBusinesses");
+
+
+    /* FEATURED BUSINESSES */
+
+    if (featuredContainer) {
+
+      const { data: featuredBusinesses, error: featuredError } =
+        await db
+          .from("businesses")
+          .select("*")
+          .eq("approval_status", "approved")
+          .eq("is_featured", true)
+          .order("created_at", {
+            ascending: false
+          })
+          .limit(6);
+
+      if (featuredError) {
 
         console.error(
           "Featured businesses error:",
-          error
+          featuredError
         );
 
         featuredContainer.innerHTML = `
-          <div class="empty">
-            Unable to load featured businesses.
+          <div class="empty-message">
+            Unable to load featured businesses right now.
           </div>
         `;
 
+      } else if (
+        !featuredBusinesses ||
+        featuredBusinesses.length === 0
+      ) {
+
+        featuredContainer.innerHTML = `
+          <div class="empty-message">
+            Featured businesses will appear here soon.
+          </div>
+        `;
+
+      } else {
+
+        featuredContainer.innerHTML =
+          featuredBusinesses
+            .map(createBusinessCard)
+            .join("");
       }
+    }
 
 
-      /* LATEST BUSINESSES */
+    /* LATEST BUSINESSES */
 
-      try {
+    if (latestContainer) {
 
-        const { data: latestBusinesses, error: latestError } =
-          await db
-            .from("businesses")
-            .select("*")
-            .order("created_at", {
-              ascending: false
-            })
-            .limit(6);
+      const { data: latestBusinesses, error: latestError } =
+        await db
+          .from("businesses")
+          .select("*")
+          .eq("approval_status", "approved")
+          .order("created_at", {
+            ascending: false
+          })
+          .limit(6);
 
-
-        if (latestError) {
-          throw latestError;
-        }
-
-
-        if (!latestBusinesses || latestBusinesses.length === 0) {
-
-          latestContainer.innerHTML = `
-            <div class="empty">
-              No businesses have been listed yet.
-            </div>
-          `;
-
-        } else {
-
-          latestContainer.innerHTML =
-            latestBusinesses
-              .map(createBusinessCard)
-              .join("");
-
-        }
-
-      } catch (error) {
+      if (latestError) {
 
         console.error(
           "Latest businesses error:",
-          error
+          latestError
         );
 
         latestContainer.innerHTML = `
-          <div class="empty">
-            Unable to load local businesses.
+          <div class="empty-message">
+            Unable to load businesses right now.
           </div>
         `;
 
-      }
+      } else if (
+        !latestBusinesses ||
+        latestBusinesses.length === 0
+      ) {
 
+        latestContainer.innerHTML = `
+          <div class="empty-message">
+            No approved businesses have been added yet.
+          </div>
+        `;
+
+      } else {
+
+        latestContainer.innerHTML =
+          latestBusinesses
+            .map(createBusinessCard)
+            .join("");
+      }
+    }
+  }
+
+
+  /* =========================
+     SEARCH BUSINESSES
+     ========================= */
+
+  async function searchBusinesses() {
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+    const provinceSelect =
+      document.getElementById("provinceSelect");
+
+    const resultsContainer =
+      document.getElementById("latestBusinesses");
+
+
+    if (!searchInput || !resultsContainer) {
+      return;
     }
 
 
-    function searchBusinesses() {
+    const searchTerm =
+      searchInput.value.trim();
 
-      const search =
-        document
-          .getElementById("searchInput")
-          .value
-          .trim();
-
-
-      const province =
-        document
-          .getElementById("provinceInput")
-          .value;
+    const province =
+      provinceSelect
+        ? provinceSelect.value
+        : "";
 
 
-      const params =
-        new URLSearchParams();
-
-
-      if (search) {
-        params.set("search", search);
-      }
-
-
-      if (province) {
-        params.set("province", province);
-      }
-
-
-      const query =
-        params.toString();
-
-
-      window.location.href =
-        "explore.html" +
-        (query ? "?" + query : "");
-
-    }
-
-
-    document
-      .getElementById("searchInput")
-      .addEventListener("keydown", function(event) {
-
-        if (event.key === "Enter") {
-          searchBusinesses();
-        }
-
+    let query = db
+      .from("businesses")
+      .select("*")
+      .eq("approval_status", "approved")
+      .order("created_at", {
+        ascending: false
       });
 
 
-    loadBusinesses();
+    if (searchTerm) {
 
-  </script>
+      query = query.or(
+        `business_name.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,city.ilike.%${searchTerm}%,area.ilike.%${searchTerm}%`
+      );
+    }
+
+
+    if (province) {
+
+      query = query.eq(
+        "province",
+        province
+      );
+    }
+
+
+    const {
+      data,
+      error
+    } = await query.limit(20);
+
+
+    if (error) {
+
+      console.error(
+        "Search error:",
+        error
+      );
+
+      resultsContainer.innerHTML = `
+        <div class="empty-message">
+          Something went wrong while searching.
+          Please try again.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      resultsContainer.innerHTML = `
+        <div class="empty-message">
+          No approved businesses found.
+          Try another search.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    resultsContainer.innerHTML =
+      data
+        .map(createBusinessCard)
+        .join("");
+
+    resultsContainer.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+
+  /* =========================
+     SEARCH WITH ENTER KEY
+     ========================= */
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+  if (searchInput) {
+
+    searchInput.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+
+          event.preventDefault();
+
+          searchBusinesses();
+        }
+      }
+    );
+  }
+
+
+  /* =========================
+     INITIAL LOAD
+     ========================= */
+
+  loadBusinesses();
+
+</script>
 
 </body>
-</html>
+  </html>
