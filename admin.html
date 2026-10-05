@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>LumaRise Local | Admin Dashboard</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>LumaRise Local | Admin Dashboard</title>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>
     * {
       box-sizing: border-box;
       margin: 0;
@@ -95,7 +88,7 @@
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 15px;
       margin: 25px 0;
     }
@@ -118,6 +111,18 @@
       color: #5b21b6;
     }
 
+    .stat-card.pending-stat strong {
+      color: #b77900;
+    }
+
+    .stat-card.approved-stat strong {
+      color: #16803c;
+    }
+
+    .stat-card.rejected-stat strong {
+      color: #b42318;
+    }
+
     .businesses {
       display: grid;
       gap: 15px;
@@ -138,18 +143,20 @@
     .business-card p {
       margin: 5px 0;
       color: #555;
+      line-height: 1.5;
     }
 
     .badges {
-      margin: 12px 0;
+      margin: 14px 0;
     }
 
     .badge {
       display: inline-block;
-      padding: 5px 10px;
+      padding: 6px 11px;
       border-radius: 20px;
       font-size: 12px;
       margin-right: 5px;
+      margin-bottom: 5px;
       background: #eee;
     }
 
@@ -161,6 +168,21 @@
     .featured {
       background: #fef3c7;
       color: #92400e;
+    }
+
+    .pending {
+      background: #fff1cc;
+      color: #8a5b00;
+    }
+
+    .approved {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .rejected {
+      background: #fee2e2;
+      color: #991b1b;
     }
 
     .actions {
@@ -179,13 +201,23 @@
       font-size: 14px;
     }
 
-    .verify-btn {
+    .approve-btn {
       background: #16a34a;
       color: white;
     }
 
-    .unverify-btn {
+    .reject-btn {
       background: #dc2626;
+      color: white;
+    }
+
+    .verify-btn {
+      background: #2563eb;
+      color: white;
+    }
+
+    .unverify-btn {
+      background: #64748b;
       color: white;
     }
 
@@ -197,6 +229,17 @@
     .unfeature-btn {
       background: #6b7280;
       color: white;
+    }
+
+    .view-btn {
+      display: inline-block;
+      background: #f0e8f7;
+      color: #5b21b6;
+      text-decoration: none;
+      padding: 11px 16px;
+      border-radius: 9px;
+      font-weight: bold;
+      font-size: 14px;
     }
 
     .error {
@@ -219,91 +262,130 @@
       text-align: center;
       padding: 30px;
     }
-  </style>
-</head>
 
-<body>
+    .section-title {
+      margin: 30px 0 15px;
+      color: #321052;
+    }
 
-<div id="loginSection" class="login-box">
+    .owner-info {
+      background: #f8f5fb;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+      font-size: 14px;
+      color: #555;
+    }
 
-  <h1>🌟 LumaRise Local</h1>
+    .status-label {
+      font-weight: bold;
+      margin-top: 12px;
+    }
 
-  <p>Admin Login</p>
+    .no-results {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      color: #666;
+    }
 
-  <div id="loginMessage"></div>
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
 
-  <input
-    type="email"
-    id="email"
-    placeholder="Admin email"
-  >
+      header {
+        padding: 22px;
+      }
 
-  <input
-    type="password"
-    id="password"
-    placeholder="Password"
-  >
+      .actions {
+        flex-direction: column;
+      }
+
+      .actions button,
+      .actions a {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style></head><body><div id="loginSection" class="login-box">  <h1>🌟 LumaRise Local</h1>  <p>Admin Login</p>  <div id="loginMessage"></div><input
+type="email"
+id="email"
+placeholder="Admin email"
+
+«»
+
+<input
+type="password"
+id="password"
+placeholder="Password"
+
+«»
 
   <button class="login-btn" onclick="login()">
     Login
+  </button></div><div id="adminSection" style="display:none;">  <div class="container"><header>
+
+  <button class="logout-btn" onclick="logout()">
+    Logout
   </button>
 
-</div>
+  <h1>🌟 LumaRise Local Admin</h1>
 
+  <p>
+    Manage businesses listed on LumaRise Local.
+  </p>
 
-<div id="adminSection" style="display:none;">
+</header>
 
-  <div class="container">
+<div id="message"></div>
 
-    <header>
+<section class="stats">
 
-      <button class="logout-btn" onclick="logout()">
-        Logout
-      </button>
-
-      <h1>🌟 LumaRise Local Admin</h1>
-
-      <p>Manage businesses listed on LumaRise Local.</p>
-
-    </header>
-
-    <div id="message"></div>
-
-    <section class="stats">
-
-      <div class="stat-card">
-        <h3>Total Businesses</h3>
-        <strong id="totalBusinesses">0</strong>
-      </div>
-
-      <div class="stat-card">
-        <h3>Verified Businesses</h3>
-        <strong id="verifiedBusinesses">0</strong>
-      </div>
-
-      <div class="stat-card">
-        <h3>Featured Businesses</h3>
-        <strong id="featuredBusinesses">0</strong>
-      </div>
-
-    </section>
-
-    <h2 style="margin-bottom:15px;">
-      Business Listings
-    </h2>
-
-    <div id="loading" class="loading">
-      Loading businesses...
-    </div>
-
-    <div id="businesses" class="businesses"></div>
-
+  <div class="stat-card">
+    <h3>Total Businesses</h3>
+    <strong id="totalBusinesses">0</strong>
   </div>
 
+  <div class="stat-card pending-stat">
+    <h3>Pending Review</h3>
+    <strong id="pendingBusinesses">0</strong>
+  </div>
+
+  <div class="stat-card approved-stat">
+    <h3>Approved</h3>
+    <strong id="approvedBusinesses">0</strong>
+  </div>
+
+  <div class="stat-card rejected-stat">
+    <h3>Rejected</h3>
+    <strong id="rejectedBusinesses">0</strong>
+  </div>
+
+  <div class="stat-card">
+    <h3>Verified</h3>
+    <strong id="verifiedBusinesses">0</strong>
+  </div>
+
+  <div class="stat-card">
+    <h3>Featured</h3>
+    <strong id="featuredBusinesses">0</strong>
+  </div>
+
+</section>
+
+<h2 class="section-title">
+  Business Listings
+</h2>
+
+<div id="loading" class="loading">
+  Loading businesses...
 </div>
 
+<div id="businesses" class="businesses"></div>
 
-<script>
+  </div></div><script>
 
 const SUPABASE_URL =
   "https://lpbamlwezrkyrjnwgpcp.supabase.co";
@@ -359,7 +441,6 @@ async function login() {
   }
 
   showAdmin();
-
 }
 
 
@@ -370,7 +451,6 @@ async function logout() {
   document.getElementById("adminSection").style.display = "none";
 
   document.getElementById("loginSection").style.display = "block";
-
 }
 
 
@@ -385,7 +465,6 @@ async function checkLogin() {
     showAdmin();
 
   }
-
 }
 
 
@@ -396,7 +475,6 @@ function showAdmin() {
   document.getElementById("adminSection").style.display = "block";
 
   loadBusinesses();
-
 }
 
 
@@ -410,12 +488,13 @@ async function loadBusinesses() {
 
   try {
 
-    const { data, error } = await db
-      .from("businesses")
-      .select("*")
-      .order("created_at", {
-        ascending: false
-      });
+    const { data, error } =
+      await db
+        .from("businesses")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        });
 
     if (error) {
       throw error;
@@ -423,21 +502,57 @@ async function loadBusinesses() {
 
     loading.style.display = "none";
 
-    const total = data.length;
+    const businesses = data || [];
+
+    const total =
+      businesses.length;
+
+    const pending =
+      businesses.filter(
+        business =>
+          (business.approval_status || "pending") === "pending"
+      ).length;
+
+    const approved =
+      businesses.filter(
+        business =>
+          business.approval_status === "approved"
+      ).length;
+
+    const rejected =
+      businesses.filter(
+        business =>
+          business.approval_status === "rejected"
+      ).length;
 
     const verified =
-      data.filter(
-        business => business.is_verified === true
+      businesses.filter(
+        business =>
+          business.is_verified === true
       ).length;
 
     const featured =
-      data.filter(
-        business => business.is_featured === true
+      businesses.filter(
+        business =>
+          business.is_featured === true
       ).length;
+
 
     document.getElementById(
       "totalBusinesses"
     ).textContent = total;
+
+    document.getElementById(
+      "pendingBusinesses"
+    ).textContent = pending;
+
+    document.getElementById(
+      "approvedBusinesses"
+    ).textContent = approved;
+
+    document.getElementById(
+      "rejectedBusinesses"
+    ).textContent = rejected;
 
     document.getElementById(
       "verifiedBusinesses"
@@ -448,8 +563,94 @@ async function loadBusinesses() {
     ).textContent = featured;
 
 
+    if (businesses.length === 0) {
+
+      businessesContainer.innerHTML = `
+        <div class="no-results">
+          No businesses have been submitted yet.
+        </div>
+      `;
+
+      return;
+    }
+
+
     businessesContainer.innerHTML =
-      data.map(business => {
+      businesses.map(business => {
+
+        const status =
+          business.approval_status || "pending";
+
+
+        let approvalBadge = "";
+
+        if (status === "approved") {
+
+          approvalBadge = `
+            <span class="badge approved">
+              ✓ Approved
+            </span>
+          `;
+
+        } else if (status === "rejected") {
+
+          approvalBadge = `
+            <span class="badge rejected">
+              ✕ Rejected
+            </span>
+          `;
+
+        } else {
+
+          approvalBadge = `
+            <span class="badge pending">
+              ⏳ Pending Review
+            </span>
+          `;
+
+        }
+
+
+        const approvalButtons =
+
+          status === "approved"
+
+          ? `
+            <button
+              class="reject-btn"
+              onclick="updateApproval('${business.id}', 'rejected')"
+            >
+              ✕ Reject Business
+            </button>
+          `
+
+          : status === "rejected"
+
+          ? `
+            <button
+              class="approve-btn"
+              onclick="updateApproval('${business.id}', 'approved')"
+            >
+              ✓ Approve Business
+            </button>
+          `
+
+          : `
+            <button
+              class="approve-btn"
+              onclick="updateApproval('${business.id}', 'approved')"
+            >
+              ✓ Approve Business
+            </button>
+
+            <button
+              class="reject-btn"
+              onclick="updateApproval('${business.id}', 'rejected')"
+            >
+              ✕ Reject Business
+            </button>
+          `;
+
 
         const verifyButton =
           business.is_verified
@@ -457,7 +658,8 @@ async function loadBusinesses() {
           ? `
             <button
               class="unverify-btn"
-              onclick="toggleVerified('${business.id}', false)">
+              onclick="toggleVerified('${business.id}', false)"
+            >
               ✕ Remove Verification
             </button>
           `
@@ -465,7 +667,8 @@ async function loadBusinesses() {
           : `
             <button
               class="verify-btn"
-              onclick="toggleVerified('${business.id}', true)">
+              onclick="toggleVerified('${business.id}', true)"
+            >
               ✓ Verify Business
             </button>
           `;
@@ -477,7 +680,8 @@ async function loadBusinesses() {
           ? `
             <button
               class="unfeature-btn"
-              onclick="toggleFeatured('${business.id}', false)">
+              onclick="toggleFeatured('${business.id}', false)"
+            >
               ★ Remove Featured
             </button>
           `
@@ -485,7 +689,8 @@ async function loadBusinesses() {
           : `
             <button
               class="feature-btn"
-              onclick="toggleFeatured('${business.id}', true)">
+              onclick="toggleFeatured('${business.id}', true)"
+            >
               ⭐ Feature Business
             </button>
           `;
@@ -533,27 +738,107 @@ async function loadBusinesses() {
               )}
             </p>
 
+            ${
+              business.area
+              ? `
+                <p>
+                  <strong>Area:</strong>
+                  ${escapeHtml(
+                    business.area
+                  )}
+                </p>
+              `
+              : ""
+            }
+
+            ${
+              business.email
+              ? `
+                <p>
+                  <strong>Email:</strong>
+                  ${escapeHtml(
+                    business.email
+                  )}
+                </p>
+              `
+              : ""
+            }
+
+            ${
+              business.phone
+              ? `
+                <p>
+                  <strong>Phone:</strong>
+                  ${escapeHtml(
+                    business.phone
+                  )}
+                </p>
+              `
+              : ""
+            }
+
+            <div class="owner-info">
+
+              <strong>Owner Account:</strong><br>
+
+              ${
+                business.owner_id
+                ? "Connected to registered owner account"
+                : "No owner account connected"
+              }
+
+            </div>
+
             <div class="badges">
+
+              ${approvalBadge}
 
               ${
                 business.is_verified
-                ? '<span class="badge verified">✓ Verified</span>'
-                : '<span class="badge">Not Verified</span>'
+                ? `
+                  <span class="badge verified">
+                    ✓ Verified
+                  </span>
+                `
+                : `
+                  <span class="badge">
+                    Not Verified
+                  </span>
+                `
               }
 
               ${
                 business.is_featured
-                ? '<span class="badge featured">⭐ Featured</span>'
-                : '<span class="badge">Not Featured</span>'
+                ? `
+                  <span class="badge featured">
+                    ⭐ Featured
+                  </span>
+                `
+                : `
+                  <span class="badge">
+                    Not Featured
+                  </span>
+                `
               }
 
             </div>
 
             <div class="actions">
 
+              ${approvalButtons}
+
               ${verifyButton}
 
               ${featureButton}
+
+              <a
+                href="business.html?id=${encodeURIComponent(
+                  business.id
+                )}"
+                class="view-btn"
+              >
+                View Listing
+              </a>
 
             </div>
 
@@ -570,10 +855,98 @@ async function loadBusinesses() {
     loading.innerHTML = `
       <div class="error">
         Unable to load businesses.
+        ${escapeHtml(
+          error.message ||
+          ""
+        )}
       </div>
     `;
 
   }
+
+}
+
+
+async function updateApproval(id, newStatus) {
+
+  const message =
+    document.getElementById("message");
+
+  message.innerHTML = "";
+
+
+  const {
+    data: { session }
+  } = await db.auth.getSession();
+
+
+  if (!session) {
+
+    message.innerHTML = `
+      <div class="error">
+        Your admin session has expired.
+        Please log in again.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  const actionText =
+    newStatus === "approved"
+      ? "approve"
+      : "reject";
+
+
+  const confirmed =
+    confirm(
+      `Are you sure you want to ${actionText} this business?`
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  const { error } =
+    await db
+      .from("businesses")
+      .update({
+        approval_status: newStatus
+      })
+      .eq("id", id);
+
+
+  if (error) {
+
+    console.error(error);
+
+    message.innerHTML = `
+      <div class="error">
+        ${escapeHtml(
+          error.message
+        )}
+      </div>
+    `;
+
+    return;
+  }
+
+
+  message.innerHTML = `
+    <div class="success">
+      ${
+        newStatus === "approved"
+        ? "✓ Business approved successfully."
+        : "✓ Business rejected successfully."
+      }
+    </div>
+  `;
+
+
+  await loadBusinesses();
 
 }
 
@@ -585,9 +958,11 @@ async function toggleVerified(id, newValue) {
 
   message.innerHTML = "";
 
+
   const {
     data: { session }
   } = await db.auth.getSession();
+
 
   if (!session) {
 
@@ -609,13 +984,16 @@ async function toggleVerified(id, newValue) {
       })
       .eq("id", id);
 
+
   if (error) {
 
     console.error(error);
 
     message.innerHTML = `
       <div class="error">
-        ${escapeHtml(error.message)}
+        ${escapeHtml(
+          error.message
+        )}
       </div>
     `;
 
@@ -629,6 +1007,7 @@ async function toggleVerified(id, newValue) {
     </div>
   `;
 
+
   await loadBusinesses();
 
 }
@@ -641,9 +1020,11 @@ async function toggleFeatured(id, newValue) {
 
   message.innerHTML = "";
 
+
   const {
     data: { session }
   } = await db.auth.getSession();
+
 
   if (!session) {
 
@@ -665,13 +1046,16 @@ async function toggleFeatured(id, newValue) {
       })
       .eq("id", id);
 
+
   if (error) {
 
     console.error(error);
 
     message.innerHTML = `
       <div class="error">
-        ${escapeHtml(error.message)}
+        ${escapeHtml(
+          error.message
+        )}
       </div>
     `;
 
@@ -685,6 +1069,7 @@ async function toggleFeatured(id, newValue) {
     </div>
   `;
 
+
   await loadBusinesses();
 
 }
@@ -692,7 +1077,7 @@ async function toggleFeatured(id, newValue) {
 
 function escapeHtml(value) {
 
-  return String(value)
+  return String(value || "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -704,7 +1089,5 @@ function escapeHtml(value) {
 
 checkLogin();
 
-</script>
-
-</body>
-</html>
+</script></body>
+      </html>
