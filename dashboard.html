@@ -239,7 +239,8 @@
       background:
         var(--gold-light);
 
-      color: #17120a;
+      color:
+        #17120a;
     }
 
 
@@ -303,8 +304,11 @@
     }
 
 
-    .mobile-nav a {
+    .mobile-nav a,
+    .mobile-nav button {
       display: block;
+
+      width: 100%;
 
       padding:
         13px 15px;
@@ -322,6 +326,10 @@
 
       font-size: 15px;
       font-weight: 600;
+
+      text-align: left;
+
+      cursor: pointer;
     }
 
 
@@ -369,23 +377,64 @@
       font-weight:
         800;
     }
+
+
+    .mobile-nav .mobile-logout {
+      background:
+        rgba(239,68,68,0.08);
+
+      border-color:
+        rgba(239,68,68,0.35);
+
+      color:
+        #fca5a5;
+
+      text-align:
+        center;
+
+      font-weight:
+        700;
+    }
+
+
+    .mobile-nav .mobile-logout:hover {
+      background:
+        rgba(239,68,68,0.16);
+
+      color:
+        var(--white);
+    }
+
+
+    .mobile-nav .mobile-logout:disabled {
+      opacity:
+        0.6;
+
+      cursor:
+        not-allowed;
+    }
         /* =========================
        DASHBOARD
     ========================== */
 
     .dashboard-page {
-      min-height: calc(100vh - 78px);
-      padding: 55px 0 70px;
+      min-height:
+        calc(100vh - 78px);
+
+      padding:
+        55px 0 70px;
     }
 
 
     .welcome {
-      margin-bottom: 30px;
+      margin-bottom:
+        30px;
     }
 
 
     .welcome h1 {
-      margin: 0 0 8px;
+      margin:
+        0 0 8px;
 
       color:
         var(--white);
@@ -393,7 +442,8 @@
       font-size:
         clamp(28px, 5vw, 40px);
 
-      line-height: 1.15;
+      line-height:
+        1.15;
 
       letter-spacing:
         -0.5px;
@@ -401,12 +451,14 @@
 
 
     .welcome p {
-      margin: 0;
+      margin:
+        0;
 
       color:
         var(--muted);
 
-      font-size: 16px;
+      font-size:
+        16px;
     }
 
 
@@ -448,16 +500,23 @@
 
 
     .card h2::after {
-      content: "";
+      content:
+        "";
 
-      display: block;
+      display:
+        block;
 
-      width: 42px;
-      height: 3px;
+      width:
+        42px;
 
-      margin-top: 9px;
+      height:
+        3px;
 
-      border-radius: 5px;
+      margin-top:
+        9px;
+
+      border-radius:
+        5px;
 
       background:
         linear-gradient(
@@ -473,12 +532,17 @@
     ========================== */
 
     .account-details {
-      display: grid;
+      display:
+        grid;
 
       grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
 
-      gap: 15px;
+      gap:
+        15px;
     }
 
 
@@ -498,7 +562,8 @@
 
 
     .account-label {
-      display: block;
+      display:
+        block;
 
       margin-bottom:
         4px;
@@ -608,7 +673,8 @@
         rgba(212,175,55,0.12);
 
       border:
-        1px solid rgba(212,175,55,0.30);
+        1px solid
+        rgba(212,175,55,0.30);
 
       color:
         var(--gold-light);
@@ -620,7 +686,8 @@
         rgba(34,197,94,0.10);
 
       border:
-        1px solid rgba(34,197,94,0.25);
+        1px solid
+        rgba(34,197,94,0.25);
 
       color:
         #86efac;
@@ -632,7 +699,8 @@
         rgba(239,68,68,0.10);
 
       border:
-        1px solid rgba(239,68,68,0.25);
+        1px solid
+        rgba(239,68,68,0.25);
 
       color:
         #fca5a5;
@@ -644,7 +712,8 @@
         rgba(34,197,94,0.10);
 
       border:
-        1px solid rgba(34,197,94,0.25);
+        1px solid
+        rgba(34,197,94,0.25);
 
       color:
         #86efac;
@@ -949,8 +1018,10 @@
     @media (max-width: 1050px) {
 
       .desktop-nav {
-        gap: 2px;
+        gap:
+          2px;
       }
+
 
       .desktop-nav a {
         padding:
@@ -959,6 +1030,7 @@
         font-size:
           13px;
       }
+
 
       .brand-logo {
         width:
@@ -1104,8 +1176,7 @@
     }
 
   </style>
-  </head>
-
+</head>
 <body>
 
   <!-- =========================
@@ -1121,11 +1192,13 @@
         class="brand"
         aria-label="LumaRise Local home"
       >
+
         <img
           src="IMG-20260919-WA0037.jpg"
           alt="LumaRise Marketing"
           class="brand-logo"
         >
+
       </a>
 
 
@@ -1191,7 +1264,9 @@
     </div>
 
 
-    <!-- MOBILE NAV -->
+    <!-- =========================
+         MOBILE NAVIGATION
+    ========================== -->
 
     <div
       class="mobile-nav"
@@ -1236,6 +1311,14 @@
         >
           + List Your Business
         </a>
+
+        <button
+          type="button"
+          class="mobile-logout"
+          id="mobileLogoutBtn"
+        >
+          Log Out
+        </button>
 
       </div>
 
@@ -1287,7 +1370,9 @@
       >
 
 
-        <!-- ACCOUNT CARD -->
+        <!-- =========================
+             ACCOUNT CARD
+        ========================== -->
 
         <div class="card">
 
@@ -1336,7 +1421,9 @@
         </div>
 
 
-        <!-- BUSINESS CARD -->
+        <!-- =========================
+             BUSINESS CARD
+        ========================== -->
 
         <div class="card">
 
@@ -1357,8 +1444,8 @@
 
     </div>
 
-  </main>
-    <!-- =========================
+        </main>
+          <!-- =========================
        FOOTER
   ========================== -->
 
@@ -1401,9 +1488,7 @@
 
 
     const loading =
-      document.getElementById(
-        "loading"
-      );
+      document.getElementById("loading");
 
 
     const dashboardContent =
@@ -1442,6 +1527,10 @@
       );
 
 
+    /* =========================
+       ESCAPE HTML
+    ========================== */
+
     function escapeHtml(value) {
 
       return String(value || "")
@@ -1469,6 +1558,10 @@
     }
 
 
+    /* =========================
+       SHOW ERROR
+    ========================== */
+
     function showError(message) {
 
       errorMessage.textContent =
@@ -1479,6 +1572,10 @@
 
     }
 
+
+    /* =========================
+       STATUS BADGE
+    ========================== */
 
     function getStatusHTML(
       business
@@ -1519,6 +1616,10 @@
 
     }
 
+
+    /* =========================
+       STATUS MESSAGE
+    ========================== */
 
     function getStatusMessage(
       business
@@ -1578,9 +1679,17 @@
     }
 
 
+    /* =========================
+       LOAD DASHBOARD
+    ========================== */
+
     async function loadDashboard() {
 
       try {
+
+        /*
+         * Get the currently logged-in user.
+         */
 
         const {
           data,
@@ -1589,13 +1698,20 @@
 
 
         if (error) {
+
           throw error;
+
         }
 
 
         const user =
           data.user;
 
+
+        /*
+         * If there is no logged-in user,
+         * return to the login page.
+         */
 
         if (!user) {
 
@@ -1607,6 +1723,10 @@
 
         }
 
+
+        /*
+         * Get the owner's name.
+         */
 
         const name =
           user.user_metadata &&
@@ -1631,6 +1751,11 @@
           "Welcome, " + name + "!";
 
 
+        /*
+         * Find businesses belonging
+         * to the logged-in user.
+         */
+
         const {
           data: businesses,
           error: businessError
@@ -1644,9 +1769,15 @@
 
 
         if (businessError) {
+
           throw businessError;
+
         }
 
+
+        /*
+         * Stop the loading message.
+         */
 
         loading.style.display =
           "none";
@@ -1655,6 +1786,10 @@
         dashboardContent.style.display =
           "block";
 
+
+        /*
+         * If the owner has no business yet.
+         */
 
         if (
           !businesses ||
@@ -1690,6 +1825,11 @@
         }
 
 
+        /*
+         * Use the first business belonging
+         * to the logged-in owner.
+         */
+
         const business =
           businesses[0];
 
@@ -1712,9 +1852,11 @@
               business.description
                 ? `
                   <strong>Description:</strong><br>
+
                   ${escapeHtml(
                     business.description
                   )}
+
                   <br><br>
                 `
                 : ""
@@ -1899,27 +2041,6 @@
 
 
     /* =========================
-       LOG OUT
-    ========================== */
-
-    document
-      .getElementById("logoutBtn")
-      .addEventListener(
-        "click",
-        async function() {
-
-          await db.auth.signOut();
-
-
-          window.location.replace(
-            "login.html"
-          );
-
-        }
-      );
-
-
-    /* =========================
        MOBILE MENU
     ========================== */
 
@@ -1956,8 +2077,15 @@
     );
 
 
+    /*
+     * Close the menu when a normal
+     * navigation link is clicked.
+     */
+
     mobileNav
-      .querySelectorAll("a")
+      .querySelectorAll(
+        "a"
+      )
       .forEach(
         function(link) {
 
@@ -1981,6 +2109,71 @@
         }
       );
 
+
+    /* =========================
+       MOBILE LOG OUT
+    ========================== */
+
+    const mobileLogoutBtn =
+      document.getElementById(
+        "mobileLogoutBtn"
+      );
+
+
+    mobileLogoutBtn.addEventListener(
+      "click",
+      async function() {
+
+        mobileLogoutBtn.disabled =
+          true;
+
+
+        mobileLogoutBtn.textContent =
+          "Logging out...";
+
+
+        try {
+
+          const {
+            error
+          } = await db.auth.signOut();
+
+
+          if (error) {
+
+            throw error;
+
+          }
+
+
+          window.location.replace(
+            "login.html"
+          );
+
+        } catch (error) {
+
+          console.error(
+            "Logout error:",
+            error
+          );
+
+
+          mobileLogoutBtn.disabled =
+            false;
+
+
+          mobileLogoutBtn.textContent =
+            "Log Out";
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       START DASHBOARD
+    ========================== */
 
     loadDashboard();
 
