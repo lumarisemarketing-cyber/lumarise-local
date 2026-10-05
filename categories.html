@@ -1,401 +1,1356 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Categories | LumaRise Local</title>
 
-  <meta name="description" content="Browse business categories on LumaRise Local. Find local businesses, services and professionals across South Africa.">
+  <meta
+    name="description"
+    content="Browse business categories on LumaRise Local. Find local businesses, services and professionals across South Africa."
+  >
+
+  <meta
+    name="theme-color"
+    content="#08080c"
+  >
+
 
   <style>
+
+    /* =========================
+       LUMARISE LOCAL BRAND
+    ========================== */
+
+    :root {
+
+      --black: #08080c;
+      --black-soft: #111117;
+
+      --purple: #7c3aed;
+      --purple-dark: #5b21b6;
+      --purple-light: #a855f7;
+
+      --gold: #d4af37;
+      --gold-light: #f4d878;
+
+      --white: #ffffff;
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+
+      --border: rgba(255,255,255,0.10);
+
+      --card: #15151d;
+
+      --success: #22c55e;
+      --danger: #ef4444;
+
+      --max-width: 1180px;
+      --radius: 18px;
+
+      --shadow:
+        0 15px 40px rgba(0,0,0,0.30);
+
+    }
+
+
+    /* =========================
+       GLOBAL
+    ========================== */
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #07111f;
-      color: #ffffff;
-      line-height: 1.6;
+
+    html {
+      scroll-behavior: smooth;
     }
+
+
+    body {
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      background: var(--black);
+
+      color: var(--text);
+
+      line-height: 1.6;
+
+      overflow-x: hidden;
+
+    }
+
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
 
     a {
       text-decoration: none;
       color: inherit;
     }
 
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+
     .container {
-      width: 92%;
-      max-width: 1180px;
-      margin: auto;
+
+      width:
+        min(
+          100% - 32px,
+          var(--max-width)
+        );
+
+      margin: 0 auto;
+
     }
 
-    /* NAVIGATION */
 
-    nav {
-      background: #081525;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    /* =========================
+       HEADER
+    ========================== */
+
+    .site-header {
+
       position: sticky;
+
       top: 0;
+
       z-index: 1000;
+
+      background:
+        rgba(8,8,12,0.96);
+
+      border-bottom:
+        1px solid var(--border);
+
+      backdrop-filter:
+        blur(14px);
+
     }
 
-    .nav-inner {
-      min-height: 76px;
+
+    .header-inner {
+
+      min-height: 78px;
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
-      gap: 25px;
+
+      gap: 24px;
+
     }
+
 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: bold;
-      font-size: 20px;
-      white-space: nowrap;
-    }
 
-    .logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #d4af37, #13c4b8);
-      color: #07111f;
       display: flex;
+
       align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 18px;
+
       flex-shrink: 0;
+
     }
 
-    .brand span {
-      color: #d4af37;
+
+    .brand-logo {
+
+      width: 175px;
+
+      height: auto;
+
+      max-height: 58px;
+
+      object-fit: contain;
+
+      object-position: left center;
+
     }
 
-    .nav-links {
+
+    /* =========================
+       DESKTOP NAVIGATION
+    ========================== */
+
+    .desktop-nav {
+
       display: flex;
+
       align-items: center;
+
       justify-content: flex-end;
-      gap: 24px;
+
+      gap: 6px;
+
+      flex-wrap: nowrap;
+
+    }
+
+
+    .desktop-nav a {
+
+      padding:
+        10px 13px;
+
+      border-radius: 10px;
+
+      color: #d4d4d8;
+
       font-size: 14px;
-      flex-wrap: wrap;
-    }
 
-    .nav-links a {
-      color: #dbe5ef;
-      transition: 0.2s;
+      font-weight: 600;
+
       white-space: nowrap;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+
     }
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: #d4af37;
+
+    .desktop-nav a:hover {
+
+      background:
+        rgba(124,58,237,0.14);
+
+      color:
+        var(--white);
+
     }
 
-    .nav-button {
-      background: #d4af37 !important;
-      color: #07111f !important;
-      padding: 11px 17px;
-      border-radius: 8px;
-      font-weight: bold;
+
+    .desktop-nav .nav-login {
+
+      border:
+        1px solid
+        rgba(124,58,237,0.55);
+
+      color:
+        #ddd6fe;
+
     }
 
-    .nav-button:hover {
-      opacity: 0.9;
+
+    .desktop-nav .nav-signup {
+
+      background:
+        var(--purple);
+
+      color:
+        var(--white);
+
     }
 
-    /* HERO */
+
+    .desktop-nav .nav-signup:hover {
+
+      background:
+        var(--purple-light);
+
+    }
+
+
+    .desktop-nav .nav-list {
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      color:
+        #17120a;
+
+      font-weight:
+        800;
+
+    }
+
+
+    .desktop-nav .nav-list:hover {
+
+      background:
+        var(--gold-light);
+
+      color:
+        #17120a;
+
+    }
+
+
+    /* =========================
+       MOBILE MENU BUTTON
+    ========================== */
+
+    .mobile-menu-button {
+
+      display: none;
+
+      width: 44px;
+
+      height: 44px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 12px;
+
+      background:
+        var(--black-soft);
+
+      color:
+        var(--white);
+
+      cursor: pointer;
+
+      align-items: center;
+
+      justify-content: center;
+
+      flex-direction: column;
+
+      gap: 5px;
+
+    }
+
+
+    .mobile-menu-button span {
+
+      width: 20px;
+
+      height: 2px;
+
+      background:
+        var(--white);
+
+      border-radius: 2px;
+
+    }
+
+
+    /* =========================
+       MOBILE NAVIGATION
+    ========================== */
+
+    .mobile-nav {
+
+      display: none;
+
+      padding:
+        0 0 18px;
+
+    }
+
+
+    .mobile-nav-inner {
+
+      display: grid;
+
+      gap: 7px;
+
+      padding-top: 8px;
+
+    }
+
+
+    .mobile-nav a {
+
+      display: block;
+
+      padding:
+        13px 15px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 11px;
+
+      background:
+        rgba(255,255,255,0.03);
+
+      color:
+        #e4e4e7;
+
+      font-size: 15px;
+
+      font-weight: 600;
+
+    }
+
+
+    .mobile-nav a.login {
+
+      border-color:
+        rgba(124,58,237,0.5);
+
+      color:
+        #ddd6fe;
+
+    }
+
+
+    .mobile-nav a.signup {
+
+      background:
+        var(--purple);
+
+      border-color:
+        var(--purple);
+
+      color:
+        var(--white);
+
+      text-align: center;
+
+    }
+
+
+    .mobile-nav a.list-business {
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      border-color:
+        var(--gold);
+
+      color:
+        #17120a;
+
+      text-align: center;
+
+      font-weight:
+        800;
+
+    }
+
+
+    /* =========================
+       HERO
+    ========================== */
 
     .hero {
-      padding: 80px 0 55px;
-      text-align: center;
+
+      padding:
+        82px 0 58px;
+
+      text-align:
+        center;
+
       background:
-        radial-gradient(circle at 20% 20%, rgba(19, 196, 184, 0.12), transparent 30%),
-        radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.10), transparent 30%);
+
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(124,58,237,0.18),
+          transparent 32%
+        ),
+
+        radial-gradient(
+          circle at 80% 20%,
+          rgba(212,175,55,0.10),
+          transparent 30%
+        );
+
     }
+
 
     .eyebrow {
-      color: #13c4b8;
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 12px;
+
+      color:
+        var(--purple-light);
+
+      font-size:
+        13px;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        2px;
+
+      text-transform:
+        uppercase;
+
+      margin-bottom:
+        12px;
+
     }
+
 
     .hero h1 {
-      font-size: clamp(36px, 6vw, 58px);
-      line-height: 1.1;
-      margin-bottom: 18px;
+
+      color:
+        var(--white);
+
+      font-size:
+        clamp(
+          36px,
+          6vw,
+          58px
+        );
+
+      line-height:
+        1.1;
+
+      margin-bottom:
+        18px;
+
     }
+
 
     .hero h1 span {
-      color: #d4af37;
+
+      color:
+        var(--gold-light);
+
     }
+
 
     .hero p {
-      max-width: 680px;
-      margin: auto;
-      color: #aebdcd;
-      font-size: 17px;
+
+      max-width:
+        680px;
+
+      margin:
+        0 auto;
+
+      color:
+        var(--muted);
+
+      font-size:
+        17px;
+
     }
 
-    /* CATEGORIES */
-
-    .categories-section {
-      padding: 30px 0 80px;
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .category-card {
-      background: #0c1b2d;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 16px;
-      padding: 28px;
-      min-height: 190px;
-      transition: transform 0.2s, border-color 0.2s, background 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .category-card::after {
-      content: "";
-      position: absolute;
-      width: 100px;
-      height: 100px;
-      right: -45px;
-      bottom: -45px;
-      border-radius: 50%;
-      background: rgba(19, 196, 184, 0.08);
-    }
-
-    .category-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(212, 175, 55, 0.45);
-      background: #102338;
-    }
-
-    .category-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: rgba(19, 196, 184, 0.12);
-      border: 1px solid rgba(19, 196, 184, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 23px;
-      margin-bottom: 18px;
-    }
-
-    .category-card h2 {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .category-card p {
-      color: #9eafc1;
-      font-size: 14px;
-      max-width: 320px;
-      margin-bottom: 17px;
-    }
-
-    .browse {
-      color: #d4af37;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    /* CTA */
-
-    .cta {
-      margin: 0 auto 80px;
-      width: 92%;
-      max-width: 1180px;
-      background: linear-gradient(
-        135deg,
-        #0e2538,
-        #102c35
-      );
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      border-radius: 20px;
-      padding: 45px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 30px;
-    }
-
-    .cta h2 {
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
-
-    .cta p {
-      color: #aebdcd;
-      max-width: 650px;
-    }
-
-    .cta-button {
-      background: #d4af37;
-      color: #07111f;
-      padding: 14px 22px;
-      border-radius: 9px;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-
-    .cta-button:hover {
-      opacity: 0.9;
-    }
-
-    /* FOOTER */
-
-    footer {
-      background: #050d18;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 35px 0;
-    }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 25px;
-    }
-
-    .footer-brand {
-      color: #d4af37;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .footer-text {
-      color: #7f91a5;
-      font-size: 13px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 20px;
-      font-size: 13px;
-      color: #9eafc1;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a:hover {
-      color: #d4af37;
-    }
-
-    /* TABLET */
-
-    @media (max-width: 900px) {
-
-      .nav-inner {
-        flex-direction: column;
-        padding: 18px 0;
-      }
-
-      .nav-links {
-        justify-content: center;
-        gap: 15px;
-      }
-
-      .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .cta {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 32px;
-      }
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 560px) {
-
-      .brand {
-        font-size: 18px;
-      }
-
-      .nav-links {
-        width: 100%;
-        gap: 10px 14px;
-        font-size: 13px;
-      }
-
-      .nav-button {
-        padding: 10px 13px;
-      }
-
-      .hero {
-        padding: 60px 0 40px;
-      }
-
-      .hero p {
-        font-size: 15px;
-      }
-
-      .category-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .category-card {
-        min-height: auto;
-      }
-
-      .cta {
-        width: 92%;
-        padding: 28px;
-      }
-
-      .cta h2 {
-        font-size: 24px;
-      }
-
-      .cta-button {
-        width: 100%;
-        text-align: center;
-      }
-
-      .footer-inner {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .footer-links {
-        justify-content: center;
-      }
-    }
   </style>
+
 </head>
 
 <body>
+    <style>
 
-  <!-- NAVIGATION -->
+    /* =========================
+       CATEGORIES SECTION
+    ========================== */
 
-  <nav>
-    <div class="container nav-inner">
+    .categories-section {
 
-      <a href="index.html" class="brand">
-        <div class="logo">LR</div>
-        <div>LumaRise <span>Local</span></div>
+      padding:
+        30px 0 80px;
+
+      background:
+        var(--black);
+
+    }
+
+
+    .category-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 20px;
+
+    }
+
+
+    .category-card {
+
+      background:
+        var(--card);
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        var(--radius);
+
+      padding:
+        28px;
+
+      min-height:
+        190px;
+
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+
+      position:
+        relative;
+
+      overflow:
+        hidden;
+
+    }
+
+
+    .category-card::before {
+
+      content: "";
+
+      position:
+        absolute;
+
+      width:
+        150px;
+
+      height:
+        150px;
+
+      right:
+        -70px;
+
+      top:
+        -70px;
+
+      border-radius:
+        50%;
+
+      background:
+        rgba(124,58,237,0.10);
+
+      pointer-events:
+        none;
+
+    }
+
+
+    .category-card::after {
+
+      content: "";
+
+      position:
+        absolute;
+
+      width:
+        110px;
+
+      height:
+        110px;
+
+      left:
+        -60px;
+
+      bottom:
+        -65px;
+
+      border-radius:
+        50%;
+
+      background:
+        rgba(212,175,55,0.06);
+
+      pointer-events:
+        none;
+
+    }
+
+
+    .category-card:hover {
+
+      transform:
+        translateY(-5px);
+
+      border-color:
+        rgba(124,58,237,0.55);
+
+      background:
+        #191923;
+
+      box-shadow:
+        0 14px 35px
+        rgba(0,0,0,0.25);
+
+    }
+
+
+    .category-icon {
+
+      width:
+        50px;
+
+      height:
+        50px;
+
+      border-radius:
+        13px;
+
+      background:
+        rgba(124,58,237,0.12);
+
+      border:
+        1px solid
+        rgba(124,58,237,0.28);
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      font-size:
+        23px;
+
+      margin-bottom:
+        18px;
+
+      position:
+        relative;
+
+      z-index:
+        1;
+
+    }
+
+
+    .category-card h2 {
+
+      color:
+        var(--white);
+
+      font-size:
+        20px;
+
+      line-height:
+        1.3;
+
+      margin-bottom:
+        8px;
+
+      position:
+        relative;
+
+      z-index:
+        1;
+
+    }
+
+
+    .category-card p {
+
+      color:
+        var(--muted);
+
+      font-size:
+        14px;
+
+      max-width:
+        320px;
+
+      margin-bottom:
+        17px;
+
+      position:
+        relative;
+
+      z-index:
+        1;
+
+    }
+
+
+    .browse {
+
+      color:
+        var(--gold-light);
+
+      font-size:
+        13px;
+
+      font-weight:
+        800;
+
+      position:
+        relative;
+
+      z-index:
+        1;
+
+      transition:
+        color 0.2s ease;
+
+    }
+
+
+    .category-card:hover .browse {
+
+      color:
+        var(--white);
+
+    }
+
+
+    /* =========================
+       CTA
+    ========================== */
+
+    .cta {
+
+      margin:
+        0 auto 80px;
+
+      width:
+        min(
+          calc(100% - 32px),
+          var(--max-width)
+        );
+
+      background:
+
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(124,58,237,0.18),
+          transparent 30%
+        ),
+
+        linear-gradient(
+          135deg,
+          #111117,
+          #17131f
+        );
+
+      border:
+        1px solid
+        rgba(212,175,55,0.22);
+
+      border-radius:
+        20px;
+
+      padding:
+        45px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        30px;
+
+      box-shadow:
+        var(--shadow);
+
+    }
+
+
+    .cta h2 {
+
+      color:
+        var(--white);
+
+      font-size:
+        28px;
+
+      line-height:
+        1.25;
+
+      margin-bottom:
+        8px;
+
+    }
+
+
+    .cta p {
+
+      color:
+        var(--muted);
+
+      max-width:
+        650px;
+
+    }
+
+
+    .cta-button {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      background:
+
+        linear-gradient(
+          135deg,
+          var(--gold),
+          var(--gold-light)
+        );
+
+      color:
+        #17120a;
+
+      padding:
+        14px 22px;
+
+      border-radius:
+        10px;
+
+      font-weight:
+        800;
+
+      white-space:
+        nowrap;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+    }
+
+
+    .cta-button:hover {
+
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 10px 25px
+        rgba(212,175,55,0.18);
+
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    footer {
+
+      background:
+        #050509;
+
+      border-top:
+        1px solid var(--border);
+
+      padding:
+        44px 0 28px;
+
+    }
+
+
+    .footer-inner {
+
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      gap:
+        25px;
+
+      align-items:
+        center;
+
+      flex-wrap:
+        wrap;
+
+    }
+
+
+    .footer-brand {
+
+      color:
+        var(--white);
+
+      font-weight:
+        800;
+
+      font-size:
+        16px;
+
+      margin-bottom:
+        5px;
+
+    }
+
+
+    .footer-text {
+
+      color:
+        #71717a;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.7;
+
+    }
+
+
+    .footer-links {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        flex-end;
+
+      gap:
+        8px;
+
+      flex-wrap:
+        wrap;
+
+    }
+
+
+    .footer-links a {
+
+      padding:
+        8px 11px;
+
+      border-radius:
+        9px;
+
+      color:
+        #a1a1aa;
+
+      font-size:
+        13px;
+
+      transition:
+        color 0.2s ease,
+        background 0.2s ease;
+
+    }
+
+
+    .footer-links a:hover {
+
+      color:
+        var(--white);
+
+      background:
+        rgba(124,58,237,0.12);
+
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 1050px) {
+
+      .desktop-nav {
+        gap: 2px;
+      }
+
+      .desktop-nav a {
+        padding:
+          9px 9px;
+        font-size:
+          13px;
+      }
+
+      .brand-logo {
+        width:
+          155px;
+      }
+
+    }
+
+
+    @media (max-width: 900px) {
+
+      .category-grid {
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
+      }
+
+
+      .cta {
+
+        flex-direction:
+          column;
+
+        align-items:
+          flex-start;
+
+        padding:
+          32px;
+
+      }
+
+    }
+
+
+    @media (max-width: 800px) {
+
+      .container {
+
+        width:
+          min(
+            100% - 24px,
+            var(--max-width)
+          );
+
+      }
+
+
+      .header-inner {
+
+        min-height:
+          70px;
+
+      }
+
+
+      .brand-logo {
+
+        width:
+          150px;
+
+        max-height:
+          52px;
+
+      }
+
+
+      .desktop-nav {
+
+        display:
+          none;
+
+      }
+
+
+      .mobile-menu-button {
+
+        display:
+          flex;
+
+      }
+
+
+      .mobile-nav.open {
+
+        display:
+          block;
+
+      }
+
+
+      .hero {
+
+        padding:
+          65px 0 45px;
+
+      }
+
+
+      .categories-section {
+
+        padding:
+          25px 0 65px;
+
+      }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+      .container {
+
+        width:
+          min(
+            100% - 20px,
+            var(--max-width)
+          );
+
+      }
+
+
+      .brand-logo {
+
+        width:
+          138px;
+
+      }
+
+
+      .hero p {
+
+        font-size:
+          15px;
+
+      }
+
+
+      .category-grid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .category-card {
+
+        min-height:
+          auto;
+
+        padding:
+          24px;
+
+      }
+
+
+      .cta {
+
+        width:
+          calc(100% - 20px);
+
+        margin-bottom:
+          60px;
+
+        padding:
+          28px;
+
+      }
+
+
+      .cta h2 {
+
+        font-size:
+          24px;
+
+      }
+
+
+      .cta-button {
+
+        width:
+          100%;
+
+        text-align:
+          center;
+
+      }
+
+
+      .footer-inner {
+
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+
+      }
+
+
+      .footer-links {
+
+        justify-content:
+          flex-start;
+
+      }
+
+    }
+
+
+    @media (max-width: 430px) {
+
+      .hero h1 {
+
+        font-size:
+          34px;
+
+      }
+
+
+      .category-card h2 {
+
+        font-size:
+          19px;
+
+      }
+
+    }
+
+    </style>
+      <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header class="site-header">
+
+    <div class="container header-inner">
+
+      <a
+        href="index.html"
+        class="brand"
+        aria-label="LumaRise Local home"
+      >
+
+        <img
+          src="IMG-20260919-WA0037.jpg"
+          alt="LumaRise Marketing"
+          class="brand-logo"
+        >
+
       </a>
 
-      <div class="nav-links">
+
+      <nav
+        class="desktop-nav"
+        aria-label="Main navigation"
+      >
 
         <a href="index.html">
           Home
@@ -405,7 +1360,10 @@
           Explore
         </a>
 
-        <a href="categories.html" class="active">
+        <a
+          href="categories.html"
+          class="active"
+        >
           Categories
         </a>
 
@@ -413,17 +1371,106 @@
           About
         </a>
 
-        <a href="list.html" class="nav-button">
+        <a
+          href="login.html"
+          class="nav-login"
+        >
+          Business Login
+        </a>
+
+        <a
+          href="signup.html"
+          class="nav-signup"
+        >
+          Sign Up
+        </a>
+
+        <a
+          href="list.html"
+          class="nav-list"
+        >
           List Your Business
+        </a>
+
+      </nav>
+
+
+      <button
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </button>
+
+    </div>
+
+
+    <!-- MOBILE NAVIGATION -->
+
+    <div
+      class="mobile-nav"
+      id="mobileNav"
+    >
+
+      <div class="container mobile-nav-inner">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore Businesses
+        </a>
+
+        <a
+          href="categories.html"
+          class="active"
+        >
+          Categories
+        </a>
+
+        <a href="about.html">
+          About LumaRise Local
+        </a>
+
+        <a
+          href="login.html"
+          class="login"
+        >
+          Business Login
+        </a>
+
+        <a
+          href="signup.html"
+          class="signup"
+        >
+          Create Business Account
+        </a>
+
+        <a
+          href="list.html"
+          class="list-business"
+        >
+          + List Your Business
         </a>
 
       </div>
 
     </div>
-  </nav>
+
+  </header>
 
 
-  <!-- HERO -->
+  <!-- =========================
+       HERO
+  ========================== -->
 
   <section class="hero">
 
@@ -433,13 +1480,17 @@
         Explore Local Businesses
       </div>
 
+
       <h1>
-        Browse by <span>Category</span>
+        Browse by
+        <span>Category</span>
       </h1>
 
+
       <p>
-        Discover businesses, services and professionals across South Africa.
-        Choose a category below to start exploring.
+        Discover businesses, services and professionals
+        across South Africa. Choose a category below
+        to start exploring.
       </p>
 
     </div>
@@ -447,7 +1498,9 @@
   </section>
 
 
-  <!-- CATEGORIES -->
+  <!-- =========================
+       CATEGORIES
+  ========================== -->
 
   <section class="categories-section">
 
@@ -455,98 +1508,339 @@
 
       <div class="category-grid">
 
-        <a href="explore.html?category=Automotive" class="category-card">
-          <div class="category-icon">🚗</div>
-          <h2>Automotive</h2>
-          <p>Cars, dealerships, repairs, mechanics, tyres and automotive services.</p>
-          <div class="browse">Browse Automotive →</div>
+
+        <!-- AUTOMOTIVE -->
+
+        <a
+          href="explore.html?category=Automotive"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            🚗
+          </div>
+
+          <h2>
+            Automotive
+          </h2>
+
+          <p>
+            Cars, dealerships, repairs, mechanics,
+            tyres and automotive services.
+          </p>
+
+          <div class="browse">
+            Browse Automotive →
+          </div>
+
         </a>
 
-        <a href="explore.html?category=Beauty%20%26%20Wellness" class="category-card">
-          <div class="category-icon">✨</div>
-          <h2>Beauty & Wellness</h2>
-          <p>Beauty professionals, salons, spas, wellness services and more.</p>
-          <div class="browse">Browse Beauty & Wellness →</div>
+
+        <!-- BEAUTY -->
+
+        <a
+          href="explore.html?category=Beauty%20%26%20Wellness"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            ✨
+          </div>
+
+          <h2>
+            Beauty &amp; Wellness
+          </h2>
+
+          <p>
+            Beauty professionals, salons, spas,
+            wellness services and more.
+          </p>
+
+          <div class="browse">
+            Browse Beauty &amp; Wellness →
+          </div>
+
         </a>
 
-        <a href="explore.html?category=Business%20Services" class="category-card">
-          <div class="category-icon">💼</div>
-          <h2>Business Services</h2>
-          <p>Business support, consulting, administration and specialist services.</p>
-          <div class="browse">Browse Business Services →</div>
+
+        <!-- BUSINESS SERVICES -->
+
+        <a
+          href="explore.html?category=Business%20Services"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            💼
+          </div>
+
+          <h2>
+            Business Services
+          </h2>
+
+          <p>
+            Business support, consulting,
+            administration and specialist services.
+          </p>
+
+          <div class="browse">
+            Browse Business Services →
+          </div>
+
         </a>
 
-        <a href="explore.html?category=Construction%20%26%20Trades" class="category-card">
-          <div class="category-icon">🛠️</div>
-          <h2>Construction & Trades</h2>
-          <p>Builders, renovations, plumbing, electrical and skilled trades.</p>
-          <div class="browse">Browse Construction & Trades →</div>
+
+        <!-- CONSTRUCTION -->
+
+        <a
+          href="explore.html?category=Construction%20%26%20Trades"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            🛠️
+          </div>
+
+          <h2>
+            Construction &amp; Trades
+          </h2>
+
+          <p>
+            Builders, renovations, plumbing,
+            electrical and skilled trades.
+          </p>
+
+          <div class="browse">
+            Browse Construction &amp; Trades →
+          </div>
+
         </a>
 
-        <a href="explore.html?category=Education" class="category-card">
-          <div class="category-icon">🎓</div>
-          <h2>Education</h2>
-          <p>Schools, tutors, training providers, courses and educational services.</p>
-          <div class="browse">Browse Education →</div>
+
+        <!-- EDUCATION -->
+
+        <a
+          href="explore.html?category=Education"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            🎓
+          </div>
+
+          <h2>
+            Education
+          </h2>
+
+          <p>
+            Schools, tutors, training providers,
+            courses and educational services.
+          </p>
+
+          <div class="browse">
+            Browse Education →
+          </div>
+
         </a>
 
-        <a href="explore.html?category=Food%20%26%20Restaurants" class="category-card">
-          <div class="category-icon">🍽️</div>
-          <h2>Food & Restaurants</h2>
-          <p>Restaurants, takeaways, cafés, caterers, bakeries and food businesses.</p>
-          <div class="browse">Browse Food & Restaurants →</div>
+
+        <!-- FOOD -->
+
+        <a
+          href="explore.html?category=Food%20%26%20Restaurants"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            🍽️
+          </div>
+
+          <h2>
+            Food &amp; Restaurants
+          </h2>
+
+          <p>
+            Restaurants, takeaways, cafés, caterers,
+            bakeries and food businesses.
+          </p>
+
+          <div class="browse">
+            Browse Food &amp; Restaurants →
+          </div>
+
         </a>
 
-        <a href="explore.html?category=Health" class="category-card">
-          <div class="category-icon">❤️</div>
-          <h2>Health</h2>
-          <p>Healthcare providers, practitioners, clinics and health-related services.</p>
-          <div class="browse">Browse Health →</div>
+
+        <!-- HEALTH -->
+
+        <a
+          href="explore.html?category=Health"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            ❤️
+          </div>
+
+          <h2>
+            Health
+          </h2>
+
+          <p>
+            Healthcare providers, practitioners,
+            clinics and health-related services.
+          </p>
+
+          <div class="browse">
+            Browse Health →
+          </div>
+
         </a>
 
-        <a href="explore.html?category=Home%20%26%20Property" class="category-card">
-          <div class="category-icon">🏠</div>
-          <h2>Home & Property</h2>
-          <p>Property services, estate agents, home services and property professionals.</p>
-          <div class="browse">Browse Home & Property →</div>
+
+        <!-- HOME & PROPERTY -->
+
+        <a
+          href="explore.html?category=Home%20%26%20Property"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            🏠
+          </div>
+
+          <h2>
+            Home &amp; Property
+          </h2>
+
+          <p>
+            Property services, estate agents,
+            home services and property professionals.
+          </p>
+
+          <div class="browse">
+            Browse Home &amp; Property →
+          </div>
+
         </a>
 
-        <a href="explore.html?category=Marketing%20%26%20Technology" class="category-card">
-          <div class="category-icon">📱</div>
-          <h2>Marketing & Technology</h2>
-          <p>Marketing agencies, digital services, IT, websites and technology businesses.</p>
-          <div class="browse">Browse Marketing & Technology →</div>
+
+        <!-- MARKETING -->
+
+        <a
+          href="explore.html?category=Marketing%20%26%20Technology"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            📱
+          </div>
+
+          <h2>
+            Marketing &amp; Technology
+          </h2>
+
+          <p>
+            Marketing agencies, digital services,
+            IT, websites and technology businesses.
+          </p>
+
+          <div class="browse">
+            Browse Marketing &amp; Technology →
+          </div>
+
         </a>
 
-        <a href="explore.html?category=Professional%20Services" class="category-card">
-          <div class="category-icon">📊</div>
-          <h2>Professional Services</h2>
-          <p>Accountants, legal services, financial professionals and specialists.</p>
-          <div class="browse">Browse Professional Services →</div>
+
+        <!-- PROFESSIONAL -->
+
+        <a
+          href="explore.html?category=Professional%20Services"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            📊
+          </div>
+
+          <h2>
+            Professional Services
+          </h2>
+
+          <p>
+            Accountants, legal services, financial
+            professionals and specialists.
+          </p>
+
+          <div class="browse">
+            Browse Professional Services →
+          </div>
+
         </a>
 
-        <a href="explore.html?category=Retail%20%26%20Shopping" class="category-card">
-          <div class="category-icon">🛍️</div>
-          <h2>Retail & Shopping</h2>
-          <p>Local shops, stores, products, boutiques and shopping businesses.</p>
-          <div class="browse">Browse Retail & Shopping →</div>
+
+        <!-- RETAIL -->
+
+        <a
+          href="explore.html?category=Retail%20%26%20Shopping"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            🛍️
+          </div>
+
+          <h2>
+            Retail &amp; Shopping
+          </h2>
+
+          <p>
+            Local shops, stores, products,
+            boutiques and shopping businesses.
+          </p>
+
+          <div class="browse">
+            Browse Retail &amp; Shopping →
+          </div>
+
         </a>
 
-        <a href="explore.html?category=Travel%20%26%20Accommodation" class="category-card">
-          <div class="category-icon">✈️</div>
-          <h2>Travel & Accommodation</h2>
-          <p>Travel services, accommodation, guest houses, tourism and experiences.</p>
-          <div class="browse">Browse Travel & Accommodation →</div>
+
+        <!-- TRAVEL -->
+
+        <a
+          href="explore.html?category=Travel%20%26%20Accommodation"
+          class="category-card"
+        >
+
+          <div class="category-icon">
+            ✈️
+          </div>
+
+          <h2>
+            Travel &amp; Accommodation
+          </h2>
+
+          <p>
+            Travel services, accommodation,
+            guest houses, tourism and experiences.
+          </p>
+
+          <div class="browse">
+            Browse Travel &amp; Accommodation →
+          </div>
+
         </a>
+
 
       </div>
 
     </div>
 
   </section>
-
-
-  <!-- CTA -->
+    <!-- =========================
+       CTA
+  ========================== -->
 
   <section class="cta">
 
@@ -557,20 +1851,27 @@
       </h2>
 
       <p>
-        Add your business to LumaRise Local and make it easier for local
-        customers to discover what you offer.
+        Add your business to LumaRise Local and make
+        it easier for local customers to discover
+        what you offer.
       </p>
 
     </div>
 
-    <a href="list.html" class="cta-button">
+
+    <a
+      href="list.html"
+      class="cta-button"
+    >
       List Your Business →
     </a>
 
   </section>
 
 
-  <!-- FOOTER -->
+  <!-- =========================
+       FOOTER
+  ========================== -->
 
   <footer>
 
@@ -586,21 +1887,114 @@
           Find Local. Support Local. Grow Local.
         </div>
 
-      </div>
-
-      <div class="footer-links">
-
-        <a href="index.html">Home</a>
-        <a href="explore.html">Explore</a>
-        <a href="categories.html">Categories</a>
-        <a href="about.html">About</a>
-        <a href="list.html">List Your Business</a>
+        <div class="footer-text">
+          © 2026 LumaRise Local. All rights reserved.
+        </div>
 
       </div>
+
+
+      <nav
+        class="footer-links"
+        aria-label="Footer navigation"
+      >
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="explore.html">
+          Explore
+        </a>
+
+        <a
+          href="categories.html"
+          class="active"
+        >
+          Categories
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="list.html">
+          List Your Business
+        </a>
+
+      </nav>
 
     </div>
 
   </footer>
 
+
+  <!-- =========================
+       MOBILE MENU
+  ========================== -->
+
+  <script>
+
+    const mobileMenuButton =
+      document.getElementById(
+        "mobileMenuButton"
+      );
+
+
+    const mobileNav =
+      document.getElementById(
+        "mobileNav"
+      );
+
+
+    mobileMenuButton.addEventListener(
+      "click",
+      function() {
+
+        const isOpen =
+          mobileNav.classList.toggle(
+            "open"
+          );
+
+
+        mobileMenuButton.setAttribute(
+          "aria-expanded",
+          isOpen
+            ? "true"
+            : "false"
+        );
+
+      }
+    );
+
+
+    mobileNav
+      .querySelectorAll("a")
+      .forEach(
+        function(link) {
+
+          link.addEventListener(
+            "click",
+            function() {
+
+              mobileNav.classList.remove(
+                "open"
+              );
+
+
+              mobileMenuButton.setAttribute(
+                "aria-expanded",
+                "false"
+              );
+
+            }
+          );
+
+        }
+      );
+
+  </script>
+
+
 </body>
-                                                          </html>
+</html>
