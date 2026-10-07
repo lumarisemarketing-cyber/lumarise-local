@@ -1658,17 +1658,18 @@ async function loadBusinesses() {
   try {
 
     const {
-      data,
-      error
-    } = await db
-      .from("businesses")
-      .select("*")
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      );
+  data,
+  error
+} = await db
+  .from("businesses")
+  .select("*")
+  .eq("approval_status", "approved")
+  .order(
+    "created_at",
+    {
+      ascending: false
+    }
+  );
 
     if (error) {
       throw error;
