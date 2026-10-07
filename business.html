@@ -1579,15 +1579,19 @@
 
           .from("businesses")
 
-          .select("*")
+.select("*")
 
-          .eq(
-            "id",
-            id
-          )
+.eq(
+  "id",
+  id
+)
 
-          .single();
+.eq(
+  "approval_status",
+  "approved"
+)
 
+.single();
 
         if (
           error ||
