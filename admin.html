@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,59 +9,258 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f5f3fa;color:#222;padding:20px}
-.container{max-width:1200px;margin:auto}
-header{background:linear-gradient(135deg,#5b21b6,#7c3aed);color:white;padding:30px;border-radius:18px;margin-bottom:25px}
-header h1{margin-bottom:8px}
-.login-box{max-width:450px;margin:60px auto;background:white;padding:30px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,.1)}
-.login-box h1{color:#5b21b6;margin-bottom:10px}
-.login-box p{color:#666;margin-bottom:20px}
-label{display:block;font-weight:bold;margin:15px 0 7px}
-input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:15px}
-input:focus{outline:none;border-color:#5b21b6}
-.login-btn{width:100%;background:#5b21b6;color:white;padding:13px;border:0;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:18px}
-.login-btn:hover{background:#4c1d95}
-.logout-btn{float:right;background:white;color:#5b21b6;border:0;padding:9px 14px;border-radius:8px;cursor:pointer;font-weight:bold}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;margin:25px 0}
-.stat-card{background:white;padding:22px;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,.08)}
-.stat-card h3{font-size:14px;color:#666;margin-bottom:8px}
-.stat-card strong{font-size:30px;color:#5b21b6}
-.pending-stat strong{color:#b77900}
-.approved-stat strong{color:#16803c}
-.rejected-stat strong{color:#b42318}
-.businesses{display:grid;gap:15px}
-.business-card{background:white;padding:20px;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,.08)}
-.business-card h2{color:#5b21b6;margin-bottom:8px}
-.business-card p{margin:5px 0;color:#555;line-height:1.5}
-.badges{margin:14px 0}
-.badge{display:inline-block;padding:6px 11px;border-radius:20px;font-size:12px;margin:0 5px 5px 0;background:#eee}
-.verified{background:#dcfce7;color:#166534}
-.featured{background:#fef3c7;color:#92400e}
-.pending{background:#fff1cc;color:#8a5b00}
-.approved{background:#dcfce7;color:#166534}
-.rejected{background:#fee2e2;color:#991b1b}
-.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-button{border:0;padding:11px 16px;border-radius:9px;cursor:pointer;font-weight:bold;font-size:14px}
-.approve-btn{background:#16a34a;color:white}
-.reject-btn{background:#dc2626;color:white}
-.verify-btn{background:#2563eb;color:white}
-.unverify-btn{background:#64748b;color:white}
-.feature-btn{background:#d97706;color:white}
-.unfeature-btn{background:#6b7280;color:white}
-.view-btn{display:inline-block;background:#f0e8f7;color:#5b21b6;text-decoration:none;padding:11px 16px;border-radius:9px;font-weight:bold;font-size:14px}
-.error{background:#fee2e2;color:#991b1b;padding:12px;border-radius:8px;margin-bottom:15px}
-.success{background:#dcfce7;color:#166534;padding:12px;border-radius:8px;margin-bottom:15px}
-.loading{text-align:center;padding:30px}
-.section-title{margin:30px 0 15px;color:#321052}
-.owner-info{background:#f8f5fb;padding:12px;border-radius:8px;margin-top:12px;font-size:14px;color:#555}
-.no-results{background:white;padding:25px;border-radius:15px;text-align:center;color:#666}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-@media(max-width:600px){
-body{padding:10px}
-header{padding:22px}
-.actions{flex-direction:column}
-.actions button,.actions a{width:100%;text-align:center}
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f3fa;
+  color: #222;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+header {
+  background: linear-gradient(135deg, #5b21b6, #7c3aed);
+  color: white;
+  padding: 30px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+}
+
+header h1 {
+  margin-bottom: 8px;
+}
+
+.login-box {
+  max-width: 450px;
+  margin: 60px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.1);
+}
+
+.login-box h1 {
+  color: #5b21b6;
+  margin-bottom: 10px;
+}
+
+.login-box p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin: 15px 0 7px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #5b21b6;
+}
+
+button {
+  border: 0;
+  padding: 11px 16px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+.login-btn {
+  width: 100%;
+  background: #5b21b6;
+  color: white;
+  padding: 13px;
+  margin-top: 18px;
+}
+
+.login-btn:hover {
+  background: #4c1d95;
+}
+
+.logout-btn {
+  float: right;
+  background: white;
+  color: #5b21b6;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.stat-card {
+  background: white;
+  padding: 22px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.stat-card h3 {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.stat-card strong {
+  font-size: 30px;
+  color: #5b21b6;
+}
+
+.pending-stat strong { color: #b77900; }
+.approved-stat strong { color: #16803c; }
+.rejected-stat strong { color: #b42318; }
+
+.section-title {
+  margin: 30px 0 15px;
+  color: #321052;
+}
+
+.businesses {
+  display: grid;
+  gap: 15px;
+}
+
+.business-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+  overflow-wrap: anywhere;
+}
+
+.business-card h2 {
+  color: #5b21b6;
+  margin-bottom: 8px;
+}
+
+.business-card p {
+  margin: 5px 0;
+  color: #555;
+  line-height: 1.5;
+}
+
+.badges {
+  margin: 14px 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin: 0 5px 5px 0;
+  background: #eee;
+}
+
+.verified { background: #dcfce7; color: #166534; }
+.featured { background: #fef3c7; color: #92400e; }
+.pending { background: #fff1cc; color: #8a5b00; }
+.approved { background: #dcfce7; color: #166534; }
+.rejected { background: #fee2e2; color: #991b1b; }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.approve-btn { background: #16a34a; color: white; }
+.reject-btn { background: #dc2626; color: white; }
+.verify-btn { background: #2563eb; color: white; }
+.unverify-btn { background: #64748b; color: white; }
+.feature-btn { background: #d97706; color: white; }
+.unfeature-btn { background: #6b7280; color: white; }
+.delete-btn { background: #991b1b; color: white; }
+
+.view-btn {
+  display: inline-block;
+  background: #f0e8f7;
+  color: #5b21b6;
+  text-decoration: none;
+  padding: 11px 16px;
+  border-radius: 9px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.owner-info {
+  background: #f8f5fb;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #555;
+}
+
+.error {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  overflow-wrap: anywhere;
+}
+
+.success {
+  background: #dcfce7;
+  color: #166534;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.loading {
+  text-align: center;
+  padding: 30px;
+}
+
+.no-results {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  color: #666;
+}
+
+@media (max-width: 600px) {
+  body { padding: 10px; }
+  header { padding: 22px; }
+  .actions { flex-direction: column; }
+  .actions button,
+  .actions a {
+    width: 100%;
+    text-align: center;
+  }
+  .stat-card { padding: 16px; }
 }
 </style>
 </head>
@@ -69,455 +269,601 @@ header{padding:22px}
 
 <!-- ADMIN LOGIN -->
 <div id="loginSection" class="login-box">
+  <h1>🌟 LumaRise Local</h1>
+  <p>Admin Login</p>
 
-<h1>🌟 LumaRise Local</h1>
-<p>Admin Login</p>
+  <div id="loginMessage" aria-live="polite"></div>
 
-<div id="loginMessage"></div>
+  <form id="loginForm">
+    <label for="email">Admin Email</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="Enter admin email"
+      autocomplete="username"
+      required
+    >
 
-<label for="email">Admin Email</label>
-<input type="email" id="email" placeholder="Enter admin email" autocomplete="email">
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      placeholder="Enter password"
+      autocomplete="current-password"
+      required
+    >
 
-<label for="password">Password</label>
-<input type="password" id="password" placeholder="Enter password" autocomplete="current-password">
-
-<button class="login-btn" onclick="login()">Login</button>
-
+    <button type="submit" class="login-btn" id="loginButton">
+      Login
+    </button>
+  </form>
 </div>
-
 
 <!-- ADMIN DASHBOARD -->
 <div id="adminSection" style="display:none">
+  <div class="container">
 
-<div class="container">
+    <header>
+      <button class="logout-btn" id="logoutButton" type="button">
+        Logout
+      </button>
 
-<header>
+      <h1>🌟 LumaRise Local Admin</h1>
+      <p>Manage and maintain your business listings.</p>
+    </header>
 
-<button class="logout-btn" onclick="logout()">Logout</button>
+    <div id="message" aria-live="polite"></div>
 
-<h1>🌟 LumaRise Local Admin</h1>
-<p>Manage businesses listed on LumaRise Local.</p>
+    <section class="stats">
+      <div class="stat-card">
+        <h3>Total Businesses</h3>
+        <strong id="totalBusinesses">0</strong>
+      </div>
 
-</header>
+      <div class="stat-card pending-stat">
+        <h3>Pending Review</h3>
+        <strong id="pendingBusinesses">0</strong>
+      </div>
 
-<div id="message"></div>
+      <div class="stat-card approved-stat">
+        <h3>Approved</h3>
+        <strong id="approvedBusinesses">0</strong>
+      </div>
 
-<section class="stats">
+      <div class="stat-card rejected-stat">
+        <h3>Rejected</h3>
+        <strong id="rejectedBusinesses">0</strong>
+      </div>
 
-<div class="stat-card">
-<h3>Total Businesses</h3>
-<strong id="totalBusinesses">0</strong>
-</div>
+      <div class="stat-card">
+        <h3>Verified</h3>
+        <strong id="verifiedBusinesses">0</strong>
+      </div>
 
-<div class="stat-card pending-stat">
-<h3>Pending Review</h3>
-<strong id="pendingBusinesses">0</strong>
-</div>
+      <div class="stat-card">
+        <h3>Featured</h3>
+        <strong id="featuredBusinesses">0</strong>
+      </div>
+    </section>
 
-<div class="stat-card approved-stat">
-<h3>Approved</h3>
-<strong id="approvedBusinesses">0</strong>
-</div>
+    <h2 class="section-title">Business Listings</h2>
 
-<div class="stat-card rejected-stat">
-<h3>Rejected</h3>
-<strong id="rejectedBusinesses">0</strong>
-</div>
+    <div id="loading" class="loading">
+      Loading businesses...
+    </div>
 
-<div class="stat-card">
-<h3>Verified</h3>
-<strong id="verifiedBusinesses">0</strong>
-</div>
+    <div id="businesses" class="businesses"></div>
 
-<div class="stat-card">
-<h3>Featured</h3>
-<strong id="featuredBusinesses">0</strong>
-</div>
-
-</section>
-
-<h2 class="section-title">Business Listings</h2>
-
-<div id="loading" class="loading">Loading businesses...</div>
-
-<div id="businesses" class="businesses"></div>
-
-</div>
+  </div>
 </div>
 
 
 <script>
+"use strict";
 
-const SUPABASE_URL="https://lpbamlwezrkyrjnwgpcp.supabase.co";
+/* SUPABASE CONNECTION */
+const SUPABASE_URL = "https://lpbamlwezrkyrjnwgpcp.supabase.co";
+const SUPABASE_KEY = "sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
 
-const SUPABASE_KEY="sb_publishable_nY55Pwo4sFioH5B1Er-XAg_n4Y03wml";
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+/* SHARED HELPERS */
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
+function showMessage(message, type = "success") {
+  const box = document.getElementById("message");
+  box.className = type;
+  box.textContent = message;
+}
+
+function showLoginMessage(message, type = "error") {
+  const box = document.getElementById("loginMessage");
+  box.className = type;
+  box.textContent = message;
+}
+
+function clearMessages() {
+  document.getElementById("message").textContent = "";
+  document.getElementById("message").className = "";
+  document.getElementById("loginMessage").textContent = "";
+  document.getElementById("loginMessage").className = "";
+}
 
 /* LOGIN */
+document.getElementById("loginForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
 
-async function login(){
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const button = document.getElementById("loginButton");
 
-const email=document.getElementById("email").value.trim();
-const password=document.getElementById("password").value;
-const message=document.getElementById("loginMessage");
+  if (!email || !password) {
+    showLoginMessage("Please enter your email and password.");
+    return;
+  }
 
-message.innerHTML="";
+  button.disabled = true;
+  button.textContent = "Logging in...";
 
-if(!email||!password){
+  try {
+    const { data, error } = await db.auth.signInWithPassword({
+      email,
+      password
+    });
 
-message.innerHTML='<div class="error">Please enter your email and password.</div>';
+    if (error) throw error;
 
-return;
-}
+    if (!data.session) {
+      throw new Error("Login did not create a session. Please try again.");
+    }
 
-const {error}=await db.auth.signInWithPassword({
-email:email,
-password:password
+    document.getElementById("password").value = "";
+    await showAdmin();
+
+  } catch (error) {
+    console.error("Admin login failed:", error);
+    showLoginMessage("Login failed: " + error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Login";
+  }
 });
 
-if(error){
-
-message.innerHTML='<div class="error">'+escapeHtml(error.message)+'</div>';
-
-return;
-}
-
-showAdmin();
-
-}
-
-
 /* LOGOUT */
+document.getElementById("logoutButton").addEventListener("click", async () => {
+  const button = document.getElementById("logoutButton");
+  button.disabled = true;
 
-async function logout(){
+  try {
+    const { error } = await db.auth.signOut();
+    if (error) throw error;
 
-await db.auth.signOut();
+    document.getElementById("adminSection").style.display = "none";
+    document.getElementById("loginSection").style.display = "block";
+    clearMessages();
 
-document.getElementById("adminSection").style.display="none";
-document.getElementById("loginSection").style.display="block";
+  } catch (error) {
+    console.error("Logout failed:", error);
+    showMessage("Logout failed: " + error.message, "error");
+  } finally {
+    button.disabled = false;
+  }
+});
 
+/* CHECK SESSION ON PAGE LOAD */
+async function checkLogin() {
+  try {
+    const { data, error } = await db.auth.getSession();
+    if (error) throw error;
+
+    if (data.session) {
+      await showAdmin();
+    } else {
+      document.getElementById("loginSection").style.display = "block";
+      document.getElementById("adminSection").style.display = "none";
+    }
+  } catch (error) {
+    console.error("Session check failed:", error);
+    showLoginMessage("Unable to check your session. Please refresh the page.");
+  }
+}
+
+/* SHOW DASHBOARD */
+async function showAdmin() {
+  document.getElementById("loginSection").style.display = "none";
+  document.getElementById("adminSection").style.display = "block";
+
+  await loadBusinesses();
+}
+
+/* DATABASE ERROR HELPER */
+function displayDatabaseError(action, error) {
+  console.error(action + " failed:", error);
+
+  showMessage(
+    action + " failed: " + (error?.message || "Unknown database error."),
+    "error"
+  );
+}
+
+/* LOAD BUSINESS LISTINGS */
+async function loadBusinesses() {
+  const loading = document.getElementById("loading");
+  const container = document.getElementById("businesses");
+
+  loading.style.display = "block";
+  loading.textContent = "Loading businesses...";
+  container.innerHTML = "";
+
+  try {
+    const { data, error } = await db
+      .from("businesses")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    const businesses = data || [];
+
+    document.getElementById("totalBusinesses").textContent =
+      businesses.length;
+
+    document.getElementById("pendingBusinesses").textContent =
+      businesses.filter(
+        b => (b.approval_status || "pending") === "pending"
+      ).length;
+
+    document.getElementById("approvedBusinesses").textContent =
+      businesses.filter(
+        b => b.approval_status === "approved"
+      ).length;
+
+    document.getElementById("rejectedBusinesses").textContent =
+      businesses.filter(
+        b => b.approval_status === "rejected"
+      ).length;
+
+    document.getElementById("verifiedBusinesses").textContent =
+      businesses.filter(b => b.is_verified === true).length;
+
+    document.getElementById("featuredBusinesses").textContent =
+      businesses.filter(b => b.is_featured === true).length;
+
+    loading.style.display = "none";
+
+    if (businesses.length === 0) {
+      container.innerHTML =
+        '<div class="no-results">No business listings found.</div>';
+      return;
+    }
+
+    container.innerHTML = businesses.map(b => {
+      const id = escapeHtml(b.id);
+      const status = b.approval_status || "pending";
+
+      let approvalBadge = "";
+      let approvalButtons = "";
+
+      if (status === "approved") {
+        approvalBadge =
+          '<span class="badge approved">✓ Approved</span>';
+
+        approvalButtons =
+          '<button type="button" class="reject-btn" ' +
+          'onclick="updateApproval(\'' + id + '\',\'rejected\')">' +
+          '✕ Reject Business</button>';
+
+      } else if (status === "rejected") {
+        approvalBadge =
+          '<span class="badge rejected">✕ Rejected</span>';
+
+        approvalButtons =
+          '<button type="button" class="approve-btn" ' +
+          'onclick="updateApproval(\'' + id + '\',\'approved\')">' +
+          '✓ Approve Business</button>';
+
+      } else {
+        approvalBadge =
+          '<span class="badge pending">⏳ Pending Review</span>';
+
+        approvalButtons =
+          '<button type="button" class="approve-btn" ' +
+          'onclick="updateApproval(\'' + id + '\',\'approved\')">' +
+          '✓ Approve Business</button>' +
+          '<button type="button" class="reject-btn" ' +
+          'onclick="updateApproval(\'' + id + '\',\'rejected\')">' +
+          '✕ Reject Business</button>';
+      }
+
+      const verifyButton = b.is_verified
+        ? '<button type="button" class="unverify-btn" ' +
+          'onclick="toggleVerified(\'' + id + '\',false)">' +
+          '✕ Remove Verification</button>'
+        : '<button type="button" class="verify-btn" ' +
+          'onclick="toggleVerified(\'' + id + '\',true)">' +
+          '✓ Verify Business</button>';
+
+      const featureButton = b.is_featured
+        ? '<button type="button" class="unfeature-btn" ' +
+          'onclick="toggleFeatured(\'' + id + '\',false)">' +
+          '★ Remove Featured</button>'
+        : '<button type="button" class="feature-btn" ' +
+          'onclick="toggleFeatured(\'' + id + '\',true)">' +
+          '⭐ Feature Business</button>';
+
+      const businessName = escapeHtml(
+        b.business_name || "Unnamed Business"
+      );
+
+      const category = escapeHtml(
+        b.category || "Not specified"
+      );
+
+      const city = escapeHtml(b.city || "");
+      const province = escapeHtml(b.province || "");
+      const description = escapeHtml(
+        b.description || "No description provided."
+      );
+
+      return `
+        <article class="business-card">
+          <h2>${businessName}</h2>
+
+          <p><strong>Category:</strong> ${category}</p>
+
+          <p><strong>Location:</strong> ${city}${
+            province ? ", " + province : ""
+          }</p>
+
+          <p><strong>Description:</strong> ${description}</p>
+
+          ${b.area
+            ? `<p><strong>Area:</strong> ${escapeHtml(b.area)}</p>`
+            : ""}
+
+          ${b.email
+            ? `<p><strong>Email:</strong> ${escapeHtml(b.email)}</p>`
+            : ""}
+
+          ${b.phone
+            ? `<p><strong>Phone:</strong> ${escapeHtml(b.phone)}</p>`
+            : ""}
+
+          <div class="owner-info">
+            <strong>Owner Account:</strong><br>
+            ${b.owner_id
+              ? "Connected to registered owner account"
+              : "No owner account connected"}
+          </div>
+
+          <div class="badges">
+            ${approvalBadge}
+
+            ${b.is_verified
+              ? '<span class="badge verified">✓ Verified</span>'
+              : '<span class="badge">Not Verified</span>'}
+
+            ${b.is_featured
+              ? '<span class="badge featured">⭐ Featured</span>'
+              : '<span class="badge">Not Featured</span>'}
+          </div>
+
+          <div class="actions">
+            ${approvalButtons}
+            ${verifyButton}
+            ${featureButton}
+
+            <a class="view-btn"
+               href="business.html?id=${encodeURIComponent(String(b.id))}">
+              View Listing
+            </a>
+
+            <button type="button" class="delete-btn"
+              onclick="deleteBusiness('${id}')">
+              🗑 Delete Business
+            </button>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+  } catch (error) {
+    console.error("Loading businesses failed:", error);
+
+    loading.style.display = "none";
+
+    container.innerHTML =
+      '<div class="error">Unable to load businesses: ' +
+      escapeHtml(error.message || "Unknown database error.") +
+      '</div>';
+  }
+}
+
+/* APPROVE OR REJECT A BUSINESS */
+async function updateApproval(id, newStatus) {
+  if (!["approved", "rejected"].includes(newStatus)) {
+    showMessage("Invalid approval status.", "error");
+    return;
+  }
+
+  const action = newStatus === "approved" ? "approve" : "reject";
+
+  if (!confirm("Are you sure you want to " + action + " this business?")) {
+    return;
+  }
+
+  try {
+    const { data: { session }, error: sessionError } =
+      await db.auth.getSession();
+
+    if (sessionError) throw sessionError;
+
+    if (!session) {
+      throw new Error("Your session has expired. Please log in again.");
+    }
+
+    const { data, error } = await db
+      .from("businesses")
+      .update({ approval_status: newStatus })
+      .eq("id", id)
+      .select("id");
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      throw new Error(
+        "No listing was updated. Check your Supabase permissions."
+      );
+    }
+
+    showMessage(
+      "Business " + (newStatus === "approved" ? "approved" : "rejected") +
+      " successfully."
+    );
+
+    await loadBusinesses();
+
+  } catch (error) {
+    displayDatabaseError("Approval update", error);
+  }
 }
 
 
-/* CHECK LOGIN */
+/* VERIFY OR REMOVE VERIFICATION */
+async function toggleVerified(id, value) {
+  const action = value ? "verify" : "remove verification from";
 
-async function checkLogin(){
+  if (!confirm(
+    "Are you sure you want to " + action + " this business?"
+  )) {
+    return;
+  }
 
-const {data:{session}}=await db.auth.getSession();
-
-if(session){
-showAdmin();
+  try {
+    await updateBusinessField(
+      id,
+      "is_verified",
+      value,
+      value
+        ? "Business verified successfully."
+        : "Business verification removed successfully."
+    );
+  } catch (error) {
+    displayDatabaseError("Verification update", error);
+  }
 }
 
+/* FEATURE OR REMOVE FEATURED STATUS */
+async function toggleFeatured(id, value) {
+  const action = value ? "feature" : "remove featured status from";
+
+  if (!confirm(
+    "Are you sure you want to " + action + " this business?"
+  )) {
+    return;
+  }
+
+  try {
+    await updateBusinessField(
+      id,
+      "is_featured",
+      value,
+      value
+        ? "Business featured successfully."
+        : "Featured status removed successfully."
+    );
+  } catch (error) {
+    displayDatabaseError("Featured status update", error);
+  }
 }
 
+/* SHARED DATABASE UPDATE FUNCTION */
+async function updateBusinessField(id, field, value, successText) {
+  const { data: { session }, error: sessionError } =
+    await db.auth.getSession();
 
-/* SHOW ADMIN */
+  if (sessionError) throw sessionError;
 
-function showAdmin(){
+  if (!session) {
+    throw new Error("Your session has expired. Please log in again.");
+  }
 
-document.getElementById("loginSection").style.display="none";
-document.getElementById("adminSection").style.display="block";
+  const allowedFields = ["is_verified", "is_featured"];
 
-loadBusinesses();
+  if (!allowedFields.includes(field)) {
+    throw new Error("Invalid business field.");
+  }
 
+  const { data, error } = await db
+    .from("businesses")
+    .update({ [field]: value })
+    .eq("id", id)
+    .select("id");
+
+  if (error) throw error;
+
+  if (!data || data.length === 0) {
+    throw new Error(
+      "No listing was updated. Supabase may be blocking this action. " +
+      "Check the businesses table security policies."
+    );
+  }
+
+  showMessage(successText, "success");
+  await loadBusinesses();
 }
 
+/* DELETE A BUSINESS LISTING */
+async function deleteBusiness(id) {
+  const confirmed = confirm(
+    "WARNING: You are about to permanently delete this business listing.\n\n" +
+    "This action cannot be undone. Are you absolutely sure?"
+  );
 
-/* LOAD BUSINESSES */
+  if (!confirmed) return;
 
-async function loadBusinesses(){
+  try {
+    const { data: { session }, error: sessionError } =
+      await db.auth.getSession();
 
-const loading=document.getElementById("loading");
-const container=document.getElementById("businesses");
+    if (sessionError) throw sessionError;
 
-try{
+    if (!session) {
+      throw new Error("Your session has expired. Please log in again.");
+    }
 
-const {data,error}=await db
-.from("businesses")
-.select("*")
-.order("created_at",{ascending:false});
+    const { data, error } = await db
+      .from("businesses")
+      .delete()
+      .eq("id", id)
+      .select("id");
 
-if(error)throw error;
+    if (error) throw error;
 
-loading.style.display="none";
+    if (!data || data.length === 0) {
+      throw new Error(
+        "The listing was not deleted. Supabase may be blocking this action. " +
+        "Check the businesses table security policies."
+      );
+    }
 
-const businesses=data||[];
+    showMessage("Business listing permanently deleted.", "success");
+    await loadBusinesses();
 
-document.getElementById("totalBusinesses").textContent=businesses.length;
-
-document.getElementById("pendingBusinesses").textContent=
-businesses.filter(b=>(b.approval_status||"pending")==="pending").length;
-
-document.getElementById("approvedBusinesses").textContent=
-businesses.filter(b=>b.approval_status==="approved").length;
-
-document.getElementById("rejectedBusinesses").textContent=
-businesses.filter(b=>b.approval_status==="rejected").length;
-
-document.getElementById("verifiedBusinesses").textContent=
-businesses.filter(b=>b.is_verified===true).length;
-
-document.getElementById("featuredBusinesses").textContent=
-businesses.filter(b=>b.is_featured===true).length;
-
-
-if(!businesses.length){
-
-container.innerHTML='<div class="no-results">No businesses have been submitted yet.</div>';
-
-return;
+  } catch (error) {
+    displayDatabaseError("Delete business", error);
+  }
 }
 
-
-container.innerHTML=businesses.map(b=>{
-
-const status=b.approval_status||"pending";
-
-let approvalBadge="";
-
-if(status==="approved"){
-
-approvalBadge='<span class="badge approved">✓ Approved</span>';
-
-}else if(status==="rejected"){
-
-approvalBadge='<span class="badge rejected">✕ Rejected</span>';
-
-}else{
-
-approvalBadge='<span class="badge pending">⏳ Pending Review</span>';
-
-}
-
-
-let approvalButtons="";
-
-if(status==="approved"){
-
-approvalButtons=
-'<button class="reject-btn" onclick="updateApproval(\''+
-b.id+
-'\',\'rejected\')">✕ Reject Business</button>';
-
-}else if(status==="rejected"){
-
-approvalButtons=
-'<button class="approve-btn" onclick="updateApproval(\''+
-b.id+
-'\',\'approved\')">✓ Approve Business</button>';
-
-}else{
-
-approvalButtons=
-'<button class="approve-btn" onclick="updateApproval(\''+
-b.id+
-'\',\'approved\')">✓ Approve Business</button>'+
-'<button class="reject-btn" onclick="updateApproval(\''+
-b.id+
-'\',\'rejected\')">✕ Reject Business</button>';
-
-}
-
-
-const verifyButton=b.is_verified
-
-?'<button class="unverify-btn" onclick="toggleVerified(\''+b.id+'\',false)">✕ Remove Verification</button>'
-
-:'<button class="verify-btn" onclick="toggleVerified(\''+b.id+'\',true)">✓ Verify Business</button>';
-
-
-const featureButton=b.is_featured
-
-?'<button class="unfeature-btn" onclick="toggleFeatured(\''+b.id+'\',false)">★ Remove Featured</button>'
-
-:'<button class="feature-btn" onclick="toggleFeatured(\''+b.id+'\',true)">⭐ Feature Business</button>';
-
-
-return `
-
-<div class="business-card">
-
-<h2>${escapeHtml(b.business_name||"Unnamed Business")}</h2>
-
-<p><strong>Category:</strong> ${escapeHtml(b.category||"Not specified")}</p>
-
-<p><strong>Location:</strong> ${escapeHtml(b.city||"")}${b.province?", "+escapeHtml(b.province):""}</p>
-
-<p><strong>Description:</strong> ${escapeHtml(b.description||"No description")}</p>
-
-${b.area?'<p><strong>Area:</strong> '+escapeHtml(b.area)+'</p>':""}
-
-${b.email?'<p><strong>Email:</strong> '+escapeHtml(b.email)+'</p>':""}
-
-${b.phone?'<p><strong>Phone:</strong> '+escapeHtml(b.phone)+'</p>':""}
-
-<div class="owner-info">
-
-<strong>Owner Account:</strong><br>
-
-${b.owner_id?"Connected to registered owner account":"No owner account connected"}
-
-</div>
-
-<div class="badges">
-
-${approvalBadge}
-
-${b.is_verified
-?'<span class="badge verified">✓ Verified</span>'
-:'<span class="badge">Not Verified</span>'}
-
-${b.is_featured
-?'<span class="badge featured">⭐ Featured</span>'
-:'<span class="badge">Not Featured</span>'}
-
-</div>
-
-<div class="actions">
-
-${approvalButtons}
-
-${verifyButton}
-
-${featureButton}
-
-<a class="view-btn" href="business.html?id=${encodeURIComponent(b.id)}">
-View Listing
-</a>
-
-</div>
-
-</div>
-
-`;
-
-}).join("");
-
-}catch(error){
-
-console.error(error);
-
-loading.innerHTML=
-'<div class="error">Unable to load businesses. '+escapeHtml(error.message||"")+'</div>';
-
-}
-
-}
-
-
-/* APPROVE / REJECT */
-
-async function updateApproval(id,newStatus){
-
-const message=document.getElementById("message");
-
-message.innerHTML="";
-
-const {data:{session}}=await db.auth.getSession();
-
-if(!session){
-
-message.innerHTML='<div class="error">Your admin session has expired. Please log in again.</div>';
-
-return;
-}
-
-const action=newStatus==="approved"?"approve":"reject";
-
-if(!confirm("Are you sure you want to "+action+" this business?"))return;
-
-const {error}=await db
-.from("businesses")
-.update({approval_status:newStatus})
-.eq("id",id);
-
-if(error){
-
-message.innerHTML='<div class="error">'+escapeHtml(error.message)+'</div>';
-
-return;
-}
-
-message.innerHTML=
-'<div class="success">✓ Business '+
-(newStatus==="approved"?"approved":"rejected")+
-' successfully.</div>';
-
-loadBusinesses();
-
-}
-
-
-/* VERIFICATION */
-
-async function toggleVerified(id,value){
-
-const {error}=await db
-.from("businesses")
-.update({is_verified:value})
-.eq("id",id);
-
-if(error){
-
-document.getElementById("message").innerHTML=
-'<div class="error">'+escapeHtml(error.message)+'</div>';
-
-return;
-}
-
-document.getElementById("message").innerHTML=
-'<div class="success">✓ Business verification updated successfully.</div>';
-
-loadBusinesses();
-
-}
-
-
-/* FEATURED */
-
-async function toggleFeatured(id,value){
-
-const {error}=await db
-.from("businesses")
-.update({is_featured:value})
-.eq("id",id);
-
-if(error){
-
-document.getElementById("message").innerHTML=
-'<div class="error">'+escapeHtml(error.message)+'</div>';
-
-return;
-}
-
-document.getElementById("message").innerHTML=
-'<div class="success">✓ Featured status updated successfully.</div>';
-
-loadBusinesses();
-
-}
-
-
-/* SECURITY */
-
-function escapeHtml(value){
-
-return String(value||"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
+/* START THE ADMIN PAGE */
 checkLogin();
-
 </script>
-
 </body>
-  </html>
+</html>
